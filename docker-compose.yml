@@ -38,3 +38,5 @@ services:
       context: server
       args:
         - PORT=${CYBER_DOJO_STARTER_SERVER_PORT}
+    volumes:
+      - ./server/start_points:/app/start_points:ro
