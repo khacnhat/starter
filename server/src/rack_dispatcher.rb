@@ -51,28 +51,33 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
 
   def display_name
-    validated_display_name
+    validated_display_name(arg('display_name'))
   end
 
   # - - - - - - - - - - - - - - - -
   # validations
   # - - - - - - - - - - - - - - - -
 
-  def validated_display_name
-    unless @json_args.key?('display_name')
-      raise ArgumentError.new('display_name:missing')
-    end
-    arg = @json_args['display_name']
+  def validated_display_name(arg)
     unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise invalid('display_name')
+      raise error('display_name', 'invalid')
     end
     arg
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def invalid(name)
-    ArgumentError.new("#{name}:invalid")
+  def arg(name)
+    unless @json_args.key?(name)
+      raise error(name, 'missing')
+    end
+    @json_args[name]
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def error(name, message)
+    ArgumentError.new("#{name}:#{message}")
   end
 
 end
