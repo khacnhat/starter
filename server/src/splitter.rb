@@ -7,11 +7,11 @@ class Splitter
   end
 
   def major_names
-    split(0)
+    split { |display_name| major_name(display_name) }
   end
 
   def minor_names
-    split(1)
+    split { |display_name| minor_name(display_name) }
   end
 
   def minor_indexes
@@ -25,8 +25,16 @@ class Splitter
 
 private
 
-  def split(n)
-    @display_names.map { |display_name| display_name.split(',')[n].strip }.sort.uniq
+  def split
+    @display_names.map { |display_name| yield display_name }.sort.uniq
+  end
+
+  def major_name(display_name)
+    display_name.split(',')[0].strip
+  end
+
+  def minor_name(display_name)
+    display_name.split(',')[1].strip
   end
 
   def make_minor_indexes(major_name)
