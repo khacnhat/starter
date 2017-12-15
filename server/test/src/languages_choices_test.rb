@@ -9,8 +9,9 @@ class LanguagesChoicesTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '0F4',
-  %w( major-names (languages) are unique and sorted
-      minor-names (testFrameworks) are unique and sorted ) do
+  %w( major-names (languages) are unique and sorted,
+      minor-names (testFrameworks) are unique and sorted,
+      minor-indexes can reconstitute the display_names ) do
 
     result = languages_choices(nil)
 
@@ -21,7 +22,7 @@ class LanguagesChoicesTest < TestBase
     assert_equal expected_minor_names, result['minor_names']
 
     expected_minor_indexes =[
-      [ # C (gcc)
+      [ # 'C (gcc)'
         1, # assert
       ],
       [ # 'C#'
