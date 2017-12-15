@@ -32,8 +32,6 @@ services:
     container_name: starter_server
     read_only: true
     tmpfs: /tmp
-    depends_on:
-      - storer_server
     environment:
       - CYBER_DOJO_START_POINTS_ROOT
       - CYBER_DOJO_COVERAGE_ROOT
@@ -43,18 +41,4 @@ services:
         - PORT=${CYBER_DOJO_STARTER_SERVER_PORT}
     volumes:
       - ./server/start_points:${CYBER_DOJO_START_POINTS_ROOT}:ro
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  storer_server:
-    user: cyber-dojo
-    image: cyberdojo/storer
-    init: true
-    container_name: storer_server
-    read_only: true
-    tmpfs: /tmp
-    environment:
-      - CYBER_DOJO_KATAS_ROOT
-    volumes:
-      - ./server/katas:${CYBER_DOJO_KATAS_ROOT}:ro
 

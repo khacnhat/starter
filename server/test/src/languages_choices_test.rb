@@ -8,6 +8,20 @@ class LanguagesChoicesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  test '0F0', %w( invalid display_name raises ) do
+    [
+      42,   # Integer
+      [],   # Array
+      {},   # Hash
+      true, # Boolean
+    ].each do |invalid_display_name|
+      languages_choices(invalid_display_name)
+      assert_exception('display_name:invalid')
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   test '0F4',
   %w( major-names (languages) are unique and sorted,
       minor-names (testFrameworks) are unique and sorted,
@@ -38,5 +52,8 @@ class LanguagesChoicesTest < TestBase
     ]
     assert_equal expected_minor_indexes, result['minor_indexes']
   end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
 
 end

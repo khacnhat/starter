@@ -17,7 +17,6 @@ class TestBase < HexMiniTest
     @json = JSON.parse(result[2][0])
   end
 
-=begin
   def assert_no_exception
     assert_exception(nil)
   end
@@ -29,12 +28,11 @@ class TestBase < HexMiniTest
   def jpg(o)
     JSON.pretty_generate(o)
   end
-=end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def languages_choices(kata_id)
-    args = { kata_id:kata_id }
+  def languages_choices(display_name)
+    args = { display_name:display_name }
     rack_call(__method__.to_s, args)
     @json[__method__.to_s]
   end

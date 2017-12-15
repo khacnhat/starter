@@ -3,7 +3,7 @@ require_relative 'splitter'
 
 class Starter
 
-  def languages_choices(kata_id)
+  def languages_choices(display_name)
     #TODO: kata_id promotes repetition
     splitter = Splitter.new(display_names('languages'))
     {
