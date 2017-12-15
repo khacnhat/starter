@@ -27,7 +27,7 @@ class RackDispatcher
       raise 'json:!Hash'
     end
     args = case name
-      when /^method$/ then [a,b]
+      when /^languages_choices$/ then [kata_id]
     end
     [name, args]
   end
@@ -46,32 +46,18 @@ class RackDispatcher
   # method arguments
   # - - - - - - - - - - - - - - - -
 
-  def a
-    validated_a
-  end
-
-  def b
-    validated_b
+  def kata_id
+    validated_kata_id
   end
 
   # - - - - - - - - - - - - - - - -
   # validations
   # - - - - - - - - - - - - - - - -
 
-  def validated_a
-    arg = @json_args['a']
-    unless arg.is_a?(Integer)
-      raise invalid('a')
-    end
-    arg
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def validated_b
-    arg = @json_args['b']
-    unless arg.is_a?(Integer)
-      raise invalid('b')
+  def validated_kata_id
+    arg = @json_args['kata_id']
+    unless arg.is_a?(String) || arg.is_a?(NilClass)
+      raise invalid('kata_id')
     end
     arg
   end

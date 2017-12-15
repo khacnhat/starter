@@ -12,7 +12,7 @@ class TestBase < HexMiniTest
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def rack_call(method_name, args = {})
-    env = { body:args.to_json, path_info:method_name.to_s }
+    env = { body:args.to_json, path_info:method_name }
     result = rack.call(env)
     @json = JSON.parse(result[2][0])
   end
@@ -33,10 +33,10 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def method(a,b)
-    args = { a:a, b:b }
-    rack_call('method', args)
-    @json['method']
+  def languages_choices(kata_id)
+    args = { kata_id:kata_id }
+    rack_call(__method__.to_s, args)
+    @json[__method__.to_s]
   end
 
 end
