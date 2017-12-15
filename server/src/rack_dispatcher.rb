@@ -28,6 +28,10 @@ class RackDispatcher
     end
     args = case name
       when /^languages_choices$/ then [display_name]
+      else
+        was_name = name
+        name = 'unknown'
+        args = [ was_name ]
     end
     [name, args]
   end
@@ -55,6 +59,9 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
 
   def validated_display_name
+    unless @json_args.key?('display_name')
+      raise ArgumentError.new('display_name:missing')
+    end
     arg = @json_args['display_name']
     unless arg.is_a?(String) || arg.is_a?(NilClass)
       raise invalid('display_name')

@@ -3,6 +3,10 @@ require_relative 'splitter'
 
 class Starter
 
+  def unknown(method_name)
+    raise RuntimeError.new("#{method_name}:unknown_method")
+  end
+
   def languages_choices(display_name)
     splitter = Splitter.new(display_names('languages'), display_name)
     {
