@@ -15,7 +15,7 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
-  def exercises_choices(kata_id)
+  def exercises_choices(exercise_name)
     #kata_id promotes repetition
     #returns a list of exercises
     #and an initial index
@@ -23,15 +23,7 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
-  def chose_language_exercise(major_name, minor_name, exercise_name)
-    #creates a new kata in the storer
-    #returns the new kata's hex-id
-  end
-
-  # - - - - - - - - - - - - - - - - -
-  # - - - - - - - - - - - - - - - - -
-
-  def custom_choices(kata_id)
+  def custom_choices(display_name)
     #kata_id promotes repetition
     #returns a major-list and a minor-list
     #and initial indexes for both lists
@@ -39,9 +31,12 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
-  def chose_custom(major_name, minor_name)
-    #creates a new kata in the storer
-    #returns the new kata's hex-id
+  def languages_manifest(display_name, exercise_name)
+    #returns the manifest for the web to pass to storer
+  end
+
+  def custom_manifest(display_name)
+    #returns the manifest for the web to pass to storer
   end
 
   private # = = = = = = = = = = = = =
