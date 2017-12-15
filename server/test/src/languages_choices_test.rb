@@ -9,14 +9,16 @@ class LanguagesChoicesTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '0F4',
-  'when kata_id is nil, languages choices have no special index-zero' do
+  %w( major-names (languages) are unique and sorted
+      minor-names (testFrameworks) are unique and sorted ) do
+
     result = languages_choices(nil)
-    expected_major_names = [
-      'C#, NUnit',
-      'C (gcc), assert',
-      'Python, py.test'
-    ]
-    assert_equal expected_major_names, result['major_list']
+
+    expected_major_names = [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ]
+    assert_equal expected_major_names, result['major_names']
+
+    expected_minor_names = [ 'NUnit', 'assert', 'py.test', 'unittest' ]
+    assert_equal expected_minor_names, result['minor_names']
 
 
   end
