@@ -93,6 +93,8 @@ class LanguagesChoicesTest < TestBase
     @result['initial_index']
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
   def assert_major_names
     assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], major_names
   end
@@ -129,7 +131,6 @@ class LanguagesChoicesTest < TestBase
       assert_major_names
       assert_minor_names
       assert_minor_indexes
-      #assert_equal 4, major_names.size
       counts[initial_index] ||= 0
       counts[initial_index] += 1
     end
