@@ -47,7 +47,7 @@ class Starter
   private # = = = = = = = = = = = = =
 
   def start_points_dir
-    ENV['CYBER_DOJO_KATAS_ROOT']
+    ENV['CYBER_DOJO_START_POINTS_ROOT']
   end
 
   def display_names(sub_dir)
