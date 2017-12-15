@@ -1,29 +1,15 @@
 require 'json'
+require_relative 'splitter'
 
 class Starter
 
   def languages_choices(kata_id)
-    #kata_id promotes repetition
-    #returns a major-names (languages) and a minor-names (testFrameworks)
-    #and initial indexes for both lists.
-
-    path = '/app/start_points'
-    major_names = []
-    minor_names = []
-    Dir.glob("#{path}/languages/**/manifest.json").each do |filename|
-      json = JSON.parse(IO.read(filename))
-      display_name = json['display_name']
-      major_name = display_name.split(',')[0].strip
-      major_names << major_name
-      minor_name = display_name.split(',')[1].strip
-      minor_names << minor_name
-    end
-    major_names = major_names.sort.uniq
-    minor_names = minor_names.sort.uniq
-
+    #TODO: kata_id promotes repetition
+    splitter = Splitter.new(display_names('languages'))
     {
-      'major_names': major_names,
-      'minor_names': minor_names
+      major_names:splitter.major_names,
+      minor_names:splitter.minor_names,
+      minor_indexes:splitter.minor_indexes
     }
   end
 
@@ -58,4 +44,21 @@ class Starter
     #returns the new kata's hex-id
   end
 
+  private # = = = = = = = = = = = = =
+
+  def start_points_dir
+    '/app/start_points'
+  end
+
+  def display_names(sub_dir)
+    result = []
+    pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
+    Dir.glob(pattern).each do |filename|
+      json = JSON.parse(IO.read(filename))
+      result << json['display_name']
+    end
+    result
+  end
+
 end
+
