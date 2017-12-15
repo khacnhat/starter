@@ -1,9 +1,9 @@
 
 class Splitter
 
-  def initialize(display_names) #, initial_index)
+  def initialize(display_names, recent_display_name)
     @display_names = display_names
-    #@initial_index = initial_index
+    @recent_display_name = recent_display_name || ' , '
   end
 
   def major_names
@@ -19,14 +19,20 @@ class Splitter
   end
 
   def initial_index
-    name = @display_names[@initial_index].split(',')[0].strip
-    major_names.index(name)
+    recent_major_name = major_name(recent_display_name)
+    index = major_names.index(recent_major_name)
+    if index.nil?
+      return rand(0...major_names.size)
+    end
+    index
   end
 
-private
+  private
+
+  attr_reader :display_names, :recent_display_name
 
   def split
-    @display_names.map { |display_name| yield display_name }.sort.uniq
+    display_names.map { |display_name| yield display_name }.sort.uniq
   end
 
   def major_name(display_name)
@@ -37,23 +43,20 @@ private
     display_name.split(',')[1].strip
   end
 
-  def make_minor_indexes(major_name)
+  def make_minor_indexes(the_major_name)
     indexes = []
-    @display_names.each do |display_name|
-      if display_name.start_with?(major_name + ',')
-        minor_name = display_name.split(',')[1].strip
-        indexes << minor_names.index(minor_name)
+    display_names.each do |display_name|
+      if major_name(display_name) == the_major_name
+        indexes << minor_names.index(minor_name(display_name))
       end
     end
-
-=begin
-    if major_name == major_names[initial_index]
-      minor_name = @display_names[@initial_index].split(',')[1].strip
-      minor_index = minor_names.index(minor_name)
-      indexes.delete(minor_index)
-      indexes.unshift(minor_index)
+    if the_major_name == major_name(recent_display_name)
+      minor_index = minor_names.index(minor_name(recent_display_name))
+      unless minor_index.nil?
+        indexes.delete(minor_index)
+        indexes.unshift(minor_index)
+      end
     end
-=end
     indexes
   end
 

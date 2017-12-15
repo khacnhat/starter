@@ -4,12 +4,12 @@ require_relative 'splitter'
 class Starter
 
   def languages_choices(display_name)
-    #TODO: kata_id promotes repetition
-    splitter = Splitter.new(display_names('languages'))
+    splitter = Splitter.new(display_names('languages'), display_name)
     {
       major_names:splitter.major_names,
       minor_names:splitter.minor_names,
-      minor_indexes:splitter.minor_indexes
+      minor_indexes:splitter.minor_indexes,
+      initial_index:splitter.initial_index
     }
   end
 
