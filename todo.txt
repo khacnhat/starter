@@ -1,0 +1,6 @@
+
+starter.rb start_points_dir has to come from env-var set in docker-compose.yml
+
+docker-compose.yml needs storer service with
+  selected katas data volume-mounted in.
+
