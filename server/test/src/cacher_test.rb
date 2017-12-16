@@ -11,38 +11,10 @@ class CacherTest < TestBase
   test '446', %w( languages cache ) do
     cacher = Cacher.new
     cacher.write_display_names_cache('languages')
-    @cache = cacher.read_display_names_cache('languages')
-    assert_major_names
-    assert_minor_names
-    assert_minor_indexes
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def major_names
-    @cache['major_names']
-  end
-
-  def minor_names
-    @cache['minor_names']
-  end
-
-  def minor_indexes
-    @cache['minor_indexes']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def assert_major_names
-    assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], major_names
-  end
-
-  def assert_minor_names
-    assert_equal [ 'NUnit', 'assert', 'py.test', 'unittest' ], minor_names
-  end
-
-  def assert_minor_indexes
-    expected_minor_indexes =[
+    cache = cacher.read_display_names_cache('languages')
+    assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], cache['major_names']
+    assert_equal [ 'NUnit', 'assert', 'py.test', 'unittest' ], cache['minor_names']
+    assert_equal [
       [ # 'C (gcc)'
         1, # assert
       ],
@@ -56,8 +28,23 @@ class CacherTest < TestBase
         2, # py.pytest
         3, # unittest
       ]
-    ]
-    assert_equal expected_minor_indexes, minor_indexes
+    ], cache['minor_indexes']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '447', %w( custom cache ) do
+    cacher = Cacher.new
+    cacher.write_display_names_cache('custom')
+    cache = cacher.read_display_names_cache('custom')
+
+    assert_equal [ 'Yahtzee refactoring' ], cache['major_names']
+
+    expected = [ 'C# NUnit', 'C++ (g++) assert', 'Java JUnit', 'Python unitttest' ]
+    assert_equal expected, cache['minor_names']
+
+    expected = [ [0,1,2,3] ]
+    assert_equal expected, cache['minor_indexes']
   end
 
 end
