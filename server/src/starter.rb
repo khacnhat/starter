@@ -35,17 +35,17 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def languages_manifest(display_name, exercise_name)
-    #returns the manifest for the web to pass to storer
+    #TODO: returns the manifest for the web to pass to storer
   end
 
   def custom_manifest(display_name)
-    #returns the manifest for the web to pass to storer
+    #TODO: returns the manifest for the web to pass to storer
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  def unknown(method_name)
-    raise RuntimeError.new("#{method_name}:unknown_method")
+  def method_missing(name, *_args, &_block)
+    raise RuntimeError.new("#{name}:unknown_method")
   end
 
 end

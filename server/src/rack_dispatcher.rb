@@ -30,10 +30,6 @@ class RackDispatcher
       when /^languages_choices$/ then [current_display_name]
       when /^custom_choices$/    then [current_display_name]
       when /^exercises_choices$/ then [current_exercise_name]
-      else
-        was_name = name
-        name = 'unknown'
-        args = [ was_name ]
     end
     [name, args]
   end
