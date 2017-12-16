@@ -54,10 +54,10 @@ class CacherTest < TestBase
     cacher.write_exercises_cache
     cache = cacher.read_exercises_cache
 
-    names = cache[0]
+    names = cache['names']
     assert_equal [ 'Bowling_Game', 'Fizz_Buzz', 'Leap_Years', 'Tiny_Maze' ], names
 
-    hash = cache[1]
+    hash = cache['contents']
     assert_equal names, hash.keys.sort
 
     text = 'Write a program to score a game of Ten-Pin Bowling.'

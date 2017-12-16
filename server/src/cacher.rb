@@ -21,7 +21,7 @@ class Cacher
     IO.write(cache_filename(name), cache)
     #TODO: create 2nd cache of display_name => dir
     #      for Starter to assemble the manifest
-    #      Change name s/cache/caches/ PLURAL
+    #      Change method name s/cache/caches/ PLURAL
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -74,7 +74,10 @@ class Cacher
       names << name
       hash[name] = IO.read(filename)
     end
-    [names.sort, hash]
+    {
+      names:names.sort,
+      contents:hash
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - -

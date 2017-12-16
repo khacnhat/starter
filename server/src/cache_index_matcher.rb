@@ -71,7 +71,12 @@ class CacheIndexMatcher
   # - - - - - - - - - - - - - - - - - - -
 
   def match_exercise_name(current_exercise_name)
-    #TODO
+    names = cache['names']
+    index = names.index(current_exercise_name)
+    if index.nil?
+      index = rand(0...names.size)
+    end
+    cache['index'] = index
   end
 
   private # = = = = = = = = = = = = = = = =

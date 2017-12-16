@@ -15,6 +15,7 @@ class RackDispatcher
     body = { name => result }
     triple(body)
   rescue => error
+    #puts "<#{error.message}>"
     triple({ 'exception' => error.message })
   end
 
