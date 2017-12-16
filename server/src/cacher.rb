@@ -11,13 +11,16 @@ class Cacher
   # - - - - - - - - - - - - - - - - - - - -
 
   def write_display_names_cache(name)
-    splitter = Splitter.new(display_names(name))
+    display_names,dirs = display_names_dirs(name)
+    splitter = Splitter.new(display_names)
     cache = {
       major_names:splitter.major_names,
       minor_names:splitter.minor_names,
       minor_indexes:splitter.minor_indexes
     }
     IO.write(cache_filename(name), JSON.unparse(cache))
+    #TODO: create 2nd cache of display_name => dir
+    #      for Starter to assemble the manifest
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -38,14 +41,17 @@ class Cacher
 
   private # = = = = = = = = = = = = = = =
 
-  def display_names(sub_dir)
-    result = []
+  def display_names_dirs(sub_dir)
+    display_names = []
+    dirs = {}
     pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
     Dir.glob(pattern).each do |filename|
       json = JSON.parse(IO.read(filename))
-      result << json['display_name']
+      display_name = json['display_name']
+      display_names << display_name
+      dirs[display_name] = File.dirname(filename)
     end
-    result
+    [display_names, dirs]
   end
 
   def start_points_dir
