@@ -31,6 +31,7 @@ class RackDispatcher
       when /^custom_choices$/    then [current_display_name]
       when /^exercises_choices$/ then [current_exercise_name]
       when /^language_manifest$/ then [display_name,exercise_name]
+      #when /^custom_manifest$/ then [display_name]
     end
     [name, args]
   end
