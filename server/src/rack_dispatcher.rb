@@ -71,28 +71,28 @@ class RackDispatcher
 
   def validated_current_display_name(arg)
     unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise error('current_display_name', 'invalid')
+      raise invalid('current_display_name')
     end
     arg
   end
 
   def validated_current_exercise_name(arg)
     unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise error('current_exercise_name', 'invalid')
+      raise invalid('current_exercise_name')
     end
     arg
   end
 
   def validated_display_name(arg)
-    unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise error('display_name', 'invalid')
+    unless arg.is_a?(String)
+      raise invalid('display_name')
     end
     arg
   end
 
   def validated_exercise_name(arg)
-    unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise error('exercise_name', 'invalid')
+    unless arg.is_a?(String)
+      raise invalid('exercise_name')
     end
     arg
   end
@@ -107,6 +107,10 @@ class RackDispatcher
   end
 
   # - - - - - - - - - - - - - - - -
+
+  def invalid(name)
+    error(name, 'invalid')
+  end
 
   def error(name, message)
     ArgumentError.new("#{name}:#{message}")
