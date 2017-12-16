@@ -1,29 +1,34 @@
 require 'json'
 require_relative 'cacher'
-require_relative 'indexer'
+require_relative 'cache_index_matcher'
 
 class Starter
 
   def languages_choices(current_display_name)
-    cache = Cacher.new.read_display_names_cache('languages')
-    Indexer.new(cache).align(current_display_name)
+    cacher = Cacher.new
+    cache = cacher.read_display_names_cache('languages')
+    matcher = CacheIndexMatcher.new(cache)
+    matcher.match_display_name(current_display_name)
     cache
   end
 
   # - - - - - - - - - - - - - - - - -
 
   def exercises_choices(current_exercise_name)
-    cache = Cacher.new.read_exercises_cache
-    #kata_id promotes repetition
-    #returns a list of exercises
-    #and an initial index
+    cacher = Cacher.new
+    cache = cacher.read_exercises_cache
+    matcher = CacheIndexMatcher.new(cache)
+    matcher.match_exercise_name(current_exercise_name)
+    cache
   end
 
   # - - - - - - - - - - - - - - - - -
 
   def custom_choices(current_display_name)
-    cache = Cacher.new.read_display_names_cache('custom')
-    Indexer.new(cache).align(current_display_name)
+    cacher = Cacher.new
+    cache = cacher.read_display_names_cache('custom')
+    matcher = CacheIndexMatcher.new(cache)
+    matcher.match_display_name(current_display_name)
     cache
   end
 
