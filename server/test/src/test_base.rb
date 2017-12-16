@@ -45,4 +45,23 @@ class TestBase < HexMiniTest
     @json[__method__.to_s]
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def language_manifest(display_name, exercise_name)
+    args = { display_name:display_name, exercise_name:exercise_name }
+    rack_call(__method__.to_s, args)
+    @json[__method__.to_s]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_rack_call_raw(path_info, args, expected)
+    rack = RackDispatcher.new(RackRequestStub)
+    env = { body:args, path_info:path_info }
+    tuple = rack.call(env)
+    assert_equal 200, tuple[0]
+    assert_equal({ 'Content-Type' => 'application/json' }, tuple[1])
+    assert_equal [ expected.to_json ], tuple[2]
+  end
+
 end

@@ -30,6 +30,7 @@ class RackDispatcher
       when /^languages_choices$/ then [current_display_name]
       when /^custom_choices$/    then [current_display_name]
       when /^exercises_choices$/ then [current_exercise_name]
+      when /^language_manifest$/ then [display_name,exercise_name]
     end
     [name, args]
   end
@@ -56,6 +57,14 @@ class RackDispatcher
     validated_current_exercise_name(arg('current_exercise_name'))
   end
 
+  def display_name
+    validated_display_name(arg('display_name'))
+  end
+
+  def exercise_name
+    validated_exercise_name(arg('exercise_name'))
+  end
+
   # - - - - - - - - - - - - - - - -
   # validations
   # - - - - - - - - - - - - - - - -
@@ -70,6 +79,20 @@ class RackDispatcher
   def validated_current_exercise_name(arg)
     unless arg.is_a?(String) || arg.is_a?(NilClass)
       raise error('current_exercise_name', 'invalid')
+    end
+    arg
+  end
+
+  def validated_display_name(arg)
+    unless arg.is_a?(String) || arg.is_a?(NilClass)
+      raise error('display_name', 'invalid')
+    end
+    arg
+  end
+
+  def validated_exercise_name(arg)
+    unless arg.is_a?(String) || arg.is_a?(NilClass)
+      raise error('exercise_name', 'invalid')
     end
     arg
   end

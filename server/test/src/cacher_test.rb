@@ -10,7 +10,7 @@ class CacherTest < TestBase
 
   test '446', %w( languages cache ) do
     cacher = Cacher.new
-    cacher.write_display_names_cache('languages')
+    cacher.write_display_names_caches('languages')
     cache = cacher.read_display_names_cache('languages')
     assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], cache['major_names']
     assert_equal [ 'NUnit', 'assert', 'py.test', 'unittest' ], cache['minor_names']
@@ -35,7 +35,7 @@ class CacherTest < TestBase
 
   test '447', %w( custom cache ) do
     cacher = Cacher.new
-    cacher.write_display_names_cache('custom')
+    cacher.write_display_names_caches('custom')
     cache = cacher.read_display_names_cache('custom')
 
     assert_equal [ 'Yahtzee refactoring' ], cache['major_names']

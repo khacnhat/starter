@@ -10,7 +10,7 @@ class Cacher
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def write_display_names_cache(name)
+  def write_display_names_caches(name)
     display_names,dirs = display_names_dirs(name)
     splitter = Splitter.new(display_names)
     cache = JSON.unparse({
@@ -19,9 +19,7 @@ class Cacher
       minor_indexes:splitter.minor_indexes
     })
     IO.write(cache_filename(name), cache)
-    #TODO: create 2nd cache of display_name => dir
-    #      for Starter to assemble the manifest
-    #      Change method name s/cache/caches/ PLURAL
+    IO.write(dir_cache_filename(name), JSON.unparse(dirs))
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -33,10 +31,19 @@ class Cacher
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  def read_dir_cache(name)
+    cache = IO.read(dir_cache_filename(name))
+    JSON.parse(cache)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   def write_exercises_cache
     cache = JSON.unparse(exercises)
     IO.write(cache_filename('exercises'), cache)
   end
+
+  # - - - - - - - - - - - - - - - - - - - -
 
   def read_exercises_cache
     cache = IO.read(cache_filename('exercises'))
@@ -81,6 +88,10 @@ class Cacher
   end
 
   # - - - - - - - - - - - - - - - - - - - -
+
+  def dir_cache_filename(name)
+    "#{cache_dir}/#{name}_dir_cache.json"
+  end
 
   def cache_filename(name)
     "#{cache_dir}/#{name}_cache.json"

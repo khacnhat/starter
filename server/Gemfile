@@ -3,5 +3,7 @@ source 'https://rubygems.org'
 gem 'rack'
 gem 'thin'
 
+gem 'uuidtools'
+
 gem 'simplecov'
 gem 'minitest'
