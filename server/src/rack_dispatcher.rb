@@ -28,6 +28,7 @@ class RackDispatcher
     end
     args = case name
       when /^languages_choices$/ then [current_display_name]
+      when /^custom_choices$/    then [current_display_name]
       when /^exercises_choices$/ then [current_exercise_name]
       else
         was_name = name

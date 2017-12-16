@@ -33,6 +33,12 @@ class TestBase < HexMiniTest
     @json[__method__.to_s]
   end
 
+  def custom_choices(current_display_name)
+    args = { current_display_name:current_display_name }
+    rack_call(__method__.to_s, args)
+    @json[__method__.to_s]
+  end
+
   def exercises_choices(current_exercise_name)
     args = { current_exercise_name:current_exercise_name }
     rack_call(__method__.to_s, args)

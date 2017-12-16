@@ -1,32 +1,31 @@
 require_relative 'test_base'
 
-class LanguagesChoicesTest < TestBase
+class CustomChoicesTest < TestBase
 
   def self.hex_prefix
-    '9F544'
+    '5F36E'
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '0F0', %w( invalid current_display_name raises ) do
+  test '1B4', %w( invalid current_display_name raises ) do
     [
       42,   # Integer
       [],   # Array
       {},   # Hash
       true, # Boolean
     ].each do |invalid_current_display_name|
-      languages_choices(invalid_current_display_name)
+      custom_choices(invalid_current_display_name)
       assert_exception('current_display_name:invalid')
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '0F4',
-  %w( major-names (languages) are unique and sorted,
-      minor-names (testFrameworks) are unique and sorted,
+  test '1B5',
+  %w( major-names,minor-names are unique and sorted,
       minor-indexes can reconstitute the display_names ) do
-    @result = languages_choices(nil)
+    @result = custom_choices(nil)
     assert_major_names
     assert_minor_names
     assert_minor_indexes
@@ -34,7 +33,7 @@ class LanguagesChoicesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '0F1',
+  test '1B6',
   %w( when current_display_name is nil
       initial_index is random index into major_names
       and minor_indexes are not 0-altered ) do
@@ -47,7 +46,7 @@ class LanguagesChoicesTest < TestBase
   %w( when current_display_name's major_name does not match any major_name
       initial_index is random index into major_names
       and minor_indexes are not 0-altered ) do
-    assert_random_initial_index('Java, JUnit')
+    assert_random_initial_index('C++ Countdown, Java JUnit')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -57,11 +56,11 @@ class LanguagesChoicesTest < TestBase
       but current_display_name's minor_name does not match a minor_name
       then initial_index is for matching major_name
       and minor_indexes are not 0-altered ) do
-    @result = languages_choices('C#, Moq')
+    @result = custom_choices('Yahtzee refactoring, C# Moq')
     assert_major_names
     assert_minor_names
     assert_minor_indexes
-    assert_equal 'C#', major_names[initial_index]
+    assert_equal 'Yahtzee refactoring', major_names[initial_index]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -70,11 +69,11 @@ class LanguagesChoicesTest < TestBase
   %w( when current_display_name matches a major_name and a minor_name
       then initial_index is matching for major_name
       and its minor_index at position zero is matching for the minor_name ) do
-    @result = languages_choices('Python, unittest')
+    @result = custom_choices('Yahtzee refactoring, Java JUnit')
     assert_major_names
     assert_minor_names
-    assert_equal 'Python', major_names[initial_index]
-    assert_equal 'unittest', minor_names[minor_indexes[initial_index][0]]
+    assert_equal 'Yahtzee refactoring', major_names[initial_index]
+    assert_equal 'Java JUnit', minor_names[minor_indexes[initial_index][0]]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -98,27 +97,17 @@ class LanguagesChoicesTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   def assert_major_names
-    assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], major_names
+    assert_equal [ 'Yahtzee refactoring' ], major_names
   end
 
   def assert_minor_names
-    assert_equal [ 'NUnit', 'assert', 'py.test', 'unittest' ], minor_names
+    assert_equal [ 'C# NUnit', 'C++ (g++) assert', 'Java JUnit', 'Python unitttest' ], minor_names
   end
 
   def assert_minor_indexes
     expected_minor_indexes = [
-      [ # 'C (gcc)'
-        1, # assert
-      ],
-      [ # 'C#'
-        0, # NUnit
-      ],
-      [ # 'C++ (g++)'
-        1, # assert
-      ],
-      [ # 'Python'
-        2, # py.pytest
-        3, # unittest
+      [ # 'Yahtzee refactoring'
+        0,1,2,3
       ]
     ]
     assert_equal expected_minor_indexes, minor_indexes
@@ -129,7 +118,7 @@ class LanguagesChoicesTest < TestBase
   def assert_random_initial_index(current_display_name)
     counts = []
     (1..42).each do
-      @result = languages_choices(current_display_name)
+      @result = custom_choices(current_display_name)
       assert_major_names
       assert_minor_names
       assert_minor_indexes

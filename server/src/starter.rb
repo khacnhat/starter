@@ -4,10 +4,6 @@ require_relative 'indexer'
 
 class Starter
 
-  def unknown(method_name)
-    raise RuntimeError.new("#{method_name}:unknown_method")
-  end
-
   def languages_choices(current_display_name)
     cache = Cacher.new.read_display_names_cache('languages')
     Indexer.new(cache).align(current_display_name)
@@ -26,9 +22,9 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def custom_choices(current_display_name)
-    #kata_id promotes repetition
-    #returns a major-list and a minor-list
-    #and initial indexes for both lists
+    cache = Cacher.new.read_display_names_cache('custom')
+    Indexer.new(cache).align(current_display_name)
+    cache
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -39,6 +35,12 @@ class Starter
 
   def custom_manifest(display_name)
     #returns the manifest for the web to pass to storer
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def unknown(method_name)
+    raise RuntimeError.new("#{method_name}:unknown_method")
   end
 
 end
