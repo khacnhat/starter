@@ -47,4 +47,30 @@ class CacherTest < TestBase
     assert_equal expected, cache['minor_indexes']
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '448', %w( exercises cache ) do
+    cacher = Cacher.new
+    cacher.write_exercises_cache
+    cache = cacher.read_exercises_cache
+
+    names = cache[0]
+    assert_equal [ 'Bowling_Game', 'Fizz_Buzz', 'Leap_Years', 'Tiny_Maze' ], names
+
+    hash = cache[1]
+    assert_equal names, hash.keys.sort
+
+    text = 'Write a program to score a game of Ten-Pin Bowling.'
+    assert hash['Bowling_Game'].start_with?(text), hash['Bowling_Game']
+
+    text = 'Write a program that prints the numbers from 1 to 100.'
+    assert hash['Fizz_Buzz'].start_with?(text), hash['Fizz_Buzz']
+
+    text = 'Write a function that returns true or false depending on'
+    assert hash['Leap_Years'].start_with?(text), hash['Leap_Years']
+
+    text = 'Alice found herself very tiny and wandering around Wonderland.'
+    assert hash['Tiny_Maze'].start_with?(text), hash['Tiny_Maze']
+  end
+
 end

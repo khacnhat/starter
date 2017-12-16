@@ -26,6 +26,16 @@ class Cacher
     JSON.parse(IO.read(cache_filename(name)))
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def write_exercises_cache
+    IO.write(cache_filename('exercises'), JSON.unparse(exercises))
+  end
+
+  def read_exercises_cache
+    JSON.parse(IO.read(cache_filename('exercises')))
+  end
+
   private # = = = = = = = = = = = = = = =
 
   def display_names(sub_dir)
@@ -40,6 +50,21 @@ class Cacher
 
   def start_points_dir
     ENV['CYBER_DOJO_START_POINTS_ROOT']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def exercises
+    names = []
+    hash =  {}
+    pattern = "#{start_points_dir}/exercises/**/instructions"
+    Dir.glob(pattern).each do |filename|
+      # eg /app/start_points/exercises/Bowling_Game/instructions
+      name = filename.split('/')[-2] # eg Bowling_Game
+      names << name
+      hash[name] = IO.read(filename)
+    end
+    [names.sort, hash]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
