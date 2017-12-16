@@ -9,9 +9,13 @@ class Indexer
     recent_display_name ||= ' , '
     cache['initial_index'] = major_index(recent_display_name)
     major_index = major_names.index(major_name(recent_display_name))
-    return if major_index.nil?
+    if major_index.nil?
+      return
+    end
     minor_index = minor_names.index(minor_name(recent_display_name))
-    return if minor_index.nil?
+    if minor_index.nil?
+      return
+    end
     indexes = minor_indexes[major_index]
     indexes.delete(minor_index)
     indexes.unshift(minor_index)

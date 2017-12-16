@@ -8,6 +8,8 @@ class Cacher
     FileUtils.mkdir_p(cache_dir)
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
   def write_display_names_cache(name)
     splitter = Splitter.new(display_names(name))
     cache = {
@@ -18,23 +20,13 @@ class Cacher
     IO.write(cache_filename(name), JSON.unparse(cache))
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
   def read_display_names_cache(name)
     JSON.parse(IO.read(cache_filename(name)))
   end
 
-  private
-
-  def cache_dir
-    '/tmp/starter'
-  end
-
-  def cache_filename(name)
-    "#{cache_dir}/#{name}_cache.json"
-  end
-
-  def start_points_dir
-    ENV['CYBER_DOJO_START_POINTS_ROOT']
-  end
+  private # = = = = = = = = = = = = = = =
 
   def display_names(sub_dir)
     result = []
@@ -44,6 +36,20 @@ class Cacher
       result << json['display_name']
     end
     result
+  end
+
+  def start_points_dir
+    ENV['CYBER_DOJO_START_POINTS_ROOT']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def cache_filename(name)
+    "#{cache_dir}/#{name}_cache.json"
+  end
+
+  def cache_dir
+    '/tmp/starter'
   end
 
 end
