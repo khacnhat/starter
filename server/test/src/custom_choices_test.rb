@@ -35,18 +35,18 @@ class CustomChoicesTest < TestBase
 
   test '1B6',
   %w( when current_display_name is nil
-      initial_index is random index into major_names
+      major_index is random index into major_names
       and minor_indexes are not 0-altered ) do
-    assert_random_initial_index(nil)
+    assert_random_major_index(nil)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '0F2',
   %w( when current_display_name's major_name does not match any major_name
-      initial_index is random index into major_names
+      major_index is random index into major_names
       and minor_indexes are not 0-altered ) do
-    assert_random_initial_index('C++ Countdown, Java JUnit')
+    assert_random_major_index('C++ Countdown, Java JUnit')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -54,26 +54,26 @@ class CustomChoicesTest < TestBase
   test '0F3',
   %w( when current_display_name's major_name matches a major_name
       but current_display_name's minor_name does not match a minor_name
-      then initial_index is for matching major_name
+      then major_index is for matching major_name
       and minor_indexes are not 0-altered ) do
     @result = custom_choices('Yahtzee refactoring, C# Moq')
     assert_major_names
     assert_minor_names
     assert_minor_indexes
-    assert_equal 'Yahtzee refactoring', major_names[initial_index]
+    assert_equal 'Yahtzee refactoring', major_names[major_index]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '0F5',
   %w( when current_display_name matches a major_name and a minor_name
-      then initial_index is matching for major_name
+      then major_index is matching for major_name
       and its minor_index at position zero is matching for the minor_name ) do
     @result = custom_choices('Yahtzee refactoring, Java JUnit')
     assert_major_names
     assert_minor_names
-    assert_equal 'Yahtzee refactoring', major_names[initial_index]
-    assert_equal 'Java JUnit', minor_names[minor_indexes[initial_index][0]]
+    assert_equal 'Yahtzee refactoring', major_names[major_index]
+    assert_equal 'Java JUnit', minor_names[minor_indexes[major_index][0]]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -82,16 +82,16 @@ class CustomChoicesTest < TestBase
     @result['major_names']
   end
 
+  def major_index
+    @result['major_index']
+  end
+
   def minor_names
     @result['minor_names']
   end
 
   def minor_indexes
     @result['minor_indexes']
-  end
-
-  def initial_index
-    @result['initial_index']
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -115,15 +115,15 @@ class CustomChoicesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def assert_random_initial_index(current_display_name)
+  def assert_random_major_index(current_display_name)
     counts = []
     (1..42).each do
       @result = custom_choices(current_display_name)
       assert_major_names
       assert_minor_names
       assert_minor_indexes
-      counts[initial_index] ||= 0
-      counts[initial_index] += 1
+      counts[major_index] ||= 0
+      counts[major_index] += 1
     end
     assert_equal major_names.size, counts.size
     (0...counts.size).each do |i|

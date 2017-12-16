@@ -51,7 +51,7 @@ class Indexer
 
   def align(current_display_name)
     current_display_name ||= ' , '
-    cache['initial_index'] = major_index(current_display_name)
+    cache['major_index'] = major_index(current_display_name)
     major_index = major_names.index(major_name(current_display_name))
     if major_index.nil?
       return

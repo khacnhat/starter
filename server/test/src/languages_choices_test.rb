@@ -36,9 +36,9 @@ class LanguagesChoicesTest < TestBase
 
   test '0F1',
   %w( when current_display_name is nil
-      initial_index is random index into major_names
+      major_index is random index into major_names
       and minor_indexes are not 0-altered ) do
-    assert_random_initial_index(nil)
+    assert_random_major_index(nil)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -47,7 +47,7 @@ class LanguagesChoicesTest < TestBase
   %w( when current_display_name's major_name does not match any major_name
       initial_index is random index into major_names
       and minor_indexes are not 0-altered ) do
-    assert_random_initial_index('Java, JUnit')
+    assert_random_major_index('Java, JUnit')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -55,13 +55,13 @@ class LanguagesChoicesTest < TestBase
   test '0F3',
   %w( when current_display_name's major_name matches a major_name
       but current_display_name's minor_name does not match a minor_name
-      then initial_index is for matching major_name
+      then major_index is for matching major_name
       and minor_indexes are not 0-altered ) do
     @result = languages_choices('C#, Moq')
     assert_major_names
     assert_minor_names
     assert_minor_indexes
-    assert_equal 'C#', major_names[initial_index]
+    assert_equal 'C#', major_names[major_index]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -73,8 +73,8 @@ class LanguagesChoicesTest < TestBase
     @result = languages_choices('Python, unittest')
     assert_major_names
     assert_minor_names
-    assert_equal 'Python', major_names[initial_index]
-    assert_equal 'unittest', minor_names[minor_indexes[initial_index][0]]
+    assert_equal 'Python', major_names[major_index]
+    assert_equal 'unittest', minor_names[minor_indexes[major_index][0]]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -87,12 +87,12 @@ class LanguagesChoicesTest < TestBase
     @result['minor_names']
   end
 
-  def minor_indexes
-    @result['minor_indexes']
+  def major_index
+    @result['major_index']
   end
 
-  def initial_index
-    @result['initial_index']
+  def minor_indexes
+    @result['minor_indexes']
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -126,15 +126,15 @@ class LanguagesChoicesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def assert_random_initial_index(current_display_name)
+  def assert_random_major_index(current_display_name)
     counts = []
     (1..42).each do
       @result = languages_choices(current_display_name)
       assert_major_names
       assert_minor_names
       assert_minor_indexes
-      counts[initial_index] ||= 0
-      counts[initial_index] += 1
+      counts[major_index] ||= 0
+      counts[major_index] += 1
     end
     assert_equal major_names.size, counts.size
     (0...counts.size).each do |i|
