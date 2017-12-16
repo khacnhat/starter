@@ -17,6 +17,7 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def exercises_choices(exercise_name)
+    cache = Cacher.new.read_exercises_cache
     #kata_id promotes repetition
     #returns a list of exercises
     #and an initial index

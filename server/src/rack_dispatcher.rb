@@ -28,6 +28,7 @@ class RackDispatcher
     end
     args = case name
       when /^languages_choices$/ then [display_name]
+      when /^exercises_choices$/ then [exercise_name]
       else
         was_name = name
         name = 'unknown'
@@ -54,6 +55,10 @@ class RackDispatcher
     validated_display_name(arg('display_name'))
   end
 
+  def exercise_name
+    validated_exercise_name(arg('exercise_name'))
+  end
+
   # - - - - - - - - - - - - - - - -
   # validations
   # - - - - - - - - - - - - - - - -
@@ -61,6 +66,13 @@ class RackDispatcher
   def validated_display_name(arg)
     unless arg.is_a?(String) || arg.is_a?(NilClass)
       raise error('display_name', 'invalid')
+    end
+    arg
+  end
+
+  def validated_exercise_name(arg)
+    unless arg.is_a?(String) || arg.is_a?(NilClass)
+      raise error('exercise_name', 'invalid')
     end
     arg
   end

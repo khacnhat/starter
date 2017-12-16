@@ -33,4 +33,10 @@ class TestBase < HexMiniTest
     @json[__method__.to_s]
   end
 
+  def exercises_choices(exercise_name)
+    args = { exercise_name:exercise_name }
+    rack_call(__method__.to_s, args)
+    @json[__method__.to_s]
+  end
+
 end
