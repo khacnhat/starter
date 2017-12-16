@@ -13,30 +13,34 @@ class Cacher
   def write_display_names_cache(name)
     display_names,dirs = display_names_dirs(name)
     splitter = Splitter.new(display_names)
-    cache = {
+    cache = JSON.unparse({
       major_names:splitter.major_names,
       minor_names:splitter.minor_names,
       minor_indexes:splitter.minor_indexes
-    }
-    IO.write(cache_filename(name), JSON.unparse(cache))
+    })
+    IO.write(cache_filename(name), cache)
     #TODO: create 2nd cache of display_name => dir
     #      for Starter to assemble the manifest
+    #      Change name s/cache/caches/ PLURAL
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   def read_display_names_cache(name)
-    JSON.parse(IO.read(cache_filename(name)))
+    cache = IO.read(cache_filename(name))
+    JSON.parse(cache)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   def write_exercises_cache
-    IO.write(cache_filename('exercises'), JSON.unparse(exercises))
+    cache = JSON.unparse(exercises)
+    IO.write(cache_filename('exercises'), cache)
   end
 
   def read_exercises_cache
-    JSON.parse(IO.read(cache_filename('exercises')))
+    cache = IO.read(cache_filename('exercises'))
+    JSON.parse(cache)
   end
 
   private # = = = = = = = = = = = = = = =
