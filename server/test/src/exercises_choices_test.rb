@@ -16,7 +16,7 @@ class ExercisesChoicesTest < TestBase
       true, # Boolean
     ].each do |invalid_exercise_name|
       exercises_choices(invalid_exercise_name)
-      assert_exception('exercise_name:invalid')
+      assert_exception('current_exercise_name:invalid')
     end
   end
 

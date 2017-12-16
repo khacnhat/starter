@@ -16,7 +16,7 @@ class LanguagesChoicesTest < TestBase
       true, # Boolean
     ].each do |invalid_display_name|
       languages_choices(invalid_display_name)
-      assert_exception('display_name:invalid')
+      assert_exception('current_display_name:invalid')
     end
   end
 
@@ -35,7 +35,7 @@ class LanguagesChoicesTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '0F1',
-  %w( when recent_display_name is nil
+  %w( when current_display_name is nil
       initial_index is random index into major_names ) do
     assert_random_initial_index(nil)
   end
@@ -43,7 +43,7 @@ class LanguagesChoicesTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '0F2',
-  %w( when recent_display_name's major_name does not match any major_name
+  %w( when current_display_name's major_name does not match any major_name
       initial_index is random index into major_names ) do
     assert_random_initial_index('Java, JUnit')
   end
@@ -51,8 +51,8 @@ class LanguagesChoicesTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '0F3',
-  %w( when recent_display_name's major_name matches a major_name
-      but recent_display_name's minor_name does not match a minor_name
+  %w( when current_display_name's major_name matches a major_name
+      but current_display_name's minor_name does not match a minor_name
       then initial_index is for matching major_name
       and minor_indexes are not 0-altered ) do
     @result = languages_choices('C#, Moq')
@@ -65,7 +65,7 @@ class LanguagesChoicesTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '0F5',
-  %w( when recent_display_name matches a major_name and a minor_name
+  %w( when current_display_name matches a major_name and a minor_name
       then initial_index is matching for major_name
       and its minor_index at position zero os matching for the minor_name ) do
     @result = languages_choices('Python, unittest')
@@ -124,10 +124,10 @@ class LanguagesChoicesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def assert_random_initial_index(recent_display_name)
+  def assert_random_initial_index(current_display_name)
     counts = []
     (1..42).each do
-      @result = languages_choices(recent_display_name)
+      @result = languages_choices(current_display_name)
       assert_major_names
       assert_minor_names
       assert_minor_indexes

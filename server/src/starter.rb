@@ -8,15 +8,15 @@ class Starter
     raise RuntimeError.new("#{method_name}:unknown_method")
   end
 
-  def languages_choices(recent_display_name)
+  def languages_choices(current_display_name)
     cache = Cacher.new.read_display_names_cache('languages')
-    Indexer.new(cache).align(recent_display_name)
+    Indexer.new(cache).align(current_display_name)
     cache
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  def exercises_choices(exercise_name)
+  def exercises_choices(current_exercise_name)
     cache = Cacher.new.read_exercises_cache
     #kata_id promotes repetition
     #returns a list of exercises
@@ -25,7 +25,7 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
-  def custom_choices(display_name)
+  def custom_choices(current_display_name)
     #kata_id promotes repetition
     #returns a major-list and a minor-list
     #and initial indexes for both lists

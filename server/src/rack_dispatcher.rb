@@ -27,8 +27,8 @@ class RackDispatcher
       raise 'json:!Hash'
     end
     args = case name
-      when /^languages_choices$/ then [display_name]
-      when /^exercises_choices$/ then [exercise_name]
+      when /^languages_choices$/ then [current_display_name]
+      when /^exercises_choices$/ then [current_exercise_name]
       else
         was_name = name
         name = 'unknown'
@@ -51,28 +51,28 @@ class RackDispatcher
   # method arguments
   # - - - - - - - - - - - - - - - -
 
-  def display_name
-    validated_display_name(arg('display_name'))
+  def current_display_name
+    validated_current_display_name(arg('current_display_name'))
   end
 
-  def exercise_name
-    validated_exercise_name(arg('exercise_name'))
+  def current_exercise_name
+    validated_current_exercise_name(arg('current_exercise_name'))
   end
 
   # - - - - - - - - - - - - - - - -
   # validations
   # - - - - - - - - - - - - - - - -
 
-  def validated_display_name(arg)
+  def validated_current_display_name(arg)
     unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise error('display_name', 'invalid')
+      raise error('current_display_name', 'invalid')
     end
     arg
   end
 
-  def validated_exercise_name(arg)
+  def validated_current_exercise_name(arg)
     unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise error('exercise_name', 'invalid')
+      raise error('current_exercise_name', 'invalid')
     end
     arg
   end

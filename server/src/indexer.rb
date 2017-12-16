@@ -5,14 +5,14 @@ class Indexer
     @cache = cache
   end
 
-  def align(recent_display_name)
-    recent_display_name ||= ' , '
-    cache['initial_index'] = major_index(recent_display_name)
-    major_index = major_names.index(major_name(recent_display_name))
+  def align(current_display_name)
+    current_display_name ||= ' , '
+    cache['initial_index'] = major_index(current_display_name)
+    major_index = major_names.index(major_name(current_display_name))
     if major_index.nil?
       return
     end
-    minor_index = minor_names.index(minor_name(recent_display_name))
+    minor_index = minor_names.index(minor_name(current_display_name))
     if minor_index.nil?
       return
     end
@@ -37,9 +37,9 @@ class Indexer
     cache['minor_indexes']
   end
 
-  def major_index(recent_display_name)
-    recent_major_name = major_name(recent_display_name)
-    index = major_names.index(recent_major_name)
+  def major_index(current_display_name)
+    current_major_name = major_name(current_display_name)
+    index = major_names.index(current_major_name)
     if index.nil?
       return rand(0...major_names.size)
     end
