@@ -38,6 +38,26 @@ class ExercisesChoicesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  test '628',
+  %w( when current_exercise_name does not match any exercise_name
+      index is random index into names
+      and minor_indexes are not 0-altered ) do
+    assert_random_index('Count_Coins')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '629',
+  %w( when current_exercise_name matches an exercise_name
+      then index is for matching exercise_name ) do
+    @result = exercises_choices('Fizz_Buzz')
+    assert_names
+    assert_contents
+    assert_equal 'Fizz_Buzz', names[index]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   def names
     @result['names']
   end
@@ -56,6 +76,8 @@ class ExercisesChoicesTest < TestBase
     assert_equal ["Bowling_Game", "Fizz_Buzz", "Leap_Years", "Tiny_Maze"], names
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
   def assert_contents
     expected = 'Write a program to score a game of Ten-Pin Bowling.'
     assert_line('Bowling_Game', expected)
@@ -66,6 +88,8 @@ class ExercisesChoicesTest < TestBase
     expected = 'Alice found herself very tiny and wandering around Wonderland.'
     assert_line('Tiny_Maze', expected)
   end
+
+  # - - - - - - - - - - - - - - - - - - - -
 
   def assert_line(name, expected)
     lines = contents[name].split("\n")
