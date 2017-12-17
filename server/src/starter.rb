@@ -41,26 +41,28 @@ class Starter
     cacher = Cacher.new
     dir_cache = cacher.read_dir_cache('languages')
     dir = dir_cache[display_name]
+    if dir.nil?
+      raise ArgumentError.new('display_name:invalid')
+    end
+
+    instructions = cacher.read_exercises_cache['contents'][exercise_name]
+    if instructions.nil?
+      raise ArgumentError.new('exercise_name:invalid')
+    end
+
     manifest = JSON.parse(IO.read("#{dir}/manifest.json"))
-    manifest['filename_extension'] ||= ''
+    set_visible_files(dir, manifest)
     manifest['highlight_filenames'] ||= []
+    set_lowlights_filenames(manifest)
+    manifest['filename_extension'] ||= ''
     manifest['progress_regexs'] ||= []       # [1]
     manifest['highlight_filenames'] ||= []
-    # TODO: 'lowlight_filenames'
-    # TODO: 'language'
+    manifest['language'] = display_name.split(',').map(&:strip).join('-')
     manifest['max_seconds'] ||= 10
     manifest['tab_size'] ||= 4
-    visible_filenames = manifest['visible_filenames']
-    manifest.delete('visible_filenames')
-    manifest['visible_files'] =
-      Hash[visible_filenames.collect { |filename|
-        [filename, IO.read("#{dir}/#{filename}")]
-      }]
-    manifest['visible_files']['output'] = ''
-
+    manifest['visible_files']['instructions'] = instructions
     manifest['exercise'] = exercise_name
-    content = cacher.read_exercises_cache['contents']
-    manifest['visible_files']['instructions'] = content[exercise_name]
+    manifest.delete('visible_filenames')
     manifest
   end
 
@@ -72,8 +74,39 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
+  def manifest(display_name)
+    #TODO: return the language/custom manifest for the given
+    #display_name. Take into account thre start-point renames.
+    #Will be used by storer to return a post-re-architecture
+    #manifest to simplify web.
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def method_missing(name, *_args, &_block)
     raise RuntimeError.new("#{name}:unknown_method")
+  end
+
+  private
+
+  def set_lowlights_filenames(manifest)
+    manifest['lowlight_filenames'] =
+      if manifest['highlight_filenames'].empty?
+        ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt']
+      else
+        manifest['visible_filenames'] - manifest['highlight_filenames']
+      end
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def set_visible_files(dir, manifest)
+    visible_filenames = manifest['visible_filenames']
+    manifest['visible_files'] =
+      Hash[visible_filenames.collect { |filename|
+        [filename, IO.read("#{dir}/#{filename}")]
+      }]
+    manifest['visible_files']['output'] = ''
   end
 
 end

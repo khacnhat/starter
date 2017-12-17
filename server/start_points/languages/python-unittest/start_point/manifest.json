@@ -19,5 +19,7 @@
     "OK"
   ],
 
-  "runner_choice": "stateless"
+  "runner_choice": "stateless",
+
+  "highlight_filenames": [ "test_hiker.py" ]
 }

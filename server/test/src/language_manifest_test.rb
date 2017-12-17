@@ -22,7 +22,21 @@ class LanguageManifestTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'D7B', %w( invalid current_display_name raises ) do
+  test 'D7B', %w( invalid display_name raises ) do
+    language_manifest('x,y', 'Fizz_Buzz')
+    assert_exception('display_name:invalid')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'D7C', %w( invalid exercise_name raises ) do
+    language_manifest('C#, NUnit', 'xxx')
+    assert_exception('exercise_name:invalid')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'D7D', %w( valid display_name raises ) do
     result = language_manifest('C#, NUnit', 'Fizz_Buzz')
 
     assert_equal 'stateless', result['runner_choice']
@@ -31,12 +45,21 @@ class LanguageManifestTest < TestBase
     assert_equal '.cs', result['filename_extension']
     assert result.key?('progress_regexs')
     assert_equal [], result['highlight_filenames']
-    # 'lowlight_filenames'
-    # 'name'
+    assert result.key?('lowlight_filenames')
+    assert_equal 'C#-NUnit', result['language']
     assert_equal 10, result['max_seconds']
     assert_equal 4, result['tab_size']
     assert result.key?('visible_files')
     refute result.key?('visible_filenames')
+    assert_equal 'Fizz_Buzz', result['exercise']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'D7E', %w( explicit highlight_filenames ) do
+    result = language_manifest('Python, unittest', 'Fizz_Buzz')
+    assert_equal [ 'test_hiker.py' ], result['highlight_filenames']
+    assert_equal [ "cyber-dojo.sh", "hiker.py" ], result['lowlight_filenames'].sort
   end
 
   # - - - - - - - - - - - - - - - - - - - -
