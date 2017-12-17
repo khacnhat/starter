@@ -1,8 +1,6 @@
 require 'json'
 require_relative 'cacher'
 require_relative 'cache_index_matcher'
-require_relative 'time_now'
-require_relative 'unique_id'
 
 class Starter
 
@@ -44,8 +42,6 @@ class Starter
     dir_cache = cacher.read_dir_cache('languages')
     dir = dir_cache[display_name]
     manifest = JSON.parse(IO.read("#{dir}/manifest.json"))
-    manifest['id'] = unique_id
-    manifest['created'] = time_now
     manifest['filename_extension'] ||= ''
     manifest['highlight_filenames'] ||= []
     manifest['progress_regexs'] ||= []       # [1]
@@ -79,10 +75,5 @@ class Starter
   def method_missing(name, *_args, &_block)
     raise RuntimeError.new("#{name}:unknown_method")
   end
-
-  private
-
-  include TimeNow
-  include UniqueId
 
 end

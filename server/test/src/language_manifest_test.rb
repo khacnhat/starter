@@ -25,8 +25,6 @@ class LanguageManifestTest < TestBase
   test 'D7B', %w( invalid current_display_name raises ) do
     result = language_manifest('C#, NUnit', 'Fizz_Buzz')
 
-    assert result.key?('id')
-    assert result.key?('created')
     assert_equal 'stateless', result['runner_choice']
     assert_equal 'cyberdojofoundation/csharp_nunit', result['image_name']
     assert_equal 'C#, NUnit', result['display_name']
