@@ -53,6 +53,8 @@ class LanguageManifestTest < TestBase
     assert_equal 4, result['tab_size']
     assert_equal 'Fizz_Buzz', result['exercise']
 
+    assert result.key?('id')
+    assert result.key?('created')
     assert result.key?('visible_files')
     refute result.key?('visible_filenames')
   end

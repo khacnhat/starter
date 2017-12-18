@@ -1,6 +1,8 @@
 require 'json'
 require_relative 'cacher'
 require_relative 'cache_index_matcher'
+require_relative 'time_now'
+require_relative 'unique_id'
 
 class Starter
 
@@ -34,6 +36,9 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
+  include TimeNow
+  include UniqueId
+
   def language_manifest(display_name, exercise_name)
     # [1] Issue: [] is not a valid progress_regex. It needs two regexs.
     # This affects zipper.zip_tag()
@@ -51,6 +56,10 @@ class Starter
     end
 
     manifest = JSON.parse(IO.read("#{dir}/manifest.json"))
+
+    manifest['id'] = unique_id
+    manifest['created'] = time_now
+
     set_visible_files(dir, manifest)
     manifest['highlight_filenames'] ||= []
     set_lowlights_filenames(manifest)
