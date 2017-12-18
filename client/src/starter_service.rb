@@ -10,6 +10,10 @@ class StarterService
     get([current_exercise_name], __method__)
   end
 
+  def language_manifest(display_name, exercise_name)
+    get([display_name,exercise_name], __method__)
+  end
+
   private
 
   include HttpJsonService
