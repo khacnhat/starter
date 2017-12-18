@@ -21,5 +21,5 @@ wait_till_up()
 
 docker-compose --file ${ROOT_DIR}/docker-compose.yml up -d
 
-wait_till_up 'starter_server'
-wait_till_up 'starter_client'
+wait_till_up 'test_starter_server'
+wait_till_up 'test_starter_client'
