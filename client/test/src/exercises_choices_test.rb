@@ -3,57 +3,43 @@ require_relative 'test_base'
 class ExercisesChoicesTest < TestBase
 
   def self.hex_prefix
-    'C3339'
+    '1F909'
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - -
 
-  test '625', %w( invalid exercise_name raises ) do
+  test 'AF1', %w( invalid current_exercise_name raises ) do
     [
       42,   # Integer
       [],   # Array
       {},   # Hash
       true, # Boolean
     ].each do |invalid_current_exercise_name|
-      exercises_choices(invalid_current_exercise_name)
-      assert_exception('current_exercise_name:invalid')
+      error = assert_raises(RuntimeError) {
+        exercises_choices(invalid_current_exercise_name)
+      }
+      expected = 'StarterService:exercises_choices:current_exercise_name:invalid'
+      assert_equal expected, error.message
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - -
 
-  test '626',%w( exercises_choices ) do
-    @result = exercises_choices(nil)
-    assert_names
-    assert_contents
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '627',
-  %w( when current_exercise_name is nil
-      index is random index into names ) do
-    assert_random_index(nil)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '628',
-  %w( when current_exercise_name does not match any exercise_name
-      index is random index into names
-      and minor_indexes are not 0-altered ) do
-    assert_random_index('Count_Coins')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '629',
+  test 'AF2',
   %w( when current_exercise_name matches an exercise_name
       then index is for matching exercise_name ) do
     @result = exercises_choices('Fizz_Buzz')
     assert_names
     assert_contents
     assert_equal 'Fizz_Buzz', names[index]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'AF3',
+  %w( when current_exercise_name is nil
+      index is random index into names ) do
+    assert_random_index(nil)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
