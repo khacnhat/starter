@@ -39,15 +39,20 @@ class Starter
   include TimeNow
   include UniqueId
 
-  def language_manifest(display_name, exercise_name)
-    # [1] Issue: [] is not a valid progress_regex. It needs two regexs.
+  def language_manifest(major_name, minor_name, exercise_name)
+    # [1] Issue: [] is not a valid progress_regex.
+    # It needs two regexs.
     # This affects zipper.zip_tag()
 
     cacher = Cacher.new
     dir_cache = cacher.read_dir_cache('languages')
-    dir = dir_cache[display_name]
+    major = dir_cache[major_name]
+    if major.nil?
+      raise ArgumentError.new('major_name:invalid')
+    end
+    dir = major[minor_name]
     if dir.nil?
-      raise ArgumentError.new('display_name:invalid')
+      raise ArgumentError.new('minor_name:invalid')
     end
 
     instructions = cacher.read_exercises_cache['contents'][exercise_name]
@@ -66,7 +71,7 @@ class Starter
     manifest['filename_extension'] ||= ''
     manifest['progress_regexs'] ||= []       # [1]
     manifest['highlight_filenames'] ||= []
-    manifest['language'] = display_name.split(',').map(&:strip).join('-')
+    manifest['language'] = major_name + '-' + minor_name
     manifest['max_seconds'] ||= 10
     manifest['tab_size'] ||= 4
     manifest['visible_files']['instructions'] = instructions

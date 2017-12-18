@@ -10,8 +10,8 @@ class StarterService
     get([current_exercise_name], __method__)
   end
 
-  def language_manifest(display_name, exercise_name)
-    get([display_name,exercise_name], __method__)
+  def language_manifest(major_name, minor_name, exercise_name)
+    get([major_name,minor_name,exercise_name], __method__)
   end
 
   private

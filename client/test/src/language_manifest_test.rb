@@ -9,9 +9,9 @@ class LanguageManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '266',
-  %w( valid display_name and exercise_name
+  %w( valid major_name,minor_name,exercise_name
       returns fully expanded manifest ) do
-    result = language_manifest('C#, NUnit', 'Fizz_Buzz')
+    result = language_manifest('C#', 'NUnit', 'Fizz_Buzz')
 
     assert_equal 'stateless', result['runner_choice']
     assert_equal 'cyberdojofoundation/csharp_nunit', result['image_name']

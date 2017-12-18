@@ -47,8 +47,12 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def language_manifest(display_name, exercise_name)
-    args = { display_name:display_name, exercise_name:exercise_name }
+  def language_manifest(major_name, minor_name, exercise_name)
+    args = {
+      major_name:major_name,
+      minor_name:minor_name,
+      exercise_name:exercise_name
+    }
     rack_call(__method__.to_s, args)
     @json[__method__.to_s]
   end

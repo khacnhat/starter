@@ -1,3 +1,5 @@
+require_relative 'major_name'
+require_relative 'minor_name'
 
 class Splitter
 
@@ -21,16 +23,11 @@ class Splitter
 
   attr_reader :display_names
 
+  include MajorName
+  include MinorName
+
   def split
     display_names.map { |display_name| yield display_name }.sort.uniq
-  end
-
-  def major_name(display_name)
-    display_name.split(',')[0].strip
-  end
-
-  def minor_name(display_name)
-    display_name.split(',')[1].strip
   end
 
   def make_minor_indexes(the_major_name)

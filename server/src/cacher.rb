@@ -1,5 +1,7 @@
 require 'json'
 require 'fileutils'
+require_relative 'major_name'
+require_relative 'minor_name'
 require_relative 'splitter'
 
 class Cacher
@@ -52,6 +54,9 @@ class Cacher
 
   private # = = = = = = = = = = = = = = =
 
+  include MajorName
+  include MinorName
+
   def display_names_dirs(sub_dir)
     display_names = []
     dirs = {}
@@ -60,7 +65,10 @@ class Cacher
       json = JSON.parse(IO.read(filename))
       display_name = json['display_name']
       display_names << display_name
-      dirs[display_name] = File.dirname(filename)
+      major_name = major_name(display_name)
+      minor_name = minor_name(display_name)
+      dirs[major_name] ||= {}
+      dirs[major_name][minor_name] = File.dirname(filename)
     end
     [display_names, dirs]
   end

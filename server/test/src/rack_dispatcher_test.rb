@@ -62,7 +62,7 @@ class RackDispatcherTest < TestBase
       { exception:'current_display_name:missing' }
     )
     assert_rack_call_raw('language_manifest', '{}',
-      { exception:'display_name:missing' }
+      { exception:'major_name:missing' }
     )
   end
 

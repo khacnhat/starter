@@ -11,35 +11,46 @@ class LanguageManifestTest < TestBase
   test 'D7A',
   %w( hash with invalid argument becomes exception ) do
     assert_rack_call_raw('language_manifest',
-      '{"display_name":42}',
-      { exception:'display_name:invalid' }
+      '{"major_name":42}',
+      { exception:'major_name:invalid' }
     )
     assert_rack_call_raw('language_manifest',
-      '{"display_name":"C#,NUnit","exercise_name":42}',
+      '{"major_name":"Python","minor_name":42}',
+      { exception:'minor_name:invalid' }
+    )
+    assert_rack_call_raw('language_manifest',
+      '{"major_name":"C#","minor_name":"NUnit","exercise_name":42}',
       { exception:'exercise_name:invalid' }
     )
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'D7B', %w( invalid display_name becomes exception ) do
-    language_manifest('x,y', 'Fizz_Buzz')
-    assert_exception('display_name:invalid')
+  test 'D7B', %w( invalid major_name becomes exception ) do
+    language_manifest('xxx', 'NUnit', 'Fizz_Buzz')
+    assert_exception('major_name:invalid')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'D7C', %w( invalid exercise_name becomes exception ) do
-    language_manifest('C#, NUnit', 'xxx')
+  test 'D7C', %w( invalid minor_name becomes exception ) do
+    language_manifest('C#', 'xxx', 'Fizz_Buzz')
+    assert_exception('minor_name:invalid')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'D7D', %w( invalid exercise_name becomes exception ) do
+    language_manifest('C#', 'NUnit', 'xxx')
     assert_exception('exercise_name:invalid')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'D7D',
-  %w( valid display_name and exercise_name
+  test 'D7E',
+  %w( valid major_name,minor_name,exercise_name
       returns fully expanded manifest ) do
-    result = language_manifest('C#, NUnit', 'Fizz_Buzz')
+    result = language_manifest('C#', 'NUnit', 'Fizz_Buzz')
 
     assert_equal 'stateless', result['runner_choice']
     assert_equal 'cyberdojofoundation/csharp_nunit', result['image_name']
@@ -61,8 +72,8 @@ class LanguageManifestTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'D7E', %w( start-point with explicit opional properties ) do
-    result = language_manifest('Python, unittest', 'Fizz_Buzz')
+  test 'D7F', %w( start-point with explicit opional properties ) do
+    result = language_manifest('Python', 'unittest', 'Fizz_Buzz')
     assert_equal [ 'test_hiker.py' ], result['highlight_filenames']
     assert_equal [ "cyber-dojo.sh", "hiker.py" ], result['lowlight_filenames'].sort
     assert_equal 11, result['max_seconds']
