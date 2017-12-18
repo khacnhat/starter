@@ -40,7 +40,7 @@ class Splitter
         indexes << minor_names.index(minor_name(display_name))
       end
     end
-    indexes
+    indexes.sort
   end
 
 end
