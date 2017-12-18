@@ -8,8 +8,8 @@ class TestBase < HexMiniTest
     StarterService.new
   end
 
-  def method(a, b)
-    starter.method(a, b)
+  def languages_choices(current_display_name)
+    starter.languages_choices(current_display_name)
   end
 
 end

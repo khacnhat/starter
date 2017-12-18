@@ -11,14 +11,6 @@ module HttpJsonService # mix-in
     result(json, name)
   end
 
-  def post(args, method)
-    name = method.to_s
-    json = http(name, jsoned_args(name, args)) { |uri|
-      Net::HTTP::Post.new(uri)
-    }
-    result(json, name)
-  end
-
   def http(method, args)
     uri = URI.parse("http://#{hostname}:#{port}/#{method}")
     http = Net::HTTP.new(uri.host, uri.port)
@@ -45,7 +37,7 @@ module HttpJsonService # mix-in
   end
 
   def error(name, message)
-    StandardError.new("#{self.class.name}:#{name}:#{message}")
+    RuntimeError.new("#{self.class.name}:#{name}:#{message}")
   end
 
 end

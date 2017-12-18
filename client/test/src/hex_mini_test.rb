@@ -72,12 +72,12 @@ class HexMiniTest < MiniTest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def hex_test_id
-    @_hex_test_id
-  end
+  #def hex_test_id
+  #  @_hex_test_id
+  #end
 
-  def hex_test_name
-    @_hex_test_name
-  end
+  #def hex_test_name
+  #  @_hex_test_name
+  #end
 
 end

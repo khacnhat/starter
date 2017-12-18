@@ -2,9 +2,8 @@ require_relative 'http_json_service'
 
 class StarterService
 
-  def method(a,b)
-    args = [a,b]
-    get(args, __method__)
+  def languages_choices(current_display_name)
+    get([current_display_name], __method__)
   end
 
   private
