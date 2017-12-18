@@ -16,8 +16,18 @@ class TestBase < HexMiniTest
     starter.exercises_choices(current_exercise_name)
   end
 
+  def custom_choices(current_display_name)
+    starter.custom_choices(current_display_name)
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
   def language_manifest(major_name, minor_name, exercise_name)
     starter.language_manifest(major_name, minor_name, exercise_name)
+  end
+
+  def custom_manifest(major_name, minor_name)
+    starter.custom_manifest(major_name, minor_name)
   end
 
 end

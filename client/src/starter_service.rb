@@ -10,8 +10,18 @@ class StarterService
     get([current_exercise_name], __method__)
   end
 
+  def custom_choices(current_display_name)
+    get([current_display_name], __method__)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
   def language_manifest(major_name, minor_name, exercise_name)
     get([major_name,minor_name,exercise_name], __method__)
+  end
+
+  def custom_manifest(major_name, minor_name)
+    get([major_name,minor_name], __method__)
   end
 
   private
