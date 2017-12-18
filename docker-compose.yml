@@ -26,7 +26,7 @@ services:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   starter_server:
-    user: root
+    user: nobody
     image: cyberdojo/starter
     init: true
     container_name: starter_server
