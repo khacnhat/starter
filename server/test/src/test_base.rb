@@ -57,6 +57,15 @@ class TestBase < HexMiniTest
     @json[__method__.to_s]
   end
 
+  def custom_manifest(major_name, minor_name)
+    args = {
+      major_name:major_name,
+      minor_name:minor_name
+    }
+    rack_call(__method__.to_s, args)
+    @json[__method__.to_s]
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_rack_call_raw(path_info, args, expected)

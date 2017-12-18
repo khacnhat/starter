@@ -36,54 +36,22 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
-  include TimeNow
-  include UniqueId
-
   def language_manifest(major_name, minor_name, exercise_name)
-    # [1] Issue: [] is not a valid progress_regex.
-    # It needs two regexs.
-    # This affects zipper.zip_tag()
-
     cacher = Cacher.new
-    dir_cache = cacher.read_dir_cache('languages')
-    major = dir_cache[major_name]
-    if major.nil?
-      raise ArgumentError.new('major_name:invalid')
-    end
-    dir = major[minor_name]
-    if dir.nil?
-      raise ArgumentError.new('minor_name:invalid')
-    end
-
     instructions = cacher.read_exercises_cache['contents'][exercise_name]
     if instructions.nil?
       raise ArgumentError.new('exercise_name:invalid')
     end
-
-    manifest = JSON.parse(IO.read("#{dir}/manifest.json"))
-
-    manifest['id'] = unique_id
-    manifest['created'] = time_now
-
-    set_visible_files(dir, manifest)
-    manifest['highlight_filenames'] ||= []
-    set_lowlights_filenames(manifest)
-    manifest['filename_extension'] ||= ''
-    manifest['progress_regexs'] ||= []       # [1]
-    manifest['highlight_filenames'] ||= []
-    manifest['language'] = major_name + '-' + minor_name
-    manifest['max_seconds'] ||= 10
-    manifest['tab_size'] ||= 4
+    manifest = major_minor_manifest(major_name, minor_name, 'languages')
     manifest['visible_files']['instructions'] = instructions
     manifest['exercise'] = exercise_name
-    manifest.delete('visible_filenames')
     manifest
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  def custom_manifest(display_name)
-    #TODO: returns the manifest for the web to pass to storer
+  def custom_manifest(major_name, minor_name)
+    major_minor_manifest(major_name, minor_name, 'custom')
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -102,6 +70,44 @@ class Starter
   end
 
   private
+
+  include TimeNow
+  include UniqueId
+
+  def major_minor_manifest(major_name, minor_name, dir_name)
+    # [1] Issue: [] is not a valid progress_regex.
+    # It needs two regexs.
+    # This affects zipper.zip_tag()
+    cacher = Cacher.new
+    dir_cache = cacher.read_dir_cache(dir_name)
+    major = dir_cache[major_name]
+    if major.nil?
+      raise ArgumentError.new('major_name:invalid')
+    end
+    dir = major[minor_name]
+    if dir.nil?
+      raise ArgumentError.new('minor_name:invalid')
+    end
+
+    manifest = JSON.parse(IO.read("#{dir}/manifest.json"))
+
+    manifest['id'] = unique_id
+    manifest['created'] = time_now
+
+    set_visible_files(dir, manifest)
+    manifest['highlight_filenames'] ||= []
+    set_lowlights_filenames(manifest)
+    manifest['filename_extension'] ||= ''
+    manifest['progress_regexs'] ||= []       # [1]
+    manifest['highlight_filenames'] ||= []
+    manifest['language'] = major_name + '-' + minor_name
+    manifest['max_seconds'] ||= 10
+    manifest['tab_size'] ||= 4
+    manifest.delete('visible_filenames')
+    manifest
+  end
+
+  # - - - - - - - - - - - - - - - - -
 
   def set_lowlights_filenames(manifest)
     manifest['lowlight_filenames'] =
