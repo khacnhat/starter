@@ -76,7 +76,7 @@ class Starter
 
   def manifest(display_name)
     #TODO: return the language/custom manifest for the given
-    #display_name. Take into account thre start-point renames.
+    #display_name. Take into account the start-point renames.
     #Will be used by storer to return a post-re-architecture
     #manifest to simplify web.
   end
