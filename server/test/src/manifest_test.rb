@@ -61,7 +61,9 @@ class ManifestTest < TestBase
       lowlight_filenames
     )
     required_keys.each { |name| assert result.key?(name), name }
+    # unit_test_framework is a property in old-style KATA manifests.
     refute result.key?('unit_test_framework')
+    # exercise is a property in KATA manifests.
     refute result.key?('exercise')
   end
 
