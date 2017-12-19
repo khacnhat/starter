@@ -56,7 +56,7 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
-  def manifest(display_name)
+  def manifest(old_name)
     #TODO: return the language/custom manifest for the given
     #display_name. Take into account the start-point renames.
     #Will be used by storer to return a post-re-architecture

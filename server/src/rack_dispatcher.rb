@@ -33,8 +33,8 @@ class RackDispatcher
       when /^custom_choices$/    then [current_display_name]
       when /^exercises_choices$/ then [current_exercise_name]
       when /^language_manifest$/ then [major_name,minor_name,exercise_name]
-      when /^custom_manifest$/ then [major_name,minor_name]
-      #when /^manifest$/ then [display_name]
+      when /^custom_manifest$/   then [major_name,minor_name]
+      when /^manifest$/          then [old_name]
     end
     [name, args]
   end
@@ -54,67 +54,52 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
 
   def current_display_name
-    validated_current_display_name(arg('current_display_name'))
+    validated_string_nil(__method__.to_s)
   end
 
   def current_exercise_name
-    validated_current_exercise_name(arg('current_exercise_name'))
+    validated_string_nil(__method__.to_s)
   end
 
   def major_name
-    validated_major_name(arg('major_name'))
+    validated_string(__method__.to_s)
   end
 
   def minor_name
-    validated_minor_name(arg('minor_name'))
+    validated_string(__method__.to_s)
   end
 
   def exercise_name
-    validated_exercise_name(arg('exercise_name'))
+    validated_string(__method__.to_s)
+  end
+
+  def old_name
+    validated_string(__method__.to_s)
   end
 
   # - - - - - - - - - - - - - - - -
   # validations
   # - - - - - - - - - - - - - - - -
 
-  def validated_current_display_name(arg)
+  def validated_string_nil(name)
+    arg = argument(name)
     unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise invalid('current_display_name')
+      raise invalid(name)
     end
     arg
   end
 
-  def validated_current_exercise_name(arg)
-    unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise invalid('current_exercise_name')
-    end
-    arg
-  end
-
-  def validated_major_name(arg)
+  def validated_string(name)
+    arg = argument(name)
     unless arg.is_a?(String)
-      raise invalid('major_name')
-    end
-    arg
-  end
-
-  def validated_minor_name(arg)
-    unless arg.is_a?(String)
-      raise invalid('minor_name')
-    end
-    arg
-  end
-
-  def validated_exercise_name(arg)
-    unless arg.is_a?(String)
-      raise invalid('exercise_name')
+      raise invalid(name)
     end
     arg
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def arg(name)
+  def argument(name)
     unless @json_args.key?(name)
       raise error(name, 'missing')
     end
