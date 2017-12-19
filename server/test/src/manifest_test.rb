@@ -19,13 +19,13 @@ class ManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '352', %w( old_name that maps simply to display_name ) do
-    assert_new_style_manifest('C (gcc)-assert')
+    assert_manifest('C (gcc)-assert')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '353', %w( old_name that maps via rename to display_name ) do
-    assert_new_style_manifest('C-assert')
+    assert_manifest('C-assert')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -43,10 +43,24 @@ class ManifestTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def assert_new_style_manifest(old_name)
+  def assert_manifest(old_name)
     result = manifest(old_name)
-    assert result.key?('display_name')
-    assert result.key?('image_name')
+    required_keys = %w(
+      id
+      created
+      display_name
+      image_name
+      runner_choice
+      language
+      visible_files
+      max_seconds
+      tab_size
+      filename_extension
+      progress_regexs
+      highlight_filenames
+      lowlight_filenames
+    )
+    required_keys.each { |name| assert result.key?(name), name }
     refute result.key?('unit_test_framework')
   end
 
