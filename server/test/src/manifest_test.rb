@@ -62,6 +62,7 @@ class ManifestTest < TestBase
     )
     required_keys.each { |name| assert result.key?(name), name }
     refute result.key?('unit_test_framework')
+    refute result.key?('exercise')
   end
 
 end
