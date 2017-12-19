@@ -1,6 +1,7 @@
 require 'json'
 require_relative 'cacher'
 require_relative 'cache_index_matcher'
+require_relative 'renamer'
 require_relative 'time_now'
 require_relative 'unique_id'
 
@@ -57,10 +58,11 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def manifest(old_name)
-    #TODO: return the language/custom manifest for the given
-    #display_name. Take into account the start-point renames.
-    #Will be used by storer to return a post-re-architecture
-    #manifest to simplify web.
+    parts = old_name.split('-', 2)
+    parts = Renamer.new.renamed(parts)
+    major_name = parts[0]
+    minor_name = parts[1]
+    major_minor_manifest(major_name, minor_name, 'languages')
   end
 
   # - - - - - - - - - - - - - - - - -

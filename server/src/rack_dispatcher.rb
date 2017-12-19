@@ -8,12 +8,10 @@ class RackDispatcher
   end
 
   def call(env)
+    starter = Starter.new
     request = @request.new(env)
     name, args = validated_name_args(request)
-    starter = Starter.new
-    result = starter.public_send(name, *args)
-    body = { name => result }
-    triple(body)
+    triple({ name => starter.public_send(name, *args) })
   rescue => error
     #puts "<#{error.message}>"
     #puts error.backtrace
@@ -97,16 +95,12 @@ class RackDispatcher
     arg
   end
 
-  # - - - - - - - - - - - - - - - -
-
   def argument(name)
     unless @json_args.key?(name)
       raise error(name, 'missing')
     end
     @json_args[name]
   end
-
-  # - - - - - - - - - - - - - - - -
 
   def invalid(name)
     error(name, 'invalid')
