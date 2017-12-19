@@ -30,4 +30,8 @@ class TestBase < HexMiniTest
     starter.custom_manifest(major_name, minor_name)
   end
 
+  def manifest(old_name)
+    starter.manifest(old_name)
+  end
+
 end

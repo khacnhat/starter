@@ -3,42 +3,37 @@ require_relative 'test_base'
 class ManifestTest < TestBase
 
   def self.hex_prefix
-    '434DA'
+    'C592E'
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '351',
-  %w( hash with invalid argument becomes exception ) do
-    assert_rack_call_raw('manifest',
-      '{"old_name":42}',
-      { exception:'old_name:invalid' }
-    )
+  test '7AA',
+  %w( invalid old_name becomes exception ) do
+    assert_manifest_raises(42, 'old_name')
+    assert_manifest_raises('', 'major_name')
+    assert_manifest_raises('x', 'major_name')
+    assert_manifest_raises('x-y', 'major_name')
+    assert_manifest_raises('C (gcc)-xxx', 'minor_name')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '352', %w( old_name that is not found raises ) do
-    manifest('')
-    assert_exception('major_name:invalid')
-    manifest('x')
-    assert_exception('major_name:invalid')
-    manifest('x-y')
-    assert_exception('major_name:invalid')
-    manifest('C (gcc)-xxx')
-    assert_exception('minor_name:invalid')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '353', %w( old_name that maps simply ) do
+  test '7AB', %w( old_name that maps simply ) do
     assert_manifest('C (gcc)-assert')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '354', %w( old_name that maps via rename ) do
+  test '7AC', %w( old_name that maps via rename ) do
     assert_manifest('C-assert')
+  end
+
+  private
+
+  def assert_manifest_raises(old_name, name)
+    error = assert_raises(RuntimeError) { manifest(old_name) }
+    assert_equal "StarterService:manifest:#{name}:invalid", error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - -

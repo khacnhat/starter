@@ -24,6 +24,10 @@ class StarterService
     get([major_name,minor_name], __method__)
   end
 
+  def manifest(old_name)
+    get([old_name], __method__)
+  end
+
   private
 
   include HttpJsonService
