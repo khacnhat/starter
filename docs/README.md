@@ -25,10 +25,109 @@ API:
 
 - - - -
 
-# GET
-# POST
+## GET languages_choices
+blurb...
+- parameters, eg
+```
+  {     "curent_display_name": "Python, py.test"
+  }
+```
+- returns, eg
+```
+  { "languages_choices": {
+      ...
+    }
+  }
+```
 
 - - - -
+
+## GET exercises_choices
+blurb...
+- parameters, eg
+```
+  {     "curent_exercise_name": "Fizz_Buzz"
+  }
+```
+- returns, eg
+```
+  { "exercises_choices": {
+      ...
+    }
+  }
+```
+
+- - - -
+
+## GET custom_choices
+blurb...
+- parameters, eg
+```
+  {     "curent_display_name": "Python, py.test"
+  }
+```
+- returns, eg
+```
+  { "custom_choices": {
+      ...
+    }
+  }
+```
+
+- - - -
+
+## GET  language_manifest
+blurb...
+- parameters, eg
+```
+  {  "major_name": "Python",
+     "minor_name": "py.test",
+     "exercise_name": "Fizz_Buzz"
+  }
+```
+- returns, eg
+```
+  { "language_manifest": {
+      ...
+    }
+  }
+```
+
+- - - -
+
+## GET  custom_manifest
+blurb...
+- parameters, eg
+```
+  {  "major_name": "Python",
+     "minor_name": "py.test"
+  }
+```
+- returns, eg
+```
+  { "custom_manifest": {
+      ...
+    }
+  }
+```
+
+- - - -
+
+## GET  manifest
+blurb...
+- parameters, eg
+```
+  {  "old_name": "C"
+  }
+```
+- returns, eg
+```
+  { "manifest": {
+      ...
+    }
+  }
+```
+
 - - - -
 
 # build the docker images
