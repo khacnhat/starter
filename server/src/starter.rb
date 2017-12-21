@@ -17,24 +17,22 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def languages_choices(current_display_name)
-    cache = cacher.display_names_cache('languages')
-    DisplayNameIndexMatcher.new(cache).match(current_display_name)
-    cache
+    matcher = DisplayNameIndexMatcher.new(cacher, 'languages')
+    matcher.match(current_display_name)
   end
 
   # - - - - - - - - - - - - - - - - -
 
   def exercises_choices(current_exercise_name)
-    cache = cacher.exercises_cache
-    ExerciseNameIndexMatcher.new(cache).match(current_exercise_name)
+    matcher = ExerciseNameIndexMatcher.new(cacher)
+    matcher.match(current_exercise_name)
   end
 
   # - - - - - - - - - - - - - - - - -
 
   def custom_choices(current_display_name)
-    cache = cacher.display_names_cache('custom')
-    DisplayNameIndexMatcher.new(cache).match(current_display_name)
-    cache
+    matcher = DisplayNameIndexMatcher.new(cacher, 'custom')
+    matcher.match(current_display_name)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -42,7 +40,7 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def language_manifest(major_name, minor_name, exercise_name)
-    instructions = cacher.exercises_cache[:contents][exercise_name]
+    instructions = cacher.of_exercises[:contents][exercise_name]
     if instructions.nil?
       raise ArgumentError.new('exercise_name:invalid')
     end
@@ -85,7 +83,7 @@ class Starter
     # [1] Issue: [] is not a valid progress_regex.
     # It needs two regexs.
     # This affects zipper.zip_tag()
-    dir_cache = cacher.dir_cache(dir_name)
+    dir_cache = cacher.of_dirs(dir_name)
     major = dir_cache[major_name]
     if major.nil?
       raise ArgumentError.new('major_name:invalid')

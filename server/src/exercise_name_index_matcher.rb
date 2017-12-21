@@ -2,7 +2,7 @@
 class ExerciseNameIndexMatcher
 
   def initialize(cache)
-    @cache = cache
+    @cache = cache.of_exercises
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -14,9 +14,9 @@ class ExerciseNameIndexMatcher
       index = rand(0...names.size)
     end
     {
-      names:cache[:names],
-      contents:cache[:contents],
-      index:index
+         names: cache[:names],
+      contents: cache[:contents],
+         index: index
     }
   end
 

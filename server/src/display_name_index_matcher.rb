@@ -10,7 +10,8 @@
 #   [ "C#,Moq", "C#,NUnit", "Java,JUnit", "Java,Mockito" ]
 #
 # and the current practice session's display_name is "C#, NUnit",
-# then the un-matched result of languages_choice() is:
+# then the UN-matched result of starter.languages_choices()
+# would be:
 #
 #   {
 #     "major_names"  : [ "C#", "Java" ],
@@ -18,7 +19,7 @@
 #     "minor_indexes": [ [2,3], [1,0] ]
 #   }
 #
-# CacheIndexMatcher.match_display_name() will alter this to:
+# match() will alter this to:
 #
 #   {
 #     "major_names"  : [ "C#", "Java" ],
@@ -31,45 +32,56 @@
 #   major_name("C#,NUnit") == "C#"
 #   minor_name("C#,NUnit") == "NUnit"
 #
-#   o) It will add a 'major_index' entry such that
+#   o) It adds a 'major_index' entry such that
 #      major_names[major_index] == "C#"
-#      If there is no matching major_name
+#      or, if there is no matching major_name,
 #      (eg the current display_name is "Python, NUnit")
 #      it will set it to a random index into major_names
 #
-#   o) It will ensure that
+#   o) It ensures that
 #      minor_names[minor_indexes[major_index][0]] == "NUnit"
-#      If there is no matching minor_name
+#      or, if there is no matching minor_name,
 #      (eg the current display_name is "C#, py.test")
 #      it will leave minor_indexes unchanged.
 
 class DisplayNameIndexMatcher
 
-  def initialize(cache)
-    @cache = cache
+  def initialize(cache, name)
+    @cache = cache.of_display_names(name)
   end
 
   def match(current_display_name)
     current_display_name ||= ' , '
-    cache[:major_index] = major_index(current_display_name)
+    result = {
+        major_names: major_names,
+        minor_names: minor_names,
+        major_index: major_index(current_display_name),
+      minor_indexes: deep_clone(minor_indexes)
+    }
 
     major_index = major_names.index(major_name(current_display_name))
     if major_index.nil?
-      return
+      return result
     end
     minor_index = minor_names.index(minor_name(current_display_name))
     if minor_index.nil?
-      return
+      return result
     end
 
-    indexes = minor_indexes[major_index]
-    indexes.delete(minor_index)
-    indexes.unshift(minor_index)
+    matched = result[:minor_indexes][major_index]
+    matched.delete(minor_index)
+    matched.unshift(minor_index)
+
+    result
   end
 
   private # = = = = = = = = = = = = = = = =
 
   attr_reader :cache
+
+  def deep_clone(o)
+    Marshal.load(Marshal.dump(o))
+  end
 
   def major_names
     cache[:major_names]
@@ -86,11 +98,7 @@ class DisplayNameIndexMatcher
   def major_index(current_display_name)
     current_major_name = major_name(current_display_name)
     index = major_names.index(current_major_name)
-    if index.nil?
-      rand(0...major_names.size)
-    else
-      index
-    end
+    index ? index : rand(0...major_names.size)
   end
 
   def major_name(display_name)

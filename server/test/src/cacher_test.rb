@@ -9,8 +9,7 @@ class CacherTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '446', %w( languages cache ) do
-    cacher = Cacher.new
-    cache = cacher.display_names_cache(:languages)
+    cache = Cacher.new.of_display_names(:languages)
     assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], cache[:major_names]
     assert_equal [ 'NUnit', 'assert', 'py.test', 'unittest' ], cache[:minor_names]
     assert_equal [
@@ -33,8 +32,7 @@ class CacherTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '447', %w( custom cache ) do
-    cacher = Cacher.new
-    cache = cacher.display_names_cache('custom')
+    cache = Cacher.new.of_display_names('custom')
 
     assert_equal [ 'Yahtzee refactoring' ], cache[:major_names]
 
@@ -48,8 +46,7 @@ class CacherTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '448', %w( exercises cache ) do
-    cacher = Cacher.new
-    cache = cacher.exercises_cache
+    cache = Cacher.new.of_exercises
 
     names = cache[:names]
     assert_equal [ 'Bowling_Game', 'Fizz_Buzz', 'Leap_Years', 'Tiny_Maze' ], names
