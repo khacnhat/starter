@@ -15,19 +15,17 @@ class Cacher
   # - - - - - - - - - - - - - - - - - - - -
 
   def display_names_cache(name)
-    cache[cache_filename(name)].clone
+    deep_clone(cache[cache_filename(name)])
+  end
+
+  def exercises_cache
+    deep_clone(cache[cache_filename('exercises')])
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   def dir_cache(name)
-    cache[dir_cache_filename(name)].clone
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def exercises_cache
-    cache[cache_filename('exercises')].clone
+    cache[dir_cache_filename(name)]
   end
 
   private # = = = = = = = = = = = = = = =
@@ -36,6 +34,12 @@ class Cacher
 
   include MajorName
   include MinorName
+
+  def deep_clone(o)
+    Marshal.load(Marshal.dump(o))
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
 
   def cache_display_names(name)
     display_names,dirs = display_names_and_dirs(name)
