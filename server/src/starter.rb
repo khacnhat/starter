@@ -7,9 +7,12 @@ require_relative 'unique_id'
 
 class Starter
 
+  def initialize
+    @cacher = Cacher.new
+  end
+
   def languages_choices(current_display_name)
-    cacher = Cacher.new
-    cache = cacher.read_display_names_cache('languages')
+    cache = cacher.display_names_cache('languages')
     matcher = CacheIndexMatcher.new(cache)
     matcher.match_display_name(current_display_name)
     cache
@@ -18,8 +21,7 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def exercises_choices(current_exercise_name)
-    cacher = Cacher.new
-    cache = cacher.read_exercises_cache
+    cache = cacher.exercises_cache
     matcher = CacheIndexMatcher.new(cache)
     matcher.match_exercise_name(current_exercise_name)
     cache
@@ -28,8 +30,7 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def custom_choices(current_display_name)
-    cacher = Cacher.new
-    cache = cacher.read_display_names_cache('custom')
+    cache = cacher.display_names_cache('custom')
     matcher = CacheIndexMatcher.new(cache)
     matcher.match_display_name(current_display_name)
     cache
@@ -38,8 +39,7 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def language_manifest(major_name, minor_name, exercise_name)
-    cacher = Cacher.new
-    instructions = cacher.read_exercises_cache['contents'][exercise_name]
+    instructions = cacher.exercises_cache[:contents][exercise_name]
     if instructions.nil?
       raise ArgumentError.new('exercise_name:invalid')
     end
@@ -73,6 +73,8 @@ class Starter
 
   private
 
+  attr_reader :cacher
+
   include TimeNow
   include UniqueId
 
@@ -80,8 +82,7 @@ class Starter
     # [1] Issue: [] is not a valid progress_regex.
     # It needs two regexs.
     # This affects zipper.zip_tag()
-    cacher = Cacher.new
-    dir_cache = cacher.read_dir_cache(dir_name)
+    dir_cache = cacher.dir_cache(dir_name)
     major = dir_cache[major_name]
     if major.nil?
       raise ArgumentError.new('major_name:invalid')

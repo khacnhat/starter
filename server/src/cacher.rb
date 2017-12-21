@@ -1,5 +1,4 @@
 require 'json'
-require 'fileutils'
 require_relative 'major_name'
 require_relative 'minor_name'
 require_relative 'splitter'
@@ -7,52 +6,51 @@ require_relative 'splitter'
 class Cacher
 
   def initialize
-    FileUtils.mkdir_p(cache_dir)
+    @cache = {}
+    write_display_names_caches('languages')
+    write_display_names_caches('custom')
+    write_exercises_cache
   end
 
   # - - - - - - - - - - - - - - - - - - - -
+
+  def display_names_cache(name)
+    cache[cache_filename(name)].clone
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def dir_cache(name)
+    cache[dir_cache_filename(name)].clone
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def exercises_cache
+    cache[cache_filename('exercises')].clone
+  end
+
+  private # = = = = = = = = = = = = = = =
 
   def write_display_names_caches(name)
     display_names,dirs = display_names_dirs(name)
     splitter = Splitter.new(display_names)
-    cache = JSON.unparse({
+    cache[cache_filename(name)] =
+    {
       major_names:splitter.major_names,
       minor_names:splitter.minor_names,
       minor_indexes:splitter.minor_indexes
-    })
-    IO.write(cache_filename(name), cache)
-    IO.write(dir_cache_filename(name), JSON.unparse(dirs))
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def read_display_names_cache(name)
-    cache = IO.read(cache_filename(name))
-    JSON.parse(cache)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def read_dir_cache(name)
-    cache = IO.read(dir_cache_filename(name))
-    JSON.parse(cache)
+    }
+    cache[dir_cache_filename(name)] = dirs
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   def write_exercises_cache
-    cache = JSON.unparse(exercises)
-    IO.write(cache_filename('exercises'), cache)
+    cache[cache_filename('exercises')] = exercises
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def read_exercises_cache
-    cache = IO.read(cache_filename('exercises'))
-    JSON.parse(cache)
-  end
-
-  private # = = = = = = = = = = = = = = =
+  attr_reader :cache
 
   include MajorName
   include MinorName
@@ -98,15 +96,11 @@ class Cacher
   # - - - - - - - - - - - - - - - - - - - -
 
   def dir_cache_filename(name)
-    "#{cache_dir}/#{name}_dir_cache.json"
+    "#{name}_dir_cache.json"
   end
 
   def cache_filename(name)
-    "#{cache_dir}/#{name}_cache.json"
-  end
-
-  def cache_dir
-    '/tmp/starter'
+    "#{name}_cache.json"
   end
 
 end

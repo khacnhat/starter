@@ -51,7 +51,7 @@ class CacheIndexMatcher
 
   def match_display_name(current_display_name)
     current_display_name ||= ' , '
-    cache['major_index'] = major_index(current_display_name)
+    cache[:major_index] = major_index(current_display_name)
 
     major_index = major_names.index(major_name(current_display_name))
     if major_index.nil?
@@ -71,12 +71,12 @@ class CacheIndexMatcher
   # - - - - - - - - - - - - - - - - - - -
 
   def match_exercise_name(current_exercise_name)
-    names = cache['names']
+    names = cache[:names]
     index = names.index(current_exercise_name)
     if index.nil?
       index = rand(0...names.size)
     end
-    cache['index'] = index
+    cache[:index] = index
   end
 
   private # = = = = = = = = = = = = = = = =
@@ -84,15 +84,15 @@ class CacheIndexMatcher
   attr_reader :cache
 
   def major_names
-    cache['major_names']
+    cache[:major_names]
   end
 
   def minor_names
-    cache['minor_names']
+    cache[:minor_names]
   end
 
   def minor_indexes
-    cache['minor_indexes']
+    cache[:minor_indexes]
   end
 
   def major_index(current_display_name)

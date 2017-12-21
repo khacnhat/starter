@@ -3,15 +3,15 @@ require 'json'
 
 class RackDispatcher
 
-  def initialize(request = Rack::Request)
+  def initialize(request)
     @request = request
+    @starter = Starter.new
   end
 
   def call(env)
-    starter = Starter.new
     request = @request.new(env)
     name, args = validated_name_args(request)
-    triple({ name => starter.public_send(name, *args) })
+    triple({ name => @starter.public_send(name, *args) })
   rescue => error
     #puts "<#{error.message}>"
     #puts error.backtrace

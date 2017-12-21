@@ -10,10 +10,9 @@ class CacherTest < TestBase
 
   test '446', %w( languages cache ) do
     cacher = Cacher.new
-    cacher.write_display_names_caches('languages')
-    cache = cacher.read_display_names_cache('languages')
-    assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], cache['major_names']
-    assert_equal [ 'NUnit', 'assert', 'py.test', 'unittest' ], cache['minor_names']
+    cache = cacher.display_names_cache(:languages)
+    assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], cache[:major_names]
+    assert_equal [ 'NUnit', 'assert', 'py.test', 'unittest' ], cache[:minor_names]
     assert_equal [
       [ # 'C (gcc)'
         1, # assert
@@ -28,36 +27,34 @@ class CacherTest < TestBase
         2, # py.pytest
         3, # unittest
       ]
-    ], cache['minor_indexes']
+    ], cache[:minor_indexes]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '447', %w( custom cache ) do
     cacher = Cacher.new
-    cacher.write_display_names_caches('custom')
-    cache = cacher.read_display_names_cache('custom')
+    cache = cacher.display_names_cache('custom')
 
-    assert_equal [ 'Yahtzee refactoring' ], cache['major_names']
+    assert_equal [ 'Yahtzee refactoring' ], cache[:major_names]
 
     expected = [ 'C# NUnit', 'C++ (g++) assert', 'Java JUnit', 'Python unitttest' ]
-    assert_equal expected, cache['minor_names']
+    assert_equal expected, cache[:minor_names]
 
     expected = [ [0,1,2,3] ]
-    assert_equal expected, cache['minor_indexes']
+    assert_equal expected, cache[:minor_indexes]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '448', %w( exercises cache ) do
     cacher = Cacher.new
-    cacher.write_exercises_cache
-    cache = cacher.read_exercises_cache
+    cache = cacher.exercises_cache
 
-    names = cache['names']
+    names = cache[:names]
     assert_equal [ 'Bowling_Game', 'Fizz_Buzz', 'Leap_Years', 'Tiny_Maze' ], names
 
-    hash = cache['contents']
+    hash = cache[:contents]
     assert_equal names, hash.keys.sort
 
     text = 'Write a program to score a game of Ten-Pin Bowling.'
