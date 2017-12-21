@@ -1,6 +1,7 @@
 require 'json'
 require_relative 'cacher'
 require_relative 'cache_index_matcher'
+require_relative 'exercise_name_index_matcher'
 require_relative 'renamer'
 require_relative 'time_now'
 require_relative 'unique_id'
@@ -22,8 +23,7 @@ class Starter
 
   def exercises_choices(current_exercise_name)
     cache = cacher.exercises_cache
-    matcher = CacheIndexMatcher.new(cache)
-    matcher.match_exercise_name(current_exercise_name)
+    ExerciseNameIndexMatcher.new(cache).match(current_exercise_name)
     cache
   end
 

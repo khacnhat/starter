@@ -68,17 +68,6 @@ class CacheIndexMatcher
     indexes.unshift(minor_index)
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
-  def match_exercise_name(current_exercise_name)
-    names = cache[:names]
-    index = names.index(current_exercise_name)
-    if index.nil?
-      index = rand(0...names.size)
-    end
-    cache[:index] = index
-  end
-
   private # = = = = = = = = = = = = = = = =
 
   attr_reader :cache
