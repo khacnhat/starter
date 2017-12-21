@@ -13,7 +13,11 @@ class ExerciseNameIndexMatcher
     if index.nil?
       index = rand(0...names.size)
     end
-    cache[:index] = index
+    {
+      names:cache[:names],
+      contents:cache[:contents],
+      index:index
+    }
   end
 
   private # = = = = = = = = = = = = = = = =

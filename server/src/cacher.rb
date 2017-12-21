@@ -19,7 +19,7 @@ class Cacher
   end
 
   def exercises_cache
-    deep_clone(cache[cache_filename('exercises')])
+    cache[cache_filename('exercises')]
   end
 
   # - - - - - - - - - - - - - - - - - - - -

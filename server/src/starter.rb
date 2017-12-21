@@ -27,7 +27,6 @@ class Starter
   def exercises_choices(current_exercise_name)
     cache = cacher.exercises_cache
     ExerciseNameIndexMatcher.new(cache).match(current_exercise_name)
-    cache
   end
 
   # - - - - - - - - - - - - - - - - -
