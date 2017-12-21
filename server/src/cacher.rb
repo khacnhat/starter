@@ -7,9 +7,9 @@ class Cacher
 
   def initialize
     @cache = {}
-    write_display_names_caches('languages')
-    write_display_names_caches('custom')
-    write_exercises_cache
+    cache_display_names('languages')
+    cache_display_names('custom')
+    cache_exercises
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -32,8 +32,13 @@ class Cacher
 
   private # = = = = = = = = = = = = = = =
 
-  def write_display_names_caches(name)
-    display_names,dirs = display_names_dirs(name)
+  attr_reader :cache
+
+  include MajorName
+  include MinorName
+
+  def cache_display_names(name)
+    display_names,dirs = display_names_and_dirs(name)
     splitter = Splitter.new(display_names)
     cache[cache_filename(name)] =
     {
@@ -46,16 +51,13 @@ class Cacher
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def write_exercises_cache
+  def cache_exercises
     cache[cache_filename('exercises')] = exercises
   end
 
-  attr_reader :cache
+  # - - - - - - - - - - - - - - - - - - - -
 
-  include MajorName
-  include MinorName
-
-  def display_names_dirs(sub_dir)
+  def display_names_and_dirs(sub_dir)
     display_names = []
     dirs = {}
     pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
@@ -79,17 +81,17 @@ class Cacher
 
   def exercises
     names = []
-    hash =  {}
+    contents =  {}
     pattern = "#{start_points_dir}/exercises/**/instructions"
     Dir.glob(pattern).each do |filename|
       # eg /app/start_points/exercises/Bowling_Game/instructions
       name = filename.split('/')[-2] # eg Bowling_Game
       names << name
-      hash[name] = IO.read(filename)
+      contents[name] = IO.read(filename)
     end
     {
       names:names.sort,
-      contents:hash
+      contents:contents
     }
   end
 
