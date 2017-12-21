@@ -87,9 +87,10 @@ class DisplayNameIndexMatcher
     current_major_name = major_name(current_display_name)
     index = major_names.index(current_major_name)
     if index.nil?
-      return rand(0...major_names.size)
+      rand(0...major_names.size)
+    else
+      index
     end
-    index
   end
 
   def major_name(display_name)

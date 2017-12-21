@@ -12,6 +12,10 @@ class Starter
     @cacher = Cacher.new
   end
 
+  # - - - - - - - - - - - - - - - - -
+  # choices when setting up a cyber-dojo
+  # - - - - - - - - - - - - - - - - -
+
   def languages_choices(current_display_name)
     cache = cacher.display_names_cache('languages')
     DisplayNameIndexMatcher.new(cache).match(current_display_name)
@@ -34,6 +38,8 @@ class Starter
     cache
   end
 
+  # - - - - - - - - - - - - - - - - -
+  # manifests for given choices
   # - - - - - - - - - - - - - - - - -
 
   def language_manifest(major_name, minor_name, exercise_name)
@@ -69,7 +75,7 @@ class Starter
     raise RuntimeError.new("#{name}:unknown_method")
   end
 
-  private
+  private # = = = = = = = = = = = = =
 
   attr_reader :cacher
 
