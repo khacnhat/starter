@@ -1,6 +1,6 @@
 require 'json'
 require_relative 'cacher'
-require_relative 'cache_index_matcher'
+require_relative 'display_name_index_matcher'
 require_relative 'exercise_name_index_matcher'
 require_relative 'renamer'
 require_relative 'time_now'
@@ -14,8 +14,7 @@ class Starter
 
   def languages_choices(current_display_name)
     cache = cacher.display_names_cache('languages')
-    matcher = CacheIndexMatcher.new(cache)
-    matcher.match_display_name(current_display_name)
+    DisplayNameIndexMatcher.new(cache).match(current_display_name)
     cache
   end
 
@@ -31,8 +30,7 @@ class Starter
 
   def custom_choices(current_display_name)
     cache = cacher.display_names_cache('custom')
-    matcher = CacheIndexMatcher.new(cache)
-    matcher.match_display_name(current_display_name)
+    DisplayNameIndexMatcher.new(cache).match(current_display_name)
     cache
   end
 

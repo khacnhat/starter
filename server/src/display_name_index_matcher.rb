@@ -43,13 +43,13 @@
 #      (eg the current display_name is "C#, py.test")
 #      it will leave minor_indexes unchanged.
 
-class CacheIndexMatcher
+class DisplayNameIndexMatcher
 
   def initialize(cache)
     @cache = cache
   end
 
-  def match_display_name(current_display_name)
+  def match(current_display_name)
     current_display_name ||= ' , '
     cache[:major_index] = major_index(current_display_name)
 
@@ -57,7 +57,6 @@ class CacheIndexMatcher
     if major_index.nil?
       return
     end
-
     minor_index = minor_names.index(minor_name(current_display_name))
     if minor_index.nil?
       return
