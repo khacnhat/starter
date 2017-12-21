@@ -3,7 +3,7 @@ require_relative 'major_name'
 require_relative 'minor_name'
 require_relative 'splitter'
 
-class Cacher
+class Cache
 
   def initialize
     @cache = {}

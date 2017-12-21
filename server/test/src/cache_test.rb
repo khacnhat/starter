@@ -1,6 +1,6 @@
 require_relative 'test_base'
 
-class CacherTest < TestBase
+class CacheTest < TestBase
 
   def self.hex_prefix
     '3836C'
@@ -9,7 +9,7 @@ class CacherTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '446', %w( languages cache ) do
-    cache = Cacher.new.of_display_names(:languages)
+    cache = Cache.new.of_display_names(:languages)
     assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], cache[:major_names]
     assert_equal [ 'NUnit', 'assert', 'py.test', 'unittest' ], cache[:minor_names]
     assert_equal [
@@ -32,7 +32,7 @@ class CacherTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '447', %w( custom cache ) do
-    cache = Cacher.new.of_display_names('custom')
+    cache = Cache.new.of_display_names('custom')
 
     assert_equal [ 'Yahtzee refactoring' ], cache[:major_names]
 
@@ -46,7 +46,7 @@ class CacherTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '448', %w( exercises cache ) do
-    cache = Cacher.new.of_exercises
+    cache = Cache.new.of_exercises
 
     names = cache[:names]
     assert_equal [ 'Bowling_Game', 'Fizz_Buzz', 'Leap_Years', 'Tiny_Maze' ], names

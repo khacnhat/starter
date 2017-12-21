@@ -1,5 +1,5 @@
 require 'json'
-require_relative 'cacher'
+require_relative 'cache'
 require_relative 'display_name_index_matcher'
 require_relative 'exercise_name_index_matcher'
 require_relative 'renamer'
@@ -9,7 +9,7 @@ require_relative 'unique_id'
 class Starter
 
   def initialize
-    @cacher = Cacher.new
+    @cache = Cache.new
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -17,21 +17,21 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def languages_choices(current_display_name)
-    matcher = DisplayNameIndexMatcher.new(cacher, 'languages')
+    matcher = DisplayNameIndexMatcher.new(cache, 'languages')
     matcher.match(current_display_name)
   end
 
   # - - - - - - - - - - - - - - - - -
 
   def exercises_choices(current_exercise_name)
-    matcher = ExerciseNameIndexMatcher.new(cacher)
+    matcher = ExerciseNameIndexMatcher.new(cache)
     matcher.match(current_exercise_name)
   end
 
   # - - - - - - - - - - - - - - - - -
 
   def custom_choices(current_display_name)
-    matcher = DisplayNameIndexMatcher.new(cacher, 'custom')
+    matcher = DisplayNameIndexMatcher.new(cache, 'custom')
     matcher.match(current_display_name)
   end
 
@@ -40,7 +40,7 @@ class Starter
   # - - - - - - - - - - - - - - - - -
 
   def language_manifest(major_name, minor_name, exercise_name)
-    instructions = cacher.of_exercises[:contents][exercise_name]
+    instructions = cache.of_exercises[:contents][exercise_name]
     if instructions.nil?
       raise ArgumentError.new('exercise_name:invalid')
     end
@@ -74,7 +74,7 @@ class Starter
 
   private # = = = = = = = = = = = = =
 
-  attr_reader :cacher
+  attr_reader :cache
 
   include TimeNow
   include UniqueId
@@ -83,7 +83,7 @@ class Starter
     # [1] Issue: [] is not a valid progress_regex.
     # It needs two regexs.
     # This affects zipper.zip_tag()
-    dir_cache = cacher.of_dirs(dir_name)
+    dir_cache = cache.of_dirs(dir_name)
     major = dir_cache[major_name]
     if major.nil?
       raise ArgumentError.new('major_name:invalid')
