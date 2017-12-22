@@ -95,7 +95,6 @@ class Starter
     manifest['filename_extension'] ||= ''
     manifest['progress_regexs'] ||= []       # [1]
     manifest['highlight_filenames'] ||= []
-    manifest['language'] = major_name + '-' + minor_name
     manifest['max_seconds'] ||= 10
     manifest['tab_size'] ||= 4
     manifest.delete('visible_filenames')

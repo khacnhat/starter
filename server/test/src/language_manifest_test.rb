@@ -59,7 +59,6 @@ class LanguageManifestTest < TestBase
     assert_equal [], result['progress_regexs']
     assert_equal [], result['highlight_filenames']
     assert_equal default_lowlight_filenames, result['lowlight_filenames']
-    assert_equal 'C#-NUnit', result['language']
     assert_equal 10, result['max_seconds']
     assert_equal 4, result['tab_size']
     assert_equal 'Fizz_Buzz', result['exercise']

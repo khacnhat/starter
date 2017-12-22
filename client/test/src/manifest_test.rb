@@ -46,7 +46,6 @@ class ManifestTest < TestBase
       display_name
       image_name
       runner_choice
-      language
       visible_files
       max_seconds
       tab_size
