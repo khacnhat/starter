@@ -8,82 +8,19 @@ class CustomChoicesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '1B4', %w( invalid current_display_name raises ) do
-    [
-      42,   # Integer
-      [],   # Array
-      {},   # Hash
-      true, # Boolean
-    ].each do |invalid_current_display_name|
-      custom_choices(invalid_current_display_name)
-      assert_exception('current_display_name:invalid')
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
   test '1B5',
   %w( major-names,minor-names are unique and sorted,
       minor-indexes can reconstitute the display_names ) do
-    @result = custom_choices(nil)
+    @result = custom_choices
     assert_major_names
     assert_minor_names
     assert_minor_indexes
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '1B6',
-  %w( when current_display_name is nil
-      major_index is random index into major_names
-      and minor_indexes are not 0-altered ) do
-    assert_random_major_index(nil)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '0F2',
-  %w( when current_display_name's major_name does not match any major_name
-      major_index is random index into major_names
-      and minor_indexes are not 0-altered ) do
-    assert_random_major_index('C++ Countdown, Java JUnit')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '0F3',
-  %w( when current_display_name's major_name matches a major_name
-      but current_display_name's minor_name does not match a minor_name
-      then major_index is for matching major_name
-      and minor_indexes are not 0-altered ) do
-    @result = custom_choices('Yahtzee refactoring, C# Moq')
-    assert_major_names
-    assert_minor_names
-    assert_minor_indexes
-    assert_equal 'Yahtzee refactoring', major_names[major_index]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '0F5',
-  %w( when current_display_name matches a major_name and a minor_name
-      then major_index is matching for major_name
-      and its minor_index at position zero is matching for the minor_name ) do
-    @result = custom_choices('Yahtzee refactoring, Java JUnit')
-    assert_major_names
-    assert_minor_names
-    assert_equal 'Yahtzee refactoring', major_names[major_index]
-    assert_equal 'Java JUnit', minor_names[minor_indexes[major_index][0]]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   def major_names
     @result['major_names']
-  end
-
-  def major_index
-    @result['major_index']
   end
 
   def minor_names
@@ -111,24 +48,6 @@ class CustomChoicesTest < TestBase
       ]
     ]
     assert_equal expected_minor_indexes, minor_indexes
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def assert_random_major_index(current_display_name)
-    counts = []
-    (1..42).each do
-      @result = custom_choices(current_display_name)
-      assert_major_names
-      assert_minor_names
-      assert_minor_indexes
-      counts[major_index] ||= 0
-      counts[major_index] += 1
-    end
-    assert_equal major_names.size, counts.size
-    (0...counts.size).each do |i|
-      assert counts[i] > 0, "#{i}:#{counts[i]}"
-    end
   end
 
 end

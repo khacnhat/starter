@@ -2,16 +2,16 @@ require_relative 'http_json_service'
 
 class StarterService
 
-  def languages_choices(current_display_name)
-    get([current_display_name], __method__)
+  def languages_choices
+    get([], __method__)
   end
 
   def exercises_choices
     get([], __method__)
   end
 
-  def custom_choices(current_display_name)
-    get([current_display_name], __method__)
+  def custom_choices
+    get([], __method__)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -

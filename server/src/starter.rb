@@ -1,6 +1,5 @@
 require 'json'
 require_relative 'cache'
-require_relative 'display_name_index_matcher'
 require_relative 'renamer'
 require_relative 'time_now'
 require_relative 'unique_id'
@@ -15,22 +14,16 @@ class Starter
   # choices when setting up a cyber-dojo
   # - - - - - - - - - - - - - - - - -
 
-  def languages_choices(current_display_name)
-    matcher = DisplayNameIndexMatcher.new(cache, 'languages')
-    matcher.match(current_display_name)
+  def custom_choices
+    cache.of_display_names('custom')
   end
 
-  # - - - - - - - - - - - - - - - - -
+  def languages_choices
+    cache.of_display_names('languages')
+  end
 
   def exercises_choices
     cache.of_exercises
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def custom_choices(current_display_name)
-    matcher = DisplayNameIndexMatcher.new(cache, 'custom')
-    matcher.match(current_display_name)
   end
 
   # - - - - - - - - - - - - - - - - -

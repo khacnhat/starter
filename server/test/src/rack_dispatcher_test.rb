@@ -52,12 +52,6 @@ class RackDispatcherTest < TestBase
 
   test 'BB3',
   %w( hash without key for parameter-name becomes excecption ) do
-    assert_rack_call_raw('languages_choices', '{}',
-      { exception:'current_display_name:missing' }
-    )
-    assert_rack_call_raw('custom_choices', '{}',
-      { exception:'current_display_name:missing' }
-    )
     assert_rack_call_raw('language_manifest', '{}',
       { exception:'major_name:missing' }
     )

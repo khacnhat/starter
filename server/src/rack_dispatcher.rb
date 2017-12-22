@@ -27,8 +27,8 @@ class RackDispatcher
       raise 'json:!Hash'
     end
     args = case name
-      when /^languages_choices$/ then [current_display_name]
-      when /^custom_choices$/    then [current_display_name]
+      when /^languages_choices$/ then []
+      when /^custom_choices$/    then []
       when /^exercises_choices$/ then []
       when /^language_manifest$/ then [major_name,minor_name,exercise_name]
       when /^custom_manifest$/   then [major_name,minor_name]
@@ -51,10 +51,6 @@ class RackDispatcher
   # method arguments
   # - - - - - - - - - - - - - - - -
 
-  def current_display_name
-    validated_string_nil(__method__.to_s)
-  end
-
   def major_name
     validated_string(__method__.to_s)
   end
@@ -74,14 +70,6 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
   # validations
   # - - - - - - - - - - - - - - - -
-
-  def validated_string_nil(name)
-    arg = argument(name)
-    unless arg.is_a?(String) || arg.is_a?(NilClass)
-      raise invalid(name)
-    end
-    arg
-  end
 
   def validated_string(name)
     arg = argument(name)

@@ -8,16 +8,16 @@ class TestBase < HexMiniTest
     StarterService.new
   end
 
-  def languages_choices(current_display_name)
-    starter.languages_choices(current_display_name)
+  def custom_choices
+    starter.custom_choices
+  end
+
+  def languages_choices
+    starter.languages_choices
   end
 
   def exercises_choices
     starter.exercises_choices
-  end
-
-  def custom_choices(current_display_name)
-    starter.custom_choices(current_display_name)
   end
 
   # - - - - - - - - - - - - - - - - - -

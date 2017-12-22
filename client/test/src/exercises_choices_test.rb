@@ -9,7 +9,7 @@ class ExercisesChoicesTest < TestBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF2',
-  %w( check cache ) do
+  %w( exercises choices ) do
     @result = exercises_choices
     assert_names
     assert_contents

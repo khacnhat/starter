@@ -26,21 +26,19 @@ class TestBase < HexMiniTest
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  def languages_choices(current_display_name)
-    args = { current_display_name:current_display_name }
-    rack_call(__method__.to_s, args)
+
+  def custom_choices
+    rack_call(__method__.to_s, {})
     @json[__method__.to_s]
   end
 
-  def custom_choices(current_display_name)
-    args = { current_display_name:current_display_name }
-    rack_call(__method__.to_s, args)
+  def languages_choices
+    rack_call(__method__.to_s, {})
     @json[__method__.to_s]
   end
 
   def exercises_choices
-    args = {}
-    rack_call(__method__.to_s, args)
+    rack_call(__method__.to_s, {})
     @json[__method__.to_s]
   end
 
