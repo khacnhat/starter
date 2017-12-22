@@ -1,7 +1,6 @@
 require 'json'
 require_relative 'cache'
 require_relative 'display_name_index_matcher'
-require_relative 'exercise_name_index_matcher'
 require_relative 'renamer'
 require_relative 'time_now'
 require_relative 'unique_id'
@@ -23,9 +22,8 @@ class Starter
 
   # - - - - - - - - - - - - - - - - -
 
-  def exercises_choices(current_exercise_name)
-    matcher = ExerciseNameIndexMatcher.new(cache)
-    matcher.match(current_exercise_name)
+  def exercises_choices
+    cache.of_exercises
   end
 
   # - - - - - - - - - - - - - - - - -

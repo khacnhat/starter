@@ -29,7 +29,7 @@ class RackDispatcher
     args = case name
       when /^languages_choices$/ then [current_display_name]
       when /^custom_choices$/    then [current_display_name]
-      when /^exercises_choices$/ then [current_exercise_name]
+      when /^exercises_choices$/ then []
       when /^language_manifest$/ then [major_name,minor_name,exercise_name]
       when /^custom_manifest$/   then [major_name,minor_name]
       when /^manifest$/          then [old_name]
@@ -52,10 +52,6 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
 
   def current_display_name
-    validated_string_nil(__method__.to_s)
-  end
-
-  def current_exercise_name
     validated_string_nil(__method__.to_s)
   end
 

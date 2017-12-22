@@ -55,9 +55,6 @@ class RackDispatcherTest < TestBase
     assert_rack_call_raw('languages_choices', '{}',
       { exception:'current_display_name:missing' }
     )
-    assert_rack_call_raw('exercises_choices', '{}',
-      { exception:'current_exercise_name:missing' }
-    )
     assert_rack_call_raw('custom_choices', '{}',
       { exception:'current_display_name:missing' }
     )

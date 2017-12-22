@@ -12,8 +12,8 @@ class TestBase < HexMiniTest
     starter.languages_choices(current_display_name)
   end
 
-  def exercises_choices(current_exercise_name)
-    starter.exercises_choices(current_exercise_name)
+  def exercises_choices
+    starter.exercises_choices
   end
 
   def custom_choices(current_display_name)

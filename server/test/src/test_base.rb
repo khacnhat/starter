@@ -9,7 +9,7 @@ class TestBase < HexMiniTest
     @rack ||= RackDispatcher.new(RackRequestStub)
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def rack_call(method_name, args = {})
     env = { body:args.to_json, path_info:method_name }
@@ -25,8 +25,7 @@ class TestBase < HexMiniTest
     JSON.pretty_generate(o)
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   def languages_choices(current_display_name)
     args = { current_display_name:current_display_name }
     rack_call(__method__.to_s, args)
@@ -39,13 +38,13 @@ class TestBase < HexMiniTest
     @json[__method__.to_s]
   end
 
-  def exercises_choices(current_exercise_name)
-    args = { current_exercise_name:current_exercise_name }
+  def exercises_choices
+    args = {}
     rack_call(__method__.to_s, args)
     @json[__method__.to_s]
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def language_manifest(major_name, minor_name, exercise_name)
     args = {
@@ -72,7 +71,7 @@ class TestBase < HexMiniTest
     @json[__method__.to_s]
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_rack_call_raw(path_info, args, expected)
     rack = RackDispatcher.new(RackRequestStub)

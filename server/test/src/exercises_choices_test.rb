@@ -8,52 +8,10 @@ class ExercisesChoicesTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '625', %w( invalid exercise_name raises ) do
-    [
-      42,   # Integer
-      [],   # Array
-      {},   # Hash
-      true, # Boolean
-    ].each do |invalid_current_exercise_name|
-      exercises_choices(invalid_current_exercise_name)
-      assert_exception('current_exercise_name:invalid')
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
   test '626',%w( exercises_choices ) do
-    @result = exercises_choices(nil)
+    @result = exercises_choices
     assert_names
     assert_contents
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '627',
-  %w( when current_exercise_name is nil
-      index is random index into names ) do
-    assert_random_index(nil)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '628',
-  %w( when current_exercise_name does not match any exercise_name
-      index is random index into names
-      and minor_indexes are not 0-altered ) do
-    assert_random_index('Count_Coins')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '629',
-  %w( when current_exercise_name matches an exercise_name
-      then index is for matching exercise_name ) do
-    @result = exercises_choices('Fizz_Buzz')
-    assert_names
-    assert_contents
-    assert_equal 'Fizz_Buzz', names[index]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -64,10 +22,6 @@ class ExercisesChoicesTest < TestBase
 
   def contents
     @result['contents']
-  end
-
-  def index
-    @result['index']
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -94,23 +48,6 @@ class ExercisesChoicesTest < TestBase
   def assert_line(name, expected)
     lines = contents[name].split("\n")
     assert contents[name].start_with?(expected), lines[0]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def assert_random_index(current_exercise_name)
-    counts = []
-    (1..42).each do
-      @result = exercises_choices(current_exercise_name)
-      assert_names
-      assert_contents
-      counts[index] ||= 0
-      counts[index] += 1
-    end
-    assert_equal names.size, counts.size
-    (0...counts.size).each do |i|
-      assert counts[i] > 0, "#{i}:#{counts[i]}"
-    end
   end
 
 end

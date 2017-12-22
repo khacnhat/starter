@@ -6,8 +6,8 @@ class StarterService
     get([current_display_name], __method__)
   end
 
-  def exercises_choices(current_exercise_name)
-    get([current_exercise_name], __method__)
+  def exercises_choices
+    get([], __method__)
   end
 
   def custom_choices(current_display_name)

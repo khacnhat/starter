@@ -13,6 +13,7 @@ class Cache
   end
 
   # - - - - - - - - - - - - - - - - - - - -
+  # Used to offer choices
 
   def of_display_names(name)
     cache[cache_filename(name)]
@@ -23,6 +24,7 @@ class Cache
   end
 
   # - - - - - - - - - - - - - - - - - - - -
+  # Used to get start-point from choice
 
   def of_dirs(name)
     cache[dir_cache_filename(name)]
