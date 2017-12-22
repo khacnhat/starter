@@ -25,12 +25,27 @@ API:
 
 - - - -
 
+## GET custom_choices
+blurb...
+- parameters, none
+```
+  {}
+```
+- returns, eg
+```
+  { "custom_choices": {
+      ...
+    }
+  }
+```
+
+- - - -
+
 ## GET languages_choices
 blurb...
-- parameters, eg
+- parameters, none
 ```
-  {     "curent_display_name": "Python, py.test"
-  }
+  {}
 ```
 - returns, eg
 ```
@@ -44,31 +59,13 @@ blurb...
 
 ## GET exercises_choices
 blurb...
-- parameters, eg
+- parameters, none
 ```
-  {     "curent_exercise_name": "Fizz_Buzz"
-  }
+  {}
 ```
 - returns, eg
 ```
   { "exercises_choices": {
-      ...
-    }
-  }
-```
-
-- - - -
-
-## GET custom_choices
-blurb...
-- parameters, eg
-```
-  {     "curent_display_name": "Python, py.test"
-  }
-```
-- returns, eg
-```
-  { "custom_choices": {
       ...
     }
   }
