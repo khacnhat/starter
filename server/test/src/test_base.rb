@@ -44,20 +44,20 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def language_manifest(major_name, minor_name, exercise_name)
+  def custom_manifest(major_name, minor_name)
     args = {
       major_name:major_name,
-      minor_name:minor_name,
-      exercise_name:exercise_name
+      minor_name:minor_name
     }
     rack_call(__method__.to_s, args)
     @json[__method__.to_s]
   end
 
-  def custom_manifest(major_name, minor_name)
+  def language_manifest(major_name, minor_name, exercise_name)
     args = {
       major_name:major_name,
-      minor_name:minor_name
+      minor_name:minor_name,
+      exercise_name:exercise_name
     }
     rack_call(__method__.to_s, args)
     @json[__method__.to_s]

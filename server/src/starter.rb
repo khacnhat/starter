@@ -30,6 +30,12 @@ class Starter
   # manifests for given choices
   # - - - - - - - - - - - - - - - - -
 
+  def custom_manifest(major_name, minor_name)
+    major_minor_manifest(major_name, minor_name, 'custom')
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def language_manifest(major_name, minor_name, exercise_name)
     instructions = cache.of_exercises[:contents][exercise_name]
     if instructions.nil?
@@ -39,12 +45,6 @@ class Starter
     manifest['visible_files']['instructions'] = instructions
     manifest['exercise'] = exercise_name
     manifest
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def custom_manifest(major_name, minor_name)
-    major_minor_manifest(major_name, minor_name, 'custom')
   end
 
   # - - - - - - - - - - - - - - - - -

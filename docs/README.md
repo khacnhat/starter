@@ -73,7 +73,25 @@ blurb...
 
 - - - -
 
-## GET  language_manifest
+## GET custom_manifest
+blurb...
+- parameters, eg
+```
+  {  "major_name": "Python",
+     "minor_name": "py.test"
+  }
+```
+- returns, eg
+```
+  { "custom_manifest": {
+      ...
+    }
+  }
+```
+
+- - - -
+
+## GET language_manifest
 blurb...
 - parameters, eg
 ```
@@ -92,25 +110,7 @@ blurb...
 
 - - - -
 
-## GET  custom_manifest
-blurb...
-- parameters, eg
-```
-  {  "major_name": "Python",
-     "minor_name": "py.test"
-  }
-```
-- returns, eg
-```
-  { "custom_manifest": {
-      ...
-    }
-  }
-```
-
-- - - -
-
-## GET  manifest
+## GET manifest
 blurb...
 - parameters, eg
 ```

@@ -27,11 +27,11 @@ class RackDispatcher
       raise 'json:!Hash'
     end
     args = case name
-      when /^languages_choices$/ then []
       when /^custom_choices$/    then []
+      when /^languages_choices$/ then []
       when /^exercises_choices$/ then []
-      when /^language_manifest$/ then [major_name,minor_name,exercise_name]
       when /^custom_manifest$/   then [major_name,minor_name]
+      when /^language_manifest$/ then [major_name,minor_name,exercise_name]
       when /^manifest$/          then [old_name]
     end
     [name, args]
