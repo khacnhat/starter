@@ -71,9 +71,6 @@ class Starter
   include UniqueId
 
   def major_minor_manifest(major_name, minor_name, dir_name)
-    # [1] Issue: [] is not a valid progress_regex.
-    # It needs two regexs.
-    # This affects zipper.zip_tag()
     dir_cache = cache.of_dirs(dir_name)
     major = dir_cache[major_name]
     if major.nil?
@@ -85,31 +82,10 @@ class Starter
     end
 
     manifest = JSON.parse(IO.read("#{dir}/manifest.json"))
-
     manifest['id'] = unique_id
     manifest['created'] = time_now
-
     set_visible_files(dir, manifest)
-    manifest['highlight_filenames'] ||= []
-    set_lowlights_filenames(manifest)
-    manifest['filename_extension'] ||= ''
-    manifest['progress_regexs'] ||= []       # [1]
-    manifest['highlight_filenames'] ||= []
-    manifest['max_seconds'] ||= 10
-    manifest['tab_size'] ||= 4
-    manifest.delete('visible_filenames')
     manifest
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def set_lowlights_filenames(manifest)
-    manifest['lowlight_filenames'] =
-      if manifest['highlight_filenames'].empty?
-        ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt']
-      else
-        manifest['visible_filenames'] - manifest['highlight_filenames']
-      end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -121,6 +97,7 @@ class Starter
         [filename, IO.read("#{dir}/#{filename}")]
       }]
     manifest['visible_files']['output'] = ''
+    manifest.delete('visible_filenames')
   end
 
 end

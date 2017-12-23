@@ -20,13 +20,13 @@ class ManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '7AB', %w( old_name that maps simply ) do
-    assert_manifest('C (gcc)-assert')
+    assert_c_assert_manifest('C (gcc)-assert')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '7AC', %w( old_name that maps via rename ) do
-    assert_manifest('C-assert')
+    assert_c_assert_manifest('C-assert')
   end
 
   private
@@ -38,27 +38,26 @@ class ManifestTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def assert_manifest(old_name)
-    result = manifest(old_name)
-    required_keys = %w(
-      id
-      created
-      display_name
-      image_name
-      runner_choice
-      visible_files
-      max_seconds
-      tab_size
+  def assert_c_assert_manifest(old_name)
+    manifest = old_manifest(old_name)
+
+    expected_keys = %w(
+      created id
+      display_name image_name runner_choice visible_files
       filename_extension
-      progress_regexs
-      highlight_filenames
-      lowlight_filenames
     )
-    required_keys.each { |name| assert result.key?(name), name }
-    # unit_test_framework is a property in old-style KATA manifests.
-    refute result.key?('unit_test_framework')
-    # exercise is a property in KATA manifests.
-    refute result.key?('exercise')
+    assert_equal expected_keys.sort, manifest.keys.sort
+
+    assert_equal 'C (gcc), assert', manifest['display_name']
+    assert_equal 'cyberdojofoundation/gcc_assert', manifest['image_name']
+    assert_equal '.c', manifest['filename_extension']
+    assert_equal 'stateful', manifest['runner_choice']
+    expected_filenames = %w( cyber-dojo.sh hiker.c hiker.h hiker.tests.c makefile output )
+    assert_equal expected_filenames, manifest['visible_files'].keys.sort
+  end
+
+  def old_manifest(old_name)
+    manifest(old_name)
   end
 
 end

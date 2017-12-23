@@ -47,43 +47,47 @@ class LanguageManifestTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'D7E',
-  %w( valid major_name,minor_name,exercise_name
-      returns fully expanded manifest ) do
-    result = language_manifest('C#', 'NUnit', 'Fizz_Buzz')
+  test 'D7E', %w( valid with no optional properties ) do
+    manifest = language_manifest('C#', 'NUnit', 'Fizz_Buzz')
 
-    assert_equal 'stateless', result['runner_choice']
-    assert_equal 'cyberdojofoundation/csharp_nunit', result['image_name']
-    assert_equal 'C#, NUnit', result['display_name']
-    assert_equal '.cs', result['filename_extension']
-    assert_equal [], result['progress_regexs']
-    assert_equal [], result['highlight_filenames']
-    assert_equal default_lowlight_filenames, result['lowlight_filenames']
-    assert_equal 10, result['max_seconds']
-    assert_equal 4, result['tab_size']
-    assert_equal 'Fizz_Buzz', result['exercise']
+    expected_keys = %w(
+      created id
+      display_name exercise image_name runner_choice visible_files
+    )
+    assert_equal expected_keys.sort, manifest.keys.sort
 
-    assert result.key?('id')
-    assert result.key?('created')
-    assert result.key?('visible_files')
-    refute result.key?('visible_filenames')
+    assert_equal 'C#, NUnit', manifest['display_name']
+    assert_equal 'Fizz_Buzz', manifest['exercise']
+    assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
+    assert_equal 'stateless', manifest['runner_choice']
+    expected_filenames = %w( Hiker.cs HikerTest.cs cyber-dojo.sh instructions output )
+    assert_equal expected_filenames, manifest['visible_files'].keys.sort
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test 'D7F', %w( start-point with explicit opional properties ) do
-    result = language_manifest('Python', 'unittest', 'Fizz_Buzz')
-    assert_equal [ 'test_hiker.py' ], result['highlight_filenames']
-    assert_equal [ "cyber-dojo.sh", "hiker.py" ], result['lowlight_filenames'].sort
-    assert_equal 11, result['max_seconds']
-    assert_equal 3, result['tab_size']
-    assert_equal [ 'FAILED \\(failures=\\d+\\)', 'OK' ], result['progress_regexs']
-  end
+  test 'D7F', %w( valid with some optional properties ) do
+    manifest = language_manifest('Python', 'unittest', 'Fizz_Buzz')
 
-  # - - - - - - - - - - - - - - - - - - - -
+    expected_keys = %w(
+      created id
+      display_name exercise image_name runner_choice visible_files
+      filename_extension highlight_filenames max_seconds progress_regexs tab_size
+    )
+    assert_equal expected_keys.sort, manifest.keys.sort
 
-  def default_lowlight_filenames
-    [ 'cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt' ]
+    assert_equal 'Python, unittest', manifest['display_name']
+    assert_equal 'Fizz_Buzz', manifest['exercise']
+    assert_equal 'cyberdojofoundation/python_unittest', manifest['image_name']
+    assert_equal 'stateless', manifest['runner_choice']
+    expected_filenames = %w( cyber-dojo.sh hiker.py instructions output test_hiker.py )
+    assert_equal expected_filenames, manifest['visible_files'].keys.sort
+
+    assert_equal [ 'test_hiker.py' ], manifest['highlight_filenames']
+    assert_equal '.py', manifest['filename_extension']
+    assert_equal 11, manifest['max_seconds']
+    assert_equal [ 'FAILED \\(failures=\\d+\\)', 'OK' ], manifest['progress_regexs']
+    assert_equal 3, manifest['tab_size']
   end
 
 end
