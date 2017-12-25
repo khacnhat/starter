@@ -41,7 +41,6 @@ class CustomManifestTest < TestBase
     manifest = custom_manifest('Yahtzee refactoring', 'C# NUnit')
 
     expected_keys = %w(
-      created id
       display_name image_name runner_choice visible_files
       filename_extension
     )

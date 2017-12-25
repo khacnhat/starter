@@ -1,8 +1,6 @@
 require 'json'
 require_relative 'cache'
 require_relative 'renamer'
-require_relative 'time_now'
-require_relative 'unique_id'
 
 class Starter
 
@@ -67,9 +65,6 @@ class Starter
 
   attr_reader :cache
 
-  include TimeNow
-  include UniqueId
-
   def major_minor_manifest(major_name, minor_name, dir_name)
     dir_cache = cache.of_dirs(dir_name)
     major = dir_cache[major_name]
@@ -82,8 +77,6 @@ class Starter
     end
 
     manifest = JSON.parse(IO.read("#{dir}/manifest.json"))
-    manifest['id'] = unique_id
-    manifest['created'] = time_now
     set_visible_files(dir, manifest)
     manifest
   end

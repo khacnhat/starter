@@ -51,7 +51,6 @@ class LanguageManifestTest < TestBase
     manifest = language_manifest('C#', 'NUnit', 'Fizz_Buzz')
 
     expected_keys = %w(
-      created id
       display_name exercise image_name runner_choice visible_files
     )
     assert_equal expected_keys.sort, manifest.keys.sort
@@ -70,7 +69,6 @@ class LanguageManifestTest < TestBase
     manifest = language_manifest('Python', 'unittest', 'Fizz_Buzz')
 
     expected_keys = %w(
-      created id
       display_name exercise image_name runner_choice visible_files
       filename_extension highlight_filenames max_seconds progress_regexs tab_size
     )

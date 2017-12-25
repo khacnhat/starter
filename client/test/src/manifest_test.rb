@@ -42,7 +42,6 @@ class ManifestTest < TestBase
     manifest = old_manifest(old_name)
 
     expected_keys = %w(
-      created id
       display_name image_name runner_choice visible_files
       filename_extension
     )
