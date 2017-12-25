@@ -118,7 +118,6 @@ class LanguagesTest < AppModelsTestBase
       end
     end
   end
-=end
 
   #- - - - - - - - - - - - - - - - - - - - -
   #- - - - - - - - - - - - - - - - - - - - -
@@ -152,7 +151,6 @@ class LanguagesTest < AppModelsTestBase
   test '3C064A',
   'cache is created on demand' do
     # be very careful here... naming languages will create languages!
-=begin
     path = languages.cache_path
     filename = languages.cache_filename
     assert disk[path].exists? filename
@@ -164,8 +162,6 @@ class LanguagesTest < AppModelsTestBase
     assert disk[path].exists? filename
     new_cache = disk[path].read(filename)
     assert_equal old_cache, new_cache
-=end
-    fail 'deliberately temporarily failing this test...'
   end
 
   #- - - - - - - - - - - - - - - - - - - - -
@@ -199,7 +195,6 @@ class LanguagesTest < AppModelsTestBase
 
   private
 
-=begin
   def historical_language_names
     # these names harvested from cyber-dojo.org
     # from dirs katas/../......../manifest.json { language: X }
