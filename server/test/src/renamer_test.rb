@@ -8,19 +8,85 @@ class RenamerTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C3', %w( when found return new-name ) do
-    assert_renamed ['C'], ['C (gcc)','assert']
-    assert_renamed ['Perl','TestSimple'], ['Perl','Test::Simple']
-    assert_renamed ['C'], ['C (gcc)','assert']
+  test '9C3', %w( when not-found and known return arg ) do
+    assert_renamed ['Ruby','Test::Unit'], ['Ruby','Test::Unit']
+    assert_renamed ['Javascript','Mocha+chai+sinon'], ['Javascript','Mocha+chai+sinon']
+    assert_renamed ['Perl','Test::Simple'],['Perl','Test::Simple']
+    assert_renamed ['Python','py.test'],['Python','py.test']
+    assert_renamed ['Ruby','RSpec'],['Ruby','RSpec']
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C4', %w( when not-found return arg ) do
+  test '9C4', %w( when not-found and unknown return arg ) do
     assert_not_renamed ['x']
     assert_not_renamed ['C','x']
     assert_not_renamed ['x','TestSimple']
     assert_not_renamed ['x','Test::Simple']
+    assert_not_renamed ['x','y','z']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '9C5', %w( when test-name was not part of language-name and had no hyphen ) do
+    assert_renamed ['BCPL'], ['BCPL','all_tests_passed']
+    assert_renamed ['C'], ['C (gcc)','assert']
+    assert_renamed ['C++'], ['C++ (g++)','assert']
+    assert_renamed ['C#'], ['C#','NUnit']
+    assert_renamed ['CoffeeScript'], ['CoffeeScript','jasmine']
+    assert_renamed ['Erlang'], ['Erlang','eunit']
+    assert_renamed ['Go'], ['Go','testing']
+    assert_renamed ['Haskell'], ['Haskell','hunit']
+    assert_renamed ['Java'], ['Java','JUnit']
+    assert_renamed ['Javascript'], ['Javascript','assert']
+    assert_renamed ['Perl'], ['Perl','Test::Simple']
+    assert_renamed ['PHP'], ['PHP','PHPUnit']
+    assert_renamed ['Python'], ['Python','unittest']
+    assert_renamed ['Ruby'], ['Ruby','Test::Unit']
+    assert_renamed ['Scala'], ['Scala','scalatest']
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - -
+
+  test '9C6', %w( renamed to distinguish between gcc and clang ) do
+    assert_renamed ['C','assert'  ], ['C (gcc)','assert']
+    assert_renamed ['C','Unity'   ], ['C (gcc)','Unity']
+    assert_renamed ['C','CppUTest'], ['C (gcc)','CppUTest']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '9C7', %w( renamed to distinguish between g++ and clang++ ) do
+    assert_renamed ['C++','assert'    ], ['C++ (g++)','assert']
+    assert_renamed ['C++','Boost.Test'], ['C++ (g++)','Boost.Test']
+    assert_renamed ['C++','Catch'     ], ['C++ (g++)','Catch']
+    assert_renamed ['C++','CppUTest'  ], ['C++ (g++)','CppUTest']
+    assert_renamed ['C++','GoogleTest'], ['C++ (g++)','GoogleTest']
+    assert_renamed ['C++','GoogleMock'], ['C++ (g++)','GoogleMock']
+    assert_renamed ['C++','Igloo'     ], ['C++ (g++)','Igloo']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '9C8', %w( renamed to remove version number ) do
+    assert_renamed ['Java','1.8_Approval'],     ['Java','Approval']
+    assert_renamed ['Java','1.8_Cucumber'],     ['Java','Cucumber']
+    assert_renamed ['Java','1.8_JMock'],        ['Java','JMock']
+    assert_renamed ['Java','1.8_JUnit'],        ['Java','JUnit']
+    assert_renamed ['Java','1.8_Mockito'],      ['Java','Mockito']
+    assert_renamed ['Java','1.8_Powermockito'], ['Java','PowerMockito']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '9C9', %w( renamed ) do
+    assert_renamed ['C++','catch'], ['C++ (g++)','Catch'] # capital S
+    assert_renamed ['Java','ApprovalTests'],   ['Java','Approval']
+    assert_renamed ['Java','JUnit','Mockito'], ['Java','Mockito']
+    assert_renamed ['Perl','TestSimple'], ['Perl','Test::Simple']
+    assert_renamed ['Ruby','Rspec'], ['Ruby','RSpec'] # capital S
+    assert_renamed ['Ruby','TestUnit'], ['Ruby','Test::Unit']
+    assert_renamed ['R','stopifnot'], ['R','RUnit']
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -38,137 +104,8 @@ class RenamerTest < TestBase
 end
 
 =begin
-
 # from web
-
-require_relative 'app_models_test_base'
-
 class LanguagesTest < AppModelsTestBase
-
-  # There are 4 tests depend on the languages start-point being complete.
-  # 3CD03, 3C0B38, 3C0017, 3C0BBE
-
-  test '3C0D03',
-  '[name] when name has hyphen and was renamed' do
-    [
-      # renamed
-      # 'Java-ApprovalTests', # offline
-      'Java-JUnit-Mockito',
-      'C++-catch',
-      # works as is
-      'Ruby-Test::Unit',
-      'Javascript-Mocha+chai+sinon',
-      'Perl-Test::Simple',
-      'Python-py.test',
-      'Ruby-RSpec',
-      # - in the wrong place
-      # 'Java-1.8_Approval', # offline
-      'Java-1.8_Cucumber',
-      'Java-1.8_JMock',
-      'Java-1.8_JUnit',
-      'Java-1.8_Mockito',
-      'Java-1.8_Powermockito',
-      # replaced
-      'R-stopifnot',
-      # renamed to distinguish from [C (clang)]
-      'C-assert',
-      'C-Unity',
-      'C-CppUTest',
-      # renamed to distinguish from [C++ (clang++)]
-      'C++-assert',
-      'C++-Boost.Test',
-      'C++-Catch',
-      'C++-CppUTest',
-      'C++-GoogleTest',
-      'C++-Igloo',
-      'C++-GoogleMock',
-      #
-      'Ruby-Rspec',
-      'Ruby-TestUnit',
-    ].each { |name| refute_nil languages[name], name }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0B38',
-  '[name] when name has no hyphen and was renamed' do
-    [
-       # from way back when test name was not part of language name
-      'BCPL', 'C', 'C++', 'C#', 'CoffeeScript','Erlang','Go',
-      'Haskell', 'Java', 'Javascript', 'Perl', 'PHP', 'Python', 'Ruby', 'Scala',
-    ].each { |name| refute_nil languages[name], name }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0017',
-  '[name] on historical_language_names' do
-    historical_language_names do |name|
-      refute_nil languages[name], name unless name.include? 'Approval'
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0BBE',
-  'name is translated when katas manifest.json language entry has been renamed' do
-    historical_language_names do |old_name|
-      unless old_name.include? 'Approval'
-        refute_nil languages[old_name], old_name
-      end
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0810',
-  'languages path has correct format when set with trailing slash' do
-    path = tmp_root + '/' + 'folder'
-    set_languages_root(path + '/')
-    assert_equal path, languages.path
-    assert correct_path_format?(languages)
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0BB5',
-  'languages path has correct format when set without trailing slash' do
-    path = tmp_root + '/' + 'folder'
-    set_languages_root(path)
-    assert_equal path, languages.path
-    assert correct_path_format?(languages)
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0327',
-  'languages[name] is nil when name is not an existing language' do
-    assert_nil languages['wibble_XXX']
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C010F',
-  'languages[X] is language named X' do
-    ['C (gcc)-assert', 'Python-unittest'].each do |name|
-      assert_equal name, languages[name].name
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0518',
-  '[name] when lang-test where lang,_test is valid display_name' do
-    simple_case = 'C (gcc)-assert'
-    simple_display_name = 'C (gcc), assert'
-    found = languages.find { |language| language.display_name == simple_display_name }
-    refute_nil found
-    assert_equal simple_display_name, languages[simple_case].display_name
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  private
 
   def historical_language_names
     # these names harvested from cyber-dojo.org
