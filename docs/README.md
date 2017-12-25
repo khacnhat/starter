@@ -14,8 +14,7 @@ alt="cyber-dojo yin/yang logo" width="50px" height="50px"/>
 # cyberdojo/starter docker image
 
 - A docker-containerized micro-service for [cyber-dojo](http://cyber-dojo.org).
-- Holds the start-point files and associated functionality.
-- Work in progress. Not used yet.
+- Holds the start-point files used when setting up a practice session.
 
 API:
   * All methods receive their named arguments in a json hash.

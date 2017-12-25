@@ -120,7 +120,6 @@ class LanguagesTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - -
-  #- - - - - - - - - - - - - - - - - - - - -
 
   test '3C0810',
   'languages path has correct format when set with trailing slash' do
@@ -138,30 +137,6 @@ class LanguagesTest < AppModelsTestBase
     set_languages_root(path)
     assert_equal path, languages.path
     assert correct_path_format?(languages)
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  # WARNING: this test is flaky.
-  # The whole start-points is being refactored into a
-  # dedicated starter service.
-  # When that's done this test will be deleted.
-  # Till then I'm _deliberately_ failing this test so when I push
-  # on the starter-service branch Travis does not create a new image.
-  test '3C064A',
-  'cache is created on demand' do
-    # be very careful here... naming languages will create languages!
-    path = languages.cache_path
-    filename = languages.cache_filename
-    assert disk[path].exists? filename
-    old_cache = disk[path].read(filename)
-    `rm #{path}/#{filename}`
-    refute disk[path].exists? filename
-    @dojo = nil  # force dojo.languages to be new Languages object
-    languages    # dojo.languages ||= Languages.new(...)
-    assert disk[path].exists? filename
-    new_cache = disk[path].read(filename)
-    assert_equal old_cache, new_cache
   end
 
   #- - - - - - - - - - - - - - - - - - - - -
@@ -260,7 +235,7 @@ class LanguagesTest < AppModelsTestBase
       'R-RUnit 37 54811DAFB1',
       'R-stopifnot 2 F0A5407B87',
       'Ruby 339 54EE119F79',
-      'Ruby-Approval 149 283E57E66D',
+      'Ruby-Approval 149 283E57E66D', # offline
       'Ruby-Cucumber 154 28A62BD7AA',
       'Ruby-Rspec 508 545144CA06',
       'Ruby-TestUnit 412 546A3CCA40',
