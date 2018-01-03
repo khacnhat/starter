@@ -11,10 +11,10 @@ services:
     read_only: true
     tmpfs: /tmp
     depends_on:
-      - starter_server
+      - starter
     environment:
-      - CYBER_DOJO_STARTER_SERVER_NAME
-      - CYBER_DOJO_STARTER_SERVER_PORT
+      - CYBER_DOJO_STARTER_SERVICE_NAME
+      - CYBER_DOJO_STARTER_SERVICE_PORT
       - CYBER_DOJO_COVERAGE_ROOT
     build:
       context: client
@@ -25,7 +25,7 @@ services:
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  starter_server:
+  starter:
     user: nobody
     image: cyberdojo/starter
     init: true
@@ -38,7 +38,7 @@ services:
     build:
       context: server
       args:
-        - PORT=${CYBER_DOJO_STARTER_SERVER_PORT}
+        - PORT=${CYBER_DOJO_STARTER_SERVICE_PORT}
     volumes:
       - ./server/start_points:${CYBER_DOJO_START_POINTS_ROOT}:ro
 
