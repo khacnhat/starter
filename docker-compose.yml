@@ -4,6 +4,11 @@ version: '2.2'
 services:
 
   starter_client:
+    build:
+      context: client
+      args:
+        - CYBER_DOJO_STARTER_HOME=${CYBER_DOJO_STARTER_HOME}
+        - PORT=${CYBER_DOJO_STARTER_CLIENT_PORT}
     user: nobody
     image: cyberdojo/starter_client
     init: true
@@ -12,33 +17,35 @@ services:
     tmpfs: /tmp
     depends_on:
       - starter
+    restart: 'no'
+    volumes:
+      - ./client/test:${CYBER_DOJO_STARTER_HOME}/test:ro
     environment:
       - CYBER_DOJO_STARTER_SERVICE_NAME
       - CYBER_DOJO_STARTER_SERVICE_PORT
       - CYBER_DOJO_COVERAGE_ROOT
-    build:
-      context: client
-      args:
-        - PORT=${CYBER_DOJO_STARTER_CLIENT_PORT}
     ports:
       - ${CYBER_DOJO_STARTER_CLIENT_PORT}:${CYBER_DOJO_STARTER_CLIENT_PORT}
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   starter:
+    build:
+      context: server
+      args:
+        - CYBER_DOJO_STARTER_HOME=${CYBER_DOJO_STARTER_HOME}
+        - PORT=${CYBER_DOJO_STARTER_SERVICE_PORT}
     user: nobody
     image: cyberdojo/starter
     init: true
     container_name: test_starter_server
     read_only: true
     tmpfs: /tmp
+    restart: 'no'
     environment:
       - CYBER_DOJO_START_POINTS_ROOT
       - CYBER_DOJO_COVERAGE_ROOT
-    build:
-      context: server
-      args:
-        - PORT=${CYBER_DOJO_STARTER_SERVICE_PORT}
     volumes:
       - ./server/start_points:${CYBER_DOJO_START_POINTS_ROOT}:ro
+      - ./server/test:${CYBER_DOJO_STARTER_HOME}/test:ro
 
