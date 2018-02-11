@@ -1,7 +1,8 @@
 sudo: false
 services: docker
-language: node_js
-bundler_args: --retry 5
+language: bash
+#language: node_js
+#bundler_args: --retry 5
 
 before_script:
     - curl -O https://raw.githubusercontent.com/cyber-dojo/cyber-dojo/master/shared/push_and_trigger.sh
@@ -10,4 +11,4 @@ before_script:
 script:
     #
     - ./pipe_build_up_test.sh \
-        && travis_wait ./push_and_trigger.sh cyber-dojo/web
+        && ./push_and_trigger.sh cyber-dojo/web
