@@ -7,6 +7,12 @@ class Cache
 
   def initialize
     @cache = {}
+
+    @cache['languages_exercises'] = {
+      'display_names' => display_names_and_dirs2('languages'),
+      'exercises' => exercises2
+    }
+
     cache_display_names('languages')
     cache_display_names('custom')
     cache_exercises
@@ -14,6 +20,10 @@ class Cache
 
   # - - - - - - - - - - - - - - - - - - - -
   # Used to offer choices
+
+  def of_languages_exercises
+    cache['languages_exercises']
+  end
 
   def of_display_names(name)
     cache[cache_filename(name)]
@@ -59,6 +69,22 @@ class Cache
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  def display_names_and_dirs2(sub_dir)
+    # creates cache data for
+    # o) language,testFramework display_names for setup choices
+    # o) exercise names for setup choices
+    # o) language dirs to get manifest from choice
+    # o) exercise dirs to get instructions text from exercise choice
+    display_names = {}
+    pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
+    Dir.glob(pattern).each do |filename|
+      json = JSON.parse(IO.read(filename))
+      display_name = json['display_name']
+      display_names[display_name] = File.dirname(filename)
+    end
+    display_names
+  end
+
   def display_names_and_dirs(sub_dir)
     display_names = []
     dirs = {}
@@ -80,6 +106,17 @@ class Cache
   end
 
   # - - - - - - - - - - - - - - - - - - - -
+
+  def exercises2
+    result = {}
+    pattern = "#{start_points_dir}/exercises/**/instructions"
+    Dir.glob(pattern).each do |filename|
+      # eg /app/start_points/exercises/Bowling_Game/instructions
+      name = filename.split('/')[-2] # eg Bowling_Game
+      result[name] = IO.read(filename)
+    end
+    result
+  end
 
   def exercises
     names = []

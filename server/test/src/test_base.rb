@@ -32,6 +32,11 @@ class TestBase < HexMiniTest
     @json[__method__.to_s]
   end
 
+  def languages_exercises_start_points
+    rack_call(__method__.to_s, {})
+    @json[__method__.to_s]
+  end
+
   def languages_choices
     rack_call(__method__.to_s, {})
     @json[__method__.to_s]

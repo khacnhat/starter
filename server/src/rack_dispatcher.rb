@@ -27,6 +27,8 @@ class RackDispatcher
       raise 'json:!Hash'
     end
     args = case name
+      when /^languages_exercises_start_points$/ then []
+
       when /^custom_choices$/    then []
       when /^languages_choices$/ then []
       when /^exercises_choices$/ then []

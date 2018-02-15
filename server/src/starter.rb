@@ -12,6 +12,14 @@ class Starter
   # choices when setting up a cyber-dojo
   # - - - - - - - - - - - - - - - - -
 
+  def languages_exercises_start_points
+    {
+      'display_names' => cache.of_languages_exercises['display_names'].keys.sort,
+      'exercises' => cache.of_languages_exercises['exercises']
+    }
+  end
+
+
   def custom_choices
     cache.of_display_names('custom')
   end
