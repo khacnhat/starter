@@ -1,6 +1,6 @@
 require_relative 'test_base'
 
-class LanguagesStartPointsTest < TestBase
+class LanguagesExercisesStartPointsTest < TestBase
 
   def self.hex_prefix
     'F4DB3'
