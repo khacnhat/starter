@@ -9,12 +9,12 @@ class Starter
   end
 
   # - - - - - - - - - - - - - - - - -
-  # choices when setting up a cyber-dojo
+  # setting up a cyber-dojo: language,testFramwork + exercise
   # - - - - - - - - - - - - - - - - -
 
   def languages_exercises_start_points
     {
-      'display_names' => cache.of_languages_exercises['display_names'].keys.sort,
+      'languages' => cache.of_languages_exercises['display_names'].keys.sort,
       'exercises' => cache.of_languages_exercises['exercises']
     }
   end
@@ -28,6 +28,7 @@ class Starter
     manifest
   end
 
+  # - - - - - - - - - - - - - - - - -
 
   def custom_choices
     cache.of_display_names('custom')

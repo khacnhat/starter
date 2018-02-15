@@ -12,14 +12,14 @@ class LanguagesExercisesStartPointsTest < TestBase
   %w( display-names are unique and sorted,
       exercise-names are unique and sorted ) do
     @result = languages_exercises_start_points
-    assert_display_names
+    assert_language_names
     assert_exercise_names
     assert_exercise_instructions
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def assert_display_names
+  def assert_language_names
     expected = [
       'C (gcc), assert',
       'C#, NUnit',
@@ -27,7 +27,7 @@ class LanguagesExercisesStartPointsTest < TestBase
       'Python, py.test',
       'Python, unittest'
     ]
-    assert_equal expected, @result['display_names']
+    assert_equal expected, @result['languages']
   end
 
   # - - - - - - - - - - - - - - - - - - - -
