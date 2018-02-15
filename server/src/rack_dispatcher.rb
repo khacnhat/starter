@@ -28,6 +28,7 @@ class RackDispatcher
     end
     args = case name
       when /^languages_exercises_start_points$/ then []
+      when /^language_exercise_manifest$/ then [display_name,exercise_name]
 
       when /^custom_choices$/    then []
       when /^languages_choices$/ then []
@@ -52,6 +53,10 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
   # method arguments
   # - - - - - - - - - - - - - - - -
+
+  def display_name
+    validated_string(__method__.to_s)
+  end
 
   def major_name
     validated_string(__method__.to_s)

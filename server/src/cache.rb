@@ -10,6 +10,7 @@ class Cache
 
     @cache['languages_exercises'] = {
       'display_names' => display_names_and_dirs2('languages'),
+      'manifests' => manifests2('languages'),
       'exercises' => exercises2
     }
 
@@ -84,6 +85,26 @@ class Cache
     end
     display_names
   end
+
+  def manifests2(sub_dir)
+    manifests = {}
+    pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
+    Dir.glob(pattern).each do |filename|
+      manifest = JSON.parse(IO.read(filename))
+      display_name = manifest['display_name']
+      visible_filenames = manifest['visible_filenames']
+      dir = File.dirname(filename)
+      manifest['visible_files'] =
+        Hash[visible_filenames.collect { |filename|
+          [filename, IO.read("#{dir}/#{filename}")]
+        }]
+      manifest['visible_files']['output'] = ''
+      manifest.delete('visible_filenames')
+      manifests[display_name] = manifest
+    end
+    manifests
+  end
+
 
   def display_names_and_dirs(sub_dir)
     display_names = []

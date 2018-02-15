@@ -19,6 +19,15 @@ class Starter
     }
   end
 
+  def language_exercise_manifest(display_name, exercise_name)
+    c = cache.of_languages_exercises
+    manifest = c['manifests'][display_name]
+    instructions = c['exercises'][exercise_name]
+    manifest['visible_files']['instructions'] = instructions
+    manifest['exercise'] = exercise_name
+    manifest
+  end
+
 
   def custom_choices
     cache.of_display_names('custom')
