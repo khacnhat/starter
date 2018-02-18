@@ -20,6 +20,8 @@ class Starter
   end
 
   def language_exercise_manifest(display_name, exercise_name)
+    # TODO: would be better to return two separate hashes
+    # and let client combine them. This is mutating the cache.
     manifest = cache['languages']['manifests'][display_name]
     instructions = cache['exercises'][exercise_name]
     manifest['visible_files']['instructions'] = instructions
@@ -35,6 +37,10 @@ class Starter
     cache['custom']['display_names'].keys.sort
   end
 
+  #def custom_manifest2(major_name, minor_name)
+  #  display_name = major_name + ', ' + minor_name
+  #  cache['custom']['manifests'][display_name]
+  #end
 
   # - - - - - - - - - - - - - - - - -
 

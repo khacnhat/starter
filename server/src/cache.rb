@@ -33,10 +33,6 @@ class Cache
   # - - - - - - - - - - - - - - - - - - - -
   # Used to offer choices
 
-  def of_languages_exercises
-    cache['languages_exercises']
-  end
-
   def of_display_names(name)
     cache[cache_filename(name)]
   end
