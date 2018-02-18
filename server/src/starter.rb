@@ -14,19 +14,27 @@ class Starter
 
   def languages_exercises_start_points
     {
-      'languages' => cache.of_languages_exercises['display_names'].keys.sort,
-      'exercises' => cache.of_languages_exercises['exercises']
+      'languages' => cache['languages']['display_names'].keys.sort,
+      'exercises' => cache['exercises']
     }
   end
 
   def language_exercise_manifest(display_name, exercise_name)
-    c = cache.of_languages_exercises
-    manifest = c['manifests'][display_name]
-    instructions = c['exercises'][exercise_name]
+    manifest = cache['languages']['manifests'][display_name]
+    instructions = cache['exercises'][exercise_name]
     manifest['visible_files']['instructions'] = instructions
     manifest['exercise'] = exercise_name
     manifest
   end
+
+  # - - - - - - - - - - - - - - - - -
+  # setting up a cyber-dojo: custom
+  # - - - - - - - - - - - - - - - - -
+
+  def custom_start_points
+    cache['custom']['display_names'].keys.sort
+  end
+
 
   # - - - - - - - - - - - - - - - - -
 

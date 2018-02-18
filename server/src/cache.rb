@@ -8,15 +8,26 @@ class Cache
   def initialize
     @cache = {}
 
-    @cache['languages_exercises'] = {
+    @cache['languages'] = {
       'display_names' => display_names_and_dirs2('languages'),
-      'manifests' => manifests2('languages'),
-      'exercises' => exercises2
+      'manifests'     => manifests2('languages')
+    }
+    @cache['exercises'] = exercises2
+
+    @cache['custom'] = {
+      'display_names' => display_names_and_dirs2('custom'),
+      'manifests' => manifests2('custom')
     }
 
     cache_display_names('languages')
     cache_display_names('custom')
     cache_exercises
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def [](name)
+    @cache[name]
   end
 
   # - - - - - - - - - - - - - - - - - - - -
