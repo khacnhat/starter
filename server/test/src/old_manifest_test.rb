@@ -1,6 +1,6 @@
 require_relative 'test_base'
 
-class ManifestTest < TestBase
+class OldManifestTest < TestBase
 
   def self.hex_prefix
     '434DA'
@@ -9,24 +9,24 @@ class ManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '351',
-  %w( hash with invalid argument becomes exception ) do
-    assert_rack_call_raw('manifest',
+  %w( non-string argument becomes exception ) do
+    assert_rack_call_raw('old_manifest',
       '{"old_name":42}',
-      { exception:'old_name:invalid' }
+      { exception:'old_name:!string' }
     )
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '352', %w( old_name that is not found raises ) do
-    manifest('')
-    assert_exception('old_name:invalid')
-    manifest('x')
-    assert_exception('old_name:invalid')
-    manifest('x-y')
-    assert_exception('old_name:invalid')
-    manifest('C (gcc)-xxx')
-    assert_exception('old_name:invalid')
+  test '352', %w( unknown old_name becomes exception ) do
+    old_manifest('')
+    assert_exception('old_name:unknown')
+    old_manifest('x')
+    assert_exception('old_name:unknown')
+    old_manifest('x-y')
+    assert_exception('old_name:unknown')
+    old_manifest('C (gcc)-xxx')
+    assert_exception('old_name:unknown')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -58,10 +58,6 @@ class ManifestTest < TestBase
     assert_equal 'stateful', manifest['runner_choice']
     expected_filenames = %w( cyber-dojo.sh hiker.c hiker.h hiker.tests.c makefile output )
     assert_equal expected_filenames, manifest['visible_files'].keys.sort
-  end
-
-  def old_manifest(old_name)
-    manifest(old_name)
   end
 
 end

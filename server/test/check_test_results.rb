@@ -59,7 +59,6 @@ def get_test_log_stats
   summary_pattern = %w(runs assertions failures errors skips).map{ |s| "(#{number}) #{s}" }.join(', ')
   m = test_log.match(Regexp.new(summary_pattern))
   stats[:test_count]      = m[1].to_i
-  stats[:assertion_count] = m[2].to_i
   stats[:failure_count]   = m[3].to_i
   stats[:error_count]     = m[4].to_i
   stats[:skip_count]      = m[5].to_i
@@ -97,12 +96,11 @@ table =
     [ 'failures',               failure_count,      '==',   0 ],
     [ 'errors',                 error_count,        '==',   0 ],
     [ 'skips',                  skip_count,         '==',   0 ],
-    #[ 'assertions/s',           assertions_per_sec, '>=',  50 ],
     [ 'duration(test)[s]',      test_duration,      '<=',   3 ],
     [ 'coverage(src)[%]',       src_coverage,       '==', 100 ],
     [ 'coverage(test)[%]',      test_coverage,      '==', 100 ],
     [ 'lines(test)/lines(src)', f2(line_ratio),     '>=', 1.5 ],
-    [ 'hits(src)/hits(test)',   f2(hits_ratio),     '>=',  10 ],
+    [ 'hits(src)/hits(test)',   f2(hits_ratio),     '>=',   7 ],
   ]
 
 # - - - - - - - - - - - - - - - - - - - - - - -

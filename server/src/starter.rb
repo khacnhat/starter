@@ -8,10 +8,9 @@ class Starter
 
     @cache['languages'] = {
       'display_names' => display_names('languages'),
-      'manifests'     => manifests('languages')
+      'manifests'     => manifests('languages'),
+      'exercises'     => exercises
     }
-    @cache['exercises'] = exercises
-
     @cache['custom'] = {
       'display_names' => display_names('custom'),
       'manifests'     => manifests('custom')
@@ -25,21 +24,17 @@ class Starter
   def languages_exercises_start_points
     {
       'languages' => cache['languages']['display_names'],
-      'exercises' => cache['exercises']
+      'exercises' => cache['languages']['exercises']
     }
   end
 
   def language_exercise_manifest(display_name, exercise_name)
     assert_string('display_name', display_name)
     assert_string('exercise_name', exercise_name)
-
-    # TODO: would be better to return two separate hashes
-    # and let client combine them. This is mutating the cache.
-    manifest = cached_manifest('languages', 'display_name', display_name)
-    instructions = cached_exercise(exercise_name)
-    manifest['visible_files']['instructions'] = instructions
-    manifest['exercise'] = exercise_name
-    manifest
+    {
+      'manifest' => cached_manifest('languages', 'display_name', display_name),
+      'exercise' => cached_exercise(exercise_name)
+    }
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -59,7 +54,8 @@ class Starter
   # get manifest from old kata that's been renamed
   # - - - - - - - - - - - - - - - - -
 
-  def manifest(old_name)
+  def old_manifest(old_name)
+    assert_string('old_name', old_name)
     parts = old_name.split('-', 2)
     parts = Renamer.new.renamed(parts)
     display_name = parts.join(', ')
@@ -129,7 +125,7 @@ class Starter
   end
 
   def cached_exercise(exercise_name)
-    result = cache['exercises'][exercise_name]
+    result = cache['languages']['exercises'][exercise_name]
     if result.nil?
       error('exercise_name', 'unknown')
     end

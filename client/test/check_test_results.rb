@@ -59,7 +59,6 @@ def get_test_log_stats
   summary_pattern = %w(runs assertions failures errors skips).map{ |s| "(#{number}) #{s}" }.join(', ')
   m = test_log.match(Regexp.new(summary_pattern))
   stats[:test_count]      = m[1].to_i
-  stats[:assertion_count] = m[2].to_i
   stats[:failure_count]   = m[3].to_i
   stats[:error_count]     = m[4].to_i
   stats[:skip_count]      = m[5].to_i

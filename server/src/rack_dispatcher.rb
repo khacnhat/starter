@@ -31,7 +31,7 @@ class RackDispatcher
       when /^language_exercise_manifest$/       then [display_name,exercise_name]
       when /^custom_start_points$/              then []
       when /^custom_manifest$/                  then [display_name]
-      when /^manifest$/                         then [old_name]
+      when /^old_manifest$/                     then [old_name]
     end
     [name, args]
   end
