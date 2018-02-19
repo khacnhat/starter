@@ -1,6 +1,6 @@
 require_relative 'test_base'
 
-class LanguageExerciseManifestTest < TestBase
+class LanguageManifestTest < TestBase
 
   def self.hex_prefix
     '3D915'
@@ -10,15 +10,15 @@ class LanguageExerciseManifestTest < TestBase
 
   test 'D7A',
   %w( missing argument becomes exception ) do
-    assert_rack_call_raw('language_exercise_manifest',
+    assert_rack_call_raw('language_manifest',
       '{}',
       { exception:'display_name:missing' }
     )
-    assert_rack_call_raw('language_exercise_manifest',
+    assert_rack_call_raw('language_manifest',
       '{"display_name":42}',
       { exception:'exercise_name:missing' }
     )
-    assert_rack_call_raw('language_exercise_manifest',
+    assert_rack_call_raw('language_manifest',
       '{"exercise_name":42}',
       { exception:'display_name:missing' }
     )
@@ -28,31 +28,31 @@ class LanguageExerciseManifestTest < TestBase
 
   test 'D7B',
   %w( non-string argument becomes exception ) do
-    language_exercise_manifest(42, 'Fizz_Buzz')
+    language_manifest(42, 'Fizz_Buzz')
     assert_exception('display_name:!string')
 
-    language_exercise_manifest('xxx', 42)
+    language_manifest('xxx', 42)
     assert_exception('exercise_name:!string')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7C', %w( unknown display_name becomes exception ) do
-    language_exercise_manifest('xxx, NUnit', 'Fizz_Buzz')
+    language_manifest('xxx, NUnit', 'Fizz_Buzz')
     assert_exception('display_name:unknown')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7D', %w( unknown exercise_name becomes exception ) do
-    language_exercise_manifest('C#, NUnit', 'xxx')
+    language_manifest('C#, NUnit', 'xxx')
     assert_exception('exercise_name:unknown')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7E', %w( valid with no optional properties ) do
-    result = language_exercise_manifest('C#, NUnit', 'Fizz_Buzz')
+    result = language_manifest('C#, NUnit', 'Fizz_Buzz')
 
     manifest = result['manifest']
     expected_keys = %w(
@@ -73,7 +73,7 @@ class LanguageExerciseManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7F', %w( valid with some optional properties ) do
-    result = language_exercise_manifest('Python, unittest', 'Fizz_Buzz')
+    result = language_manifest('Python, unittest', 'Fizz_Buzz')
 
     manifest = result['manifest']
     expected_keys = %w(

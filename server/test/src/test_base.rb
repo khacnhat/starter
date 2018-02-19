@@ -27,12 +27,12 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def languages_exercises_start_points
+  def language_start_points
     rack_call(__method__.to_s, {})
     @json[__method__.to_s]
   end
 
-  def language_exercise_manifest(display_name, exercise_name)
+  def language_manifest(display_name, exercise_name)
     args = {
       display_name:display_name,
       exercise_name:exercise_name

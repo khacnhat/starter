@@ -1,6 +1,6 @@
 require_relative 'test_base'
 
-class LanguagesExercisesStartPointsTest < TestBase
+class LanguageStartPointsTest < TestBase
 
   def self.hex_prefix
     'F4DB3'
@@ -10,7 +10,7 @@ class LanguagesExercisesStartPointsTest < TestBase
 
   test '0F4',
   %w( display-names ) do
-    start_points = languages_exercises_start_points
+    start_points = language_start_points
     expected = [
       'C (gcc), assert',
       'C#, NUnit',
@@ -25,7 +25,7 @@ class LanguagesExercisesStartPointsTest < TestBase
 
   test '0F5',
   %w( exercise-names ) do
-    start_points = languages_exercises_start_points
+    start_points = language_start_points
     expected = [
       'Bowling_Game',
       'Fizz_Buzz',
@@ -39,7 +39,7 @@ class LanguagesExercisesStartPointsTest < TestBase
 
   test '0F6',
   %w( instructions ) do
-    @start_points = languages_exercises_start_points
+    @start_points = language_start_points
 
     expected = 'Write a program to score a game of Ten-Pin Bowling.'
     assert_line('Bowling_Game', expected)

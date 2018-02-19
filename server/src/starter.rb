@@ -21,14 +21,14 @@ class Starter
   # setting up a cyber-dojo: language,testFramwork + exercise
   # - - - - - - - - - - - - - - - - -
 
-  def languages_exercises_start_points
+  def language_start_points
     {
       'languages' => cache['languages']['display_names'],
       'exercises' => cache['languages']['exercises']
     }
   end
 
-  def language_exercise_manifest(display_name, exercise_name)
+  def language_manifest(display_name, exercise_name)
     assert_string('display_name', display_name)
     assert_string('exercise_name', exercise_name)
     {
