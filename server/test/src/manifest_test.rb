@@ -20,13 +20,13 @@ class ManifestTest < TestBase
 
   test '352', %w( old_name that is not found raises ) do
     manifest('')
-    assert_exception('major_name:invalid')
+    assert_exception('old_name:invalid')
     manifest('x')
-    assert_exception('major_name:invalid')
+    assert_exception('old_name:invalid')
     manifest('x-y')
-    assert_exception('major_name:invalid')
+    assert_exception('old_name:invalid')
     manifest('C (gcc)-xxx')
-    assert_exception('minor_name:invalid')
+    assert_exception('old_name:invalid')
   end
 
   # - - - - - - - - - - - - - - - - - - - -

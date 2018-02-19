@@ -8,7 +8,7 @@ class CacheTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '446', %w( languages cache ) do
+  test '446', %w( languages display_names cache ) do
     cache = Cache.new.of_display_names(:languages)
     assert_equal [ 'C (gcc)', 'C#', 'C++ (g++)', 'Python' ], cache[:major_names]
     assert_equal [ 'NUnit', 'assert', 'py.test', 'unittest' ], cache[:minor_names]
