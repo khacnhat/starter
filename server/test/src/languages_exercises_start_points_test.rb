@@ -9,17 +9,8 @@ class LanguagesExercisesStartPointsTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '0F4',
-  %w( display-names are unique and sorted,
-      exercise-names are unique and sorted ) do
-    @result = languages_exercises_start_points
-    assert_language_names
-    assert_exercise_names
-    assert_exercise_instructions
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def assert_language_names
+  %w( display-names ) do
+    start_points = languages_exercises_start_points
     expected = [
       'C (gcc), assert',
       'C#, NUnit',
@@ -27,24 +18,29 @@ class LanguagesExercisesStartPointsTest < TestBase
       'Python, py.test',
       'Python, unittest'
     ]
-    assert_equal expected, @result['languages']
+    assert_equal expected, start_points['languages']
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def assert_exercise_names
+  test '0F5',
+  %w( exercise-names ) do
+    start_points = languages_exercises_start_points
     expected = [
       'Bowling_Game',
       'Fizz_Buzz',
       'Leap_Years',
       'Tiny_Maze'
     ]
-    assert_equal expected, @result['exercises'].keys.sort
+    assert_equal expected, start_points['exercises'].keys.sort
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def assert_exercise_instructions
+  test '0F6',
+  %w( instructions ) do
+    @start_points = languages_exercises_start_points
+
     expected = 'Write a program to score a game of Ten-Pin Bowling.'
     assert_line('Bowling_Game', expected)
 
@@ -61,7 +57,7 @@ class LanguagesExercisesStartPointsTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   def assert_line(name, expected)
-    instructions = @result['exercises'][name]
+    instructions = @start_points['exercises'][name]
     lines = instructions.split("\n")
     assert instructions.start_with?(expected), lines[0]
   end

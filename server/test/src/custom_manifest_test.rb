@@ -8,36 +8,34 @@ class CustomManifestTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  test '9C0',
+  %w( missing display_name becomes exception ) do
+    assert_rack_call_raw('custom_manifest',
+      '{}',
+      { exception:'display_name:missing' }
+    )
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   test '9C1',
-  %w( hash with invalid argument becomes exception ) do
-    assert_rack_call_raw('custom_manifest',
-      '{"display_name":42}',
-      { exception:'display_name:invalid' }
-    )
-    assert_rack_call_raw('custom_manifest',
-      '{"display_name":"Yahtzee refactoring, 42"}',
-      { exception:'display_name:invalid' }
-    )
+  %w( non-string display_name becomes exception ) do
+    custom_manifest(42)
+    assert_exception('display_name:!string')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C2', %w( invalid major_name becomes exception ) do
+  test '9C2',
+  %w( unknown display_name becomes exception ) do
     custom_manifest('xxx, C# NUnit')
-    assert_exception('display_name:invalid')
+    assert_exception('display_name:unknown')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C3', %w( invalid minor_name becomes exception ) do
-    custom_manifest('Yahtzee refactoring, xxx')
-    assert_exception('display_name:invalid')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '9C4',
-  %w( valid with one optional property ) do
+  test '9C3',
+  %w( valid display_name ) do
     manifest = custom_manifest('Yahtzee refactoring, C# NUnit')
 
     expected_keys = %w(

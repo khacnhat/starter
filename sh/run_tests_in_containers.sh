@@ -48,7 +48,7 @@ server_status=0
 client_status=0
 . ${ROOT_DIR}/.env
 run_server_tests ${*}
-run_client_tests ${*}
+#run_client_tests ${*}
 
 if [[ ( ${server_status} == 0 && ${client_status} == 0 ) ]];  then
   echo "------------------------------------------------------"

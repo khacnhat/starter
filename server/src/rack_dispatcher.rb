@@ -51,42 +51,26 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
 
   def display_name
-    validated_string(__method__.to_s)
+    argument(__method__.to_s)
   end
 
   def exercise_name
-    validated_string(__method__.to_s)
+    argument(__method__.to_s)
   end
 
   def old_name
-    validated_string(__method__.to_s)
+    argument(__method__.to_s)
   end
 
   # - - - - - - - - - - - - - - - -
   # validations
   # - - - - - - - - - - - - - - - -
 
-  def validated_string(name)
-    arg = argument(name)
-    unless arg.is_a?(String)
-      raise invalid(name)
-    end
-    arg
-  end
-
   def argument(name)
     unless @json_args.key?(name)
-      raise error(name, 'missing')
+      raise ArgumentError.new("#{name}:missing")
     end
     @json_args[name]
-  end
-
-  def invalid(name)
-    error(name, 'invalid')
-  end
-
-  def error(name, message)
-    ArgumentError.new("#{name}:#{message}")
   end
 
 end

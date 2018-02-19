@@ -30,11 +30,13 @@ class Starter
   end
 
   def language_exercise_manifest(display_name, exercise_name)
+    assert_string('display_name', display_name)
+    assert_string('exercise_name', exercise_name)
+
     # TODO: would be better to return two separate hashes
     # and let client combine them. This is mutating the cache.
-    manifest = cache_manifest('languages', 'display_name', display_name)
-    # TODO: check for bad name and throw
-    instructions = cache['exercises'][exercise_name]
+    manifest = cached_manifest('languages', 'display_name', display_name)
+    instructions = cached_exercise(exercise_name)
     manifest['visible_files']['instructions'] = instructions
     manifest['exercise'] = exercise_name
     manifest
@@ -49,6 +51,7 @@ class Starter
   end
 
   def custom_manifest(display_name)
+    assert_string('display_name', display_name)
     cached_manifest('custom', 'display_name', display_name)
   end
 
@@ -120,7 +123,15 @@ class Starter
   def cached_manifest(type, arg_name, arg)
     result = cache[type]['manifests'][arg]
     if result.nil?
-      raise ArgumentError.new("#{arg_name}:invalid")
+      error(arg_name, 'unknown')
+    end
+    result
+  end
+
+  def cached_exercise(exercise_name)
+    result = cache['exercises'][exercise_name]
+    if result.nil?
+      error('exercise_name', 'unknown')
     end
     result
   end
@@ -129,6 +140,20 @@ class Starter
 
   def start_points_dir
     ENV['CYBER_DOJO_START_POINTS_ROOT']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def assert_string(arg_name, arg)
+    unless arg.is_a?(String)
+      error(arg_name, '!string')
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def error(name, diagnostic)
+    raise ArgumentError.new("#{name}:#{diagnostic}")
   end
 
 end
