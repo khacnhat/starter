@@ -85,11 +85,11 @@ class Starter
   def manifests(sub_dir)
     manifests = {}
     pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
-    Dir.glob(pattern).each do |filename|
-      manifest = JSON.parse(IO.read(filename))
+    Dir.glob(pattern).each do |manifest_filename|
+      manifest = JSON.parse(IO.read(manifest_filename))
       display_name = manifest['display_name']
       visible_filenames = manifest['visible_filenames']
-      dir = File.dirname(filename)
+      dir = File.dirname(manifest_filename)
       manifest['visible_files'] =
         Hash[visible_filenames.collect { |filename|
           [filename, IO.read("#{dir}/#{filename}")]
