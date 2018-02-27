@@ -8,30 +8,30 @@ class TestBase < HexMiniTest
     StarterService.new
   end
 
-  def custom_choices
-    starter.custom_choices
+  # - - - - - - - - - - - - - - - - - -
+
+  def language_start_points
+    starter.language_start_points
   end
 
-  def languages_choices
-    starter.languages_choices
-  end
-
-  def exercises_choices
-    starter.exercises_choices
+  def language_manifest(display_name, exercise_name)
+    starter.language_manifest(display_name, exercise_name)
   end
 
   # - - - - - - - - - - - - - - - - - -
 
-  def language_manifest(major_name, minor_name, exercise_name)
-    starter.language_manifest(major_name, minor_name, exercise_name)
+  def custom_start_points
+    starter.custom_start_points
   end
 
-  def custom_manifest(major_name, minor_name)
-    starter.custom_manifest(major_name, minor_name)
+  def custom_manifest(display_name)
+    starter.custom_manifest(display_name)
   end
 
-  def manifest(old_name)
-    starter.manifest(old_name)
+  # - - - - - - - - - - - - - - - - - -
+
+  def old_manifest(old_name)
+    starter.old_manifest(old_name)
   end
 
 end

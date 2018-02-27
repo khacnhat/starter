@@ -2,29 +2,27 @@ require_relative 'http_json_service'
 
 class StarterService
 
-  def custom_choices
+  def language_start_points
     get([], __method__)
   end
 
-  def languages_choices
-    get([], __method__)
-  end
-
-  def exercises_choices
-    get([], __method__)
+  def language_manifest(display_name, exercise_name)
+    get([display_name,exercise_name], __method__)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  def custom_manifest(major_name, minor_name)
-    get([major_name,minor_name], __method__)
+  def custom_start_points
+    get([], __method__)
   end
 
-  def language_manifest(major_name, minor_name, exercise_name)
-    get([major_name,minor_name,exercise_name], __method__)
+  def custom_manifest(display_name)
+    get([display_name], __method__)
   end
 
-  def manifest(old_name)
+  # - - - - - - - - - - - - - - - - - - - - -
+
+  def old_manifest(old_name)
     get([old_name], __method__)
   end
 

@@ -9,8 +9,8 @@ class CustomManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '3CC',
-  %w( valid major_name,minor_name,exercise_name with one optional property ) do
-    manifest = custom_manifest('Yahtzee refactoring', 'Java JUnit')
+  %w( valid display_name with one optional property ) do
+    manifest = custom_manifest('Yahtzee refactoring, Java JUnit')
 
     expected_keys = %w(
       display_name image_name runner_choice visible_files

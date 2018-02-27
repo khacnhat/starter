@@ -3,10 +3,10 @@ require_relative 'test_base'
 class CustomStartPointsTest < TestBase
 
   def self.hex_prefix
-    '72110'
+    '9E66D'
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - -
 
   test '9C1',
   %w( display-names are unique and sorted ) do

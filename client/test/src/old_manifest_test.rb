@@ -1,6 +1,6 @@
 require_relative 'test_base'
 
-class ManifestTest < TestBase
+class OldManifestTest < TestBase
 
   def self.hex_prefix
     'C592E'
@@ -10,11 +10,11 @@ class ManifestTest < TestBase
 
   test '7AA',
   %w( invalid old_name becomes exception ) do
-    assert_manifest_raises(42, 'old_name')
-    assert_manifest_raises('', 'major_name')
-    assert_manifest_raises('x', 'major_name')
-    assert_manifest_raises('x-y', 'major_name')
-    assert_manifest_raises('C (gcc)-xxx', 'minor_name')
+    assert_old_manifest_raises(42, 'old_name', '!string')
+    assert_old_manifest_raises('', 'old_name', 'unknown')
+    assert_old_manifest_raises('x', 'old_name', 'unknown')
+    assert_old_manifest_raises('x-y', 'old_name', 'unknown')
+    assert_old_manifest_raises('C (gcc)-xxx', 'old_name', 'unknown')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -31,9 +31,9 @@ class ManifestTest < TestBase
 
   private
 
-  def assert_manifest_raises(old_name, name)
-    error = assert_raises(RuntimeError) { manifest(old_name) }
-    assert_equal "StarterService:manifest:#{name}:invalid", error.message
+  def assert_old_manifest_raises(old_name, name, msg)
+    error = assert_raises(RuntimeError) { old_manifest(old_name) }
+    assert_equal "StarterService:old_manifest:#{name}:#{msg}", error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -53,10 +53,6 @@ class ManifestTest < TestBase
     assert_equal 'stateful', manifest['runner_choice']
     expected_filenames = %w( cyber-dojo.sh hiker.c hiker.h hiker.tests.c makefile output )
     assert_equal expected_filenames, manifest['visible_files'].keys.sort
-  end
-
-  def old_manifest(old_name)
-    manifest(old_name)
   end
 
 end

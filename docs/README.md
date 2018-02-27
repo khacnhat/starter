@@ -17,7 +17,7 @@ API:
 
 - - - -
 
-## GET custom_choices
+## GET language_start_points
 blurb...
 - parameters, none
 ```
@@ -25,57 +25,7 @@ blurb...
 ```
 - returns, eg
 ```
-  { "custom_choices": {
-      ...
-    }
-  }
-```
-
-- - - -
-
-## GET languages_choices
-blurb...
-- parameters, none
-```
-  {}
-```
-- returns, eg
-```
-  { "languages_choices": {
-      ...
-    }
-  }
-```
-
-- - - -
-
-## GET exercises_choices
-blurb...
-- parameters, none
-```
-  {}
-```
-- returns, eg
-```
-  { "exercises_choices": {
-      ...
-    }
-  }
-```
-
-- - - -
-
-## GET custom_manifest
-blurb...
-- parameters, eg
-```
-  {  "major_name": "Python",
-     "minor_name": "py.test"
-  }
-```
-- returns, eg
-```
-  { "custom_manifest": {
+  { "language_start_points": {
       ...
     }
   }
@@ -87,8 +37,7 @@ blurb...
 blurb...
 - parameters, eg
 ```
-  {  "major_name": "Python",
-     "minor_name": "py.test",
+  {  "display_name": "Python, py.test",
      "exercise_name": "Fizz_Buzz"
   }
 ```
@@ -102,7 +51,40 @@ blurb...
 
 - - - -
 
-## GET manifest
+## GET custom_start_points
+blurb...
+- parameters, none
+```
+  {}
+```
+- returns, eg
+```
+  { "custom_start_points": {
+      ...
+    }
+  }
+```
+
+- - - -
+
+## GET custom_manifest
+blurb...
+- parameters, eg
+```
+  {  "display_name": "Yahtzee refactoring, Java JUnit"
+  }
+```
+- returns, eg
+```
+  { "custom_manifest": {
+      ...
+    }
+  }
+```
+
+- - - -
+
+## GET old_manifest
 blurb...
 - parameters, eg
 ```
@@ -111,7 +93,7 @@ blurb...
 ```
 - returns, eg
 ```
-  { "manifest": {
+  { "old_manifest": {
       ...
     }
   }
