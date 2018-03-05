@@ -7,7 +7,7 @@ services:
     build:
       context: client
       args:
-        - CYBER_DOJO_STARTER_HOME=${CYBER_DOJO_STARTER_HOME}
+        - CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
         - PORT=${CYBER_DOJO_STARTER_CLIENT_PORT}
     user: nobody
     image: cyberdojo/starter_client
@@ -19,7 +19,7 @@ services:
       - starter
     restart: 'no'
     volumes:
-      - ./client/test:${CYBER_DOJO_STARTER_HOME}/test:ro
+      - ./client/test:${CYBER_DOJO_HOME}/test:ro
     environment:
       - CYBER_DOJO_STARTER_SERVICE_NAME
       - CYBER_DOJO_STARTER_SERVICE_PORT
@@ -33,7 +33,7 @@ services:
     build:
       context: server
       args:
-        - CYBER_DOJO_STARTER_HOME=${CYBER_DOJO_STARTER_HOME}
+        - CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
         - PORT=${CYBER_DOJO_STARTER_SERVICE_PORT}
     user: nobody
     image: cyberdojo/starter
@@ -47,5 +47,5 @@ services:
       - CYBER_DOJO_COVERAGE_ROOT
     volumes:
       - ./server/start_points:${CYBER_DOJO_START_POINTS_ROOT}:ro
-      - ./server/test:${CYBER_DOJO_STARTER_HOME}/test:ro
+      - ./server/test:${CYBER_DOJO_HOME}/test:ro
 
