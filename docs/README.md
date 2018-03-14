@@ -69,7 +69,7 @@ blurb...
 
 ## GET custom_manifest
 blurb...
-- parameters, eg
+- parameter, eg
 ```
   {  "display_name": "Yahtzee refactoring, Java JUnit"
   }
@@ -84,16 +84,21 @@ blurb...
 
 - - - -
 
-## GET old_manifest
+## GET updated_manifest
 blurb...
-- parameters, eg
+- parameter, eg
 ```
-  {  "old_name": "C"
+  {  "unit_test_framwork": "cassert",
+     "language": "C",
+     ...
   }
 ```
 - returns, eg
 ```
-  { "old_manifest": {
+  { "updated_manifest": {
+      "display_name": "C (gcc), assert",
+      "image_name": "cyberdojofoundation/gcc_assert",
+      "runner_choice": "stateless",
       ...
     }
   }

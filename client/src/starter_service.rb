@@ -22,10 +22,6 @@ class StarterService
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  def old_manifest(old_name)
-    get([old_name], __method__)
-  end
-
   def updated_manifest(manifest)
     get([manifest], __method__)
   end

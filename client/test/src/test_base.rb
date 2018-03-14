@@ -30,10 +30,6 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - -
 
-  def old_manifest(old_name)
-    starter.old_manifest(old_name)
-  end
-
   def updated_manifest(manifest)
     starter.updated_manifest(manifest)
   end

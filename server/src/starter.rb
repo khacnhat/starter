@@ -51,13 +51,8 @@ class Starter
   end
 
   # - - - - - - - - - - - - - - - - -
-  # get manifest from old kata that's been renamed
+  # update and old manifest
   # - - - - - - - - - - - - - - - - -
-
-  def old_manifest(old_name)
-    assert_string('old_name', old_name)
-    xlate(old_name.split('-', 2))
-  end
 
   def updated_manifest(manifest)
     assert_hash('manifest', manifest)
