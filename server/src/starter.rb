@@ -96,7 +96,7 @@ class Starter
   def xlate(parts)
     parts = Renamer.new.renamed(parts.map(&:strip))
     display_name = parts.join(', ')
-    cached_manifest('languages', 'old_name', display_name)
+    cached_manifest('languages', 'display_name', display_name)
   end
 
   # - - - - - - - - - - - - - - - - -
