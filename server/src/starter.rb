@@ -156,7 +156,7 @@ class Starter
   def cached_manifest(type, arg_name, arg)
     result = cache[type]['manifests'][arg]
     if result.nil?
-      error(arg_name, 'unknown')
+      error(arg_name, "#{arg}:unknown")
     end
     result
   end
@@ -164,7 +164,7 @@ class Starter
   def cached_exercise(exercise_name)
     result = cache['languages']['exercises'][exercise_name]
     if result.nil?
-      error('exercise_name', 'unknown')
+      error('exercise_name', "#{exercise_name}:unknown")
     end
     result
   end

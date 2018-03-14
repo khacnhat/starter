@@ -29,7 +29,7 @@ class CustomManifestTest < TestBase
   test '9C2',
   %w( unknown display_name becomes exception ) do
     custom_manifest('xxx, C# NUnit')
-    assert_exception('display_name:unknown')
+    assert_exception('display_name:xxx, C# NUnit:unknown')
   end
 
   # - - - - - - - - - - - - - - - - - - - -

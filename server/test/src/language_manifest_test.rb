@@ -39,14 +39,14 @@ class LanguageManifestTest < TestBase
 
   test 'D7C', %w( unknown display_name becomes exception ) do
     language_manifest('xxx, NUnit', 'Fizz_Buzz')
-    assert_exception('display_name:unknown')
+    assert_exception('display_name:xxx, NUnit:unknown')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7D', %w( unknown exercise_name becomes exception ) do
     language_manifest('C#, NUnit', 'xxx')
-    assert_exception('exercise_name:unknown')
+    assert_exception('exercise_name:xxx:unknown')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
