@@ -1,4 +1,4 @@
-NUNIT_PATH=/nunit/NUnit.2.6.2/lib
+NUNIT_PATH=/nunit/lib/net45
 export MONO_PATH=${NUNIT_PATH}
 
 mcs -t:library \
@@ -6,6 +6,6 @@ mcs -t:library \
   -out:RunTests.dll *.cs
 
 if [ $? -eq 0 ]; then
-  NUNIT_RUNNERS_PATH=/nunit/NUnit.Runners.2.6.1/tools
-  mono ${NUNIT_RUNNERS_PATH}/nunit-console.exe -nologo ./RunTests.dll
+  NUNIT_RUNNERS_PATH=/nunit/tools
+  mono ${NUNIT_RUNNERS_PATH}/nunit3-console.exe --noheader ./RunTests.dll
 fi
