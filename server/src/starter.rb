@@ -56,8 +56,50 @@ class Starter
 
   def old_manifest(old_name)
     assert_string('old_name', old_name)
-    parts = old_name.split('-', 2)
-    parts = Renamer.new.renamed(parts)
+    xlate(old_name.split('-', 2))
+  end
+
+  def updated_manifest(manifest)
+    assert_hash('manifest', manifest)
+    if manifest['unit_test_framework']
+      change_1_removed_unit_test_framework(manifest)
+    end
+    if manifest['runner_choice'].nil?
+      change_2_added_runner_choice(manifest)
+    end
+    manifest
+  end
+
+  private # = = = = = = = = = = = = =
+
+  def change_1_removed_unit_test_framework(manifest)
+    # removed manifest['unit_test_framework'] property
+    # removed manifest['language] property
+    # These coupled a manifest to a start-point
+    # Better for the manifest to be self-contained
+    xlated = xlate(manifest['language'].split('-', 2))
+    manifest['display_name'] = xlated['display_name']
+    manifest['image_name'] = xlated['image_name']
+    manifest.delete('language')
+    manifest.delete('unit_test_framework')
+    # 'browser' is no longer needed or used
+    manifest.delete('browser')
+    # 'filename_extension' is optional but worth adding
+    manifest['filename_extension'] ||= xlated['filename_extension']
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def change_2_added_runner_choice(manifest)
+    # added manifest['runner_choice'] property
+    xlated = xlate(manifest['display_name'].split(', '))
+    manifest['runner_choice'] = xlated['runner_choice']
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def xlate(parts)
+    parts = Renamer.new.renamed(parts.map(&:strip))
     display_name = parts.join(', ')
     cached_manifest('languages', 'old_name', display_name)
   end
@@ -68,7 +110,7 @@ class Starter
     raise RuntimeError.new("#{name}:unknown_method")
   end
 
-  private # = = = = = = = = = = = = =
+  # - - - - - - - - - - - - - - - - -
 
   attr_reader :cache
 
@@ -143,6 +185,14 @@ class Starter
   def assert_string(arg_name, arg)
     unless arg.is_a?(String)
       error(arg_name, '!string')
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def assert_hash(arg_name, arg)
+    unless arg.is_a?(Hash)
+      error(arg_name, '!Hash')
     end
   end
 

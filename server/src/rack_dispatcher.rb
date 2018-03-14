@@ -32,6 +32,7 @@ class RackDispatcher
       when /^custom_start_points$/   then []
       when /^custom_manifest$/       then [display_name]
       when /^old_manifest$/          then [old_name]
+      when /^updated_manifest$/      then [manifest]
     end
     [name, args]
   end
@@ -59,6 +60,10 @@ class RackDispatcher
   end
 
   def old_name
+    argument(__method__.to_s)
+  end
+
+  def manifest
     argument(__method__.to_s)
   end
 

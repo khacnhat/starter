@@ -56,6 +56,12 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def updated_manifest(manifest)
+    args = { manifest:manifest }
+    rack_call(__method__.to_s, args)
+    @json[__method__.to_s]
+  end
+
   def old_manifest(old_name)
     args = { old_name:old_name }
     rack_call(__method__.to_s, args)
