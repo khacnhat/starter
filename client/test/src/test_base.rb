@@ -34,4 +34,8 @@ class TestBase < HexMiniTest
     starter.old_manifest(old_name)
   end
 
+  def updated_manifest(manifest)
+    starter.updated_manifest(manifest)
+  end
+
 end

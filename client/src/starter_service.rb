@@ -26,6 +26,10 @@ class StarterService
     get([old_name], __method__)
   end
 
+  def updated_manifest(manifest)
+    get([manifest], __method__)
+  end
+
   private
 
   include HttpJsonService
