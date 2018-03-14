@@ -18,15 +18,27 @@ API:
 - - - -
 
 ## GET language_start_points
-blurb...
 - parameters, none
 ```
   {}
 ```
-- returns, eg
+- returns two arrays; the language-test-framework display_names and the exercises names
+for the starter service's currently installed languages start-point, eg
 ```
   { "language_start_points": {
-      ...
+      "languages": [
+        "C (gcc), assert",
+        "C#, NUnit",
+        "C++ (g++), assert",
+        "Python, py.test",
+        "Python, unittest"
+      ],
+      "exercises": [
+        "Bowling_Game",
+        "Fizz_Buzz",
+        "Leap_Years",
+        "Tiny_Maze"
+      ]
     }
   }
 ```
@@ -34,17 +46,30 @@ blurb...
 - - - -
 
 ## GET language_manifest
-blurb...
-- parameters, eg
+- parameters, display_name and exercise_name from a previous call to
+the language_start_points method above, eg
 ```
-  {  "display_name": "Python, py.test",
+  {  "display_name": "C#, NUnit",
      "exercise_name": "Fizz_Buzz"
   }
 ```
-- returns, eg
+- returns, the manifest for the given display_name
+and the exercise instructions text for the given exercise_name, eg
 ```
   { "language_manifest": {
-      ...
+       "manifest": {
+          "display_name": "C#, NUNit",
+          "image_name": "cyberdojofoundation/csharp_nunit",
+          "runner_choice": "stateless",
+          "exercise": "Fizz_Buzz",
+          "filename_extension": ".cs",
+          "visible_files": {
+             "Hiker.cs": "public class Hiker...",
+             "HikerTest.cs": "using NUnit.Framework;...",
+             "cyber-dojo.sh": "NUNIT_PATH=/nunit/lib/net45..."
+          }
+       },
+       "exercise": "Write a program that prints..."
     }
   }
 ```
@@ -52,32 +77,43 @@ blurb...
 - - - -
 
 ## GET custom_start_points
-blurb...
 - parameters, none
 ```
   {}
 ```
-- returns, eg
+- returns an array of the display_names for the starter service's currently installed
+custom start-point, eg
 ```
-  { "custom_start_points": {
-      ...
-    }
+  { "custom_start_points": [
+      "Yahtzee refactoring, C# NUnit",
+      "Yahtzee refactoring, C++ (g++) assert",
+      "Yahtzee refactoring, Java JUnit",
+      "Yahtzee refactoring, Python unitttest"
+    ]
   }
 ```
 
 - - - -
 
 ## GET custom_manifest
-blurb...
-- parameter, eg
+- parameter, display_name from a previous call to the custom_start_points method above, eg
 ```
-  {  "display_name": "Yahtzee refactoring, Java JUnit"
+  {  "display_name": "Yahtzee refactoring, C# NUnit"
   }
 ```
-- returns, eg
+- returns, the manifest for the given display_name, eg
 ```
   { "custom_manifest": {
-      ...
+       "display_name": "Yahtzee refactoring, C# NUnit",
+       "image_name": "cyberdojofoundation/csharp_nunit",
+       "runner_choice": "stateless",
+       "filename_extension": ".cs",
+       "visible_files": {
+          "Yahtzee.cs": "public class Yahtzee {...",
+          "YahtzeeTest.cs": "using NUnit.Framework;...",
+          "cyber-dojo.sh": "NUNIT_PATH=/nunit/lib/net45..."
+          "instructions": "The starting code..."
+       }
     }
   }
 ```
@@ -85,21 +121,23 @@ blurb...
 - - - -
 
 ## GET updated_manifest
-blurb...
-- parameter, eg
+- parameter, a manifest (possibly a very old one), eg
 ```
-  {  "unit_test_framwork": "cassert",
-     "language": "C",
-     ...
+  {  "manifest": {
+        "unit_test_framwork": "cassert",
+        "language": "C",
+        ...
+     }
   }
 ```
-- returns, eg
+- returns, an updated, useable, manifest, eg
 ```
   { "updated_manifest": {
-      "display_name": "C (gcc), assert",
-      "image_name": "cyberdojofoundation/gcc_assert",
-      "runner_choice": "stateless",
-      ...
+       "display_name": "C (gcc), assert",
+       "image_name": "cyberdojofoundation/gcc_assert",
+       "runner_choice": "stateless",
+       "filename_extension": ".c",
+       ...
     }
   }
 ```
