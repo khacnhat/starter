@@ -28,8 +28,8 @@ class RackDispatcher
     end
     args = case name
       when /^language_start_points$/ then []
-      when /^language_manifest$/     then [display_name,exercise_name]
       when /^custom_start_points$/   then []
+      when /^language_manifest$/     then [display_name,exercise_name]
       when /^custom_manifest$/       then [display_name]
       when /^updated_manifest$/      then [manifest]
     end
