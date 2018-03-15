@@ -1,5 +1,5 @@
 require 'json'
-require_relative 'renamer'
+require_relative 'updater'
 
 class Starter
 
@@ -56,48 +56,10 @@ class Starter
 
   def updated_manifest(manifest)
     assert_hash('manifest', manifest)
-    if manifest['language']
-      change_1_removed_language(manifest)
-    end
-    if manifest['runner_choice'].nil?
-      change_2_added_runner_choice(manifest)
-    end
-    manifest
+    Updater.update(manifest)
   end
 
   private # = = = = = = = = = = = = =
-
-  def change_1_removed_language(manifest)
-    # removed manifest['unit_test_framework'] property
-    # removed manifest['language] property
-    # These coupled a manifest to a start-point
-    # Better for the manifest to be self-contained
-    display_name = language_2_display_name(manifest['language'])
-    cache = cached_manifest('languages', display_name)
-    # add new properties
-    manifest['display_name'] = display_name
-    manifest['image_name'] = cache['image_name']
-    # remove old properties
-    manifest.delete('language')
-    manifest.delete('unit_test_framework')
-    manifest.delete('browser')
-  end
-
-  def language_2_display_name(language)
-    parts = language.split('-', 2).map(&:strip)
-    Renamer.new.renamed(parts).join(', ')
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def change_2_added_runner_choice(manifest)
-    # added manifest['runner_choice'] property
-    display_name = manifest['display_name']
-    cache = cached_manifest('languages', display_name)
-    manifest['runner_choice'] = cache['runner_choice']
-  end
-
-  # - - - - - - - - - - - - - - - - -
 
   def method_missing(name, *_args, &_block)
     raise RuntimeError.new("#{name}:unknown_method")

@@ -20,7 +20,7 @@ class UpdatedManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '351', %w( change #1
-  given a manifest with a 'language' property
+  given a old manifest with a 'language' property
   then it always also has a 'unit_test_framework' property
   and both are removed
   and the corresponding 'display_name' property is added
@@ -43,7 +43,7 @@ class UpdatedManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '352', %w( change #2
-  given a manifest without a 'runner_choice' property
+  given an old manifest without a 'runner_choice' property
   then the 'runner_choice' property is added
   ) do
     display_name = 'C#, NUnit'
@@ -57,7 +57,7 @@ class UpdatedManifestTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '353', %w( up to date manifest is unchanged ) do
+  test '353', %w( up-to-date manifest is unchanged ) do
     manifest = {
       'display_name' => 'C#, NUnit',
       'runner_choice' => 'stateless'
@@ -68,20 +68,20 @@ class UpdatedManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
 
-  test '354', %w( old_name that maps simply ) do
+  test '354', %w( old 'language' that maps simply ) do
     manifest = updated_manifest({
-      'unit_test_framework' => 'c_assert',
-      'language' => 'C (gcc)-assert'
+      'language' => 'C (gcc)-assert',
+      'unit_test_framework' => 'c_assert'
     })
     assert_equal 'C (gcc), assert', manifest['display_name']
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '355', %w( old_name that maps via rename ) do
+  test '355', %w( old 'language' that maps via rename ) do
     manifest = updated_manifest({
-      'unit_test_framework' => 'c_assert',
-      'language' => 'C (gcc)-assert'
+      'language' => 'C (gcc)-assert',
+      'unit_test_framework' => 'c_assert'
     })
     assert_equal 'C (gcc), assert', manifest['display_name']
   end
