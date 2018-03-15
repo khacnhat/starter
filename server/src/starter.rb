@@ -85,8 +85,9 @@ class Starter
 
   def change_2_added_runner_choice(manifest)
     # added manifest['runner_choice'] property
-    xlated = xlate(manifest['display_name'].split(', '))
-    manifest['runner_choice'] = xlated['runner_choice']
+    display_name = manifest['display_name']
+    cache = cached_manifest('languages', display_name)
+    manifest['runner_choice'] = cache['runner_choice']
   end
 
   # - - - - - - - - - - - - - - - - -
