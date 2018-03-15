@@ -74,13 +74,13 @@ class Starter
     # Better for the manifest to be self-contained
     display_name = language_2_display_name(manifest['language'])
     cache = cached_manifest('languages', display_name)
+    # add new properties
+    manifest['display_name'] = display_name
+    manifest['image_name'] = cache['image_name']
     # remove old properties
     manifest.delete('language')
     manifest.delete('unit_test_framework')
     manifest.delete('browser')
-    # add new properties
-    manifest['display_name'] = cache['display_name']
-    manifest['image_name'] = cache['image_name']
   end
 
   def language_2_display_name(language)
