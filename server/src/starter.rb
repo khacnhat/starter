@@ -56,8 +56,8 @@ class Starter
 
   def updated_manifest(manifest)
     assert_hash('manifest', manifest)
-    if manifest['unit_test_framework']
-      change_1_removed_unit_test_framework(manifest)
+    if manifest['language']
+      change_1_removed_language(manifest)
     end
     if manifest['runner_choice'].nil?
       change_2_added_runner_choice(manifest)
@@ -67,7 +67,7 @@ class Starter
 
   private # = = = = = = = = = = = = =
 
-  def change_1_removed_unit_test_framework(manifest)
+  def change_1_removed_language(manifest)
     # removed manifest['unit_test_framework'] property
     # removed manifest['language] property
     # These coupled a manifest to a start-point

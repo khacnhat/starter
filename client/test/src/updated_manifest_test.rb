@@ -17,18 +17,17 @@ class UpdatedManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '351', %w( change #1
-  given a manifest with a 'unit_test_frawework' property
-  then it always also has a 'language' property
+  given a manifest with a 'language' property
+  then it always also has a 'unit_test_framework' property
   and both are removed
-  and the 'display_name' property is added
-  and the 'image_name' property is added
-  and the 'runner_choice' property is added
+  and the corresponding 'display_name' property is added
+  and the corresponding 'image_name' property is added
+  and the corresponding 'runner_choice' property is added
   and also the 'browser' property is removed if present
-  and also the 'filename_extension' property is added if not present
   ) do
     manifest = updated_manifest({
-      'unit_test_framework' => 'csharp_nunit',
       'language' => 'C#-NUnit',
+      'unit_test_framework' => 'csharp_nunit',
       'browser' => 'blah blah'
     })
     expected_keys = %w( display_name image_name runner_choice )
