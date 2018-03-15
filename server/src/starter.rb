@@ -32,7 +32,7 @@ class Starter
     assert_string('display_name', display_name)
     assert_string('exercise_name', exercise_name)
     {
-      'manifest' => cached_manifest('languages', 'display_name', display_name),
+      'manifest' => cached_manifest('languages', display_name),
       'exercise' => cached_exercise(exercise_name)
     }
   end
@@ -47,7 +47,7 @@ class Starter
 
   def custom_manifest(display_name)
     assert_string('display_name', display_name)
-    cached_manifest('custom', 'display_name', display_name)
+    cached_manifest('custom', display_name)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -94,7 +94,7 @@ class Starter
   def xlate(parts)
     parts = Renamer.new.renamed(parts.map(&:strip))
     display_name = parts.join(', ')
-    cached_manifest('languages', 'display_name', display_name)
+    cached_manifest('languages', display_name)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -151,10 +151,10 @@ class Starter
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def cached_manifest(type, arg_name, arg)
-    result = cache[type]['manifests'][arg]
+  def cached_manifest(type, display_name)
+    result = cache[type]['manifests'][display_name]
     if result.nil?
-      error(arg_name, "#{arg}:unknown")
+      error('display_name', "#{display_name}:unknown")
     end
     result
   end
