@@ -8,13 +8,27 @@ class UpdatedManifestTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '350', %w( invalid argument raises ) do
+  test '349', %w( invalid argument raises ) do
     expected = { 'exception' => 'manifest:!Hash' }
     assert_rack_call_raw(
       'updated_manifest',
       '{ "manifest": 42 }',
       expected
     )
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '350', %w( dead properties are removed ) do
+    manifest = updated_manifest({
+      'display_name' => 'C#, NUnit',
+      'runner_choice' => 'stateless',
+      'image_name' => 'cyberdojofoundation/csharp_nunit',
+      'browser' => 'blah blah',
+      'red_amber_green' => '...regex...'
+    })
+    expected_keys = %w( display_name image_name runner_choice )
+    assert_equal expected_keys, manifest.keys.sort
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -26,12 +40,10 @@ class UpdatedManifestTest < TestBase
   and the corresponding 'display_name' property is added
   and the corresponding 'image_name' property is added
   and the corresponding 'runner_choice' property is added
-  and also the 'browser' property is removed if present
   ) do
     manifest = updated_manifest({
       'language' => 'C#-NUnit',
       'unit_test_framework' => 'csharp_nunit',
-      'browser' => 'blah blah'
     })
     expected_keys = %w( display_name image_name runner_choice )
     assert_equal expected_keys, manifest.keys.sort

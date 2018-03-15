@@ -2,13 +2,16 @@ require_relative 'renamer'
 
 class Updater
 
-  def self.update(manifest)
+  def self.updated(manifest)
     if manifest['language']
       change_1_removed_language(manifest)
     end
     if manifest['runner_choice'].nil?
       change_2_added_runner_choice(manifest)
     end
+    # remove dead properties
+    manifest.delete('browser')
+    manifest.delete('red_amber_green')
     manifest
   end
 
@@ -26,7 +29,6 @@ class Updater
     # remove old properties
     manifest.delete('language')
     manifest.delete('unit_test_framework')
-    manifest.delete('browser')
   end
 
   def self.language_2_display_name(language)

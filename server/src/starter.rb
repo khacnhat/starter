@@ -56,7 +56,7 @@ class Starter
 
   def updated_manifest(manifest)
     assert_hash('manifest', manifest)
-    Updater.update(manifest)
+    Updater.updated(manifest)
   end
 
   private # = = = = = = = = = = = = =
