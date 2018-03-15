@@ -79,8 +79,6 @@ class Starter
     manifest.delete('unit_test_framework')
     # 'browser' is no longer needed or used
     manifest.delete('browser')
-    # 'filename_extension' is optional but worth adding
-    manifest['filename_extension'] ||= xlated['filename_extension']
   end
 
   # - - - - - - - - - - - - - - - - -

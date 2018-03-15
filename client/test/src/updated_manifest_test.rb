@@ -31,10 +31,9 @@ class UpdatedManifestTest < TestBase
       'language' => 'C#-NUnit',
       'browser' => 'blah blah'
     })
-    expected_keys = %w( display_name filename_extension image_name runner_choice )
+    expected_keys = %w( display_name image_name runner_choice )
     assert_equal expected_keys, manifest.keys.sort
     assert_equal 'C#, NUnit', manifest['display_name']
-    assert_equal '.cs', manifest['filename_extension']
     assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
     assert_equal 'stateless', manifest['runner_choice']
   end
