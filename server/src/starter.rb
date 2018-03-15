@@ -1,5 +1,4 @@
 require 'json'
-require_relative 'updater'
 
 class Starter
 
@@ -48,15 +47,6 @@ class Starter
   def custom_manifest(display_name)
     assert_string('display_name', display_name)
     cached_manifest('custom', display_name)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-  # update and old manifest
-  # - - - - - - - - - - - - - - - - -
-
-  def updated_manifest(manifest)
-    assert_hash('manifest', manifest)
-    Updater.updated(manifest)
   end
 
   private # = = = = = = = = = = = = =
@@ -140,14 +130,6 @@ class Starter
   def assert_string(arg_name, arg)
     unless arg.is_a?(String)
       error(arg_name, '!string')
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def assert_hash(arg_name, arg)
-    unless arg.is_a?(Hash)
-      error(arg_name, '!Hash')
     end
   end
 

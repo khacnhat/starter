@@ -28,10 +28,4 @@ class TestBase < HexMiniTest
     starter.custom_manifest(display_name)
   end
 
-  # - - - - - - - - - - - - - - - - - -
-
-  def updated_manifest(manifest)
-    starter.updated_manifest(manifest)
-  end
-
 end

@@ -120,30 +120,6 @@ custom start-point, eg
 
 - - - -
 
-## GET updated_manifest
-- parameter, a manifest (possibly a very old one), eg
-```
-  {  "manifest": {
-        "unit_test_framwork": "cassert",
-        "language": "C",
-        ...
-     }
-  }
-```
-- returns, an updated, useable, manifest, eg
-```
-  { "updated_manifest": {
-       "display_name": "C (gcc), assert",
-       "image_name": "cyberdojofoundation/gcc_assert",
-       "runner_choice": "stateless",
-       "filename_extension": ".c",
-       ...
-    }
-  }
-```
-
-- - - -
-
 # build the docker images
 Builds the starter-server image and an example starter-client image.
 ```

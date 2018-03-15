@@ -56,14 +56,6 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def updated_manifest(manifest)
-    args = { manifest:manifest }
-    rack_call(__method__.to_s, args)
-    @json[__method__.to_s]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def assert_rack_call_raw(path_info, args, expected)
     rack = RackDispatcher.new(RackRequestStub)
     env = { body:args, path_info:path_info }

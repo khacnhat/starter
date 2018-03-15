@@ -31,7 +31,6 @@ class RackDispatcher
       when /^custom_start_points$/   then []
       when /^language_manifest$/     then [display_name,exercise_name]
       when /^custom_manifest$/       then [display_name]
-      when /^updated_manifest$/      then [manifest]
     end
     [name, args]
   end
@@ -55,10 +54,6 @@ class RackDispatcher
   end
 
   def exercise_name
-    argument(__method__.to_s)
-  end
-
-  def manifest
     argument(__method__.to_s)
   end
 
