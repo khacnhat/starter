@@ -72,13 +72,20 @@ class Starter
     # removed manifest['language] property
     # These coupled a manifest to a start-point
     # Better for the manifest to be self-contained
-    xlated = xlate(manifest['language'].split('-', 2))
-    manifest['display_name'] = xlated['display_name']
-    manifest['image_name'] = xlated['image_name']
+    display_name = language_2_display_name(manifest['language'])
+    cache = cached_manifest('languages', display_name)
+    # remove old properties
     manifest.delete('language')
     manifest.delete('unit_test_framework')
-    # 'browser' is no longer needed or used
     manifest.delete('browser')
+    # add new properties
+    manifest['display_name'] = cache['display_name']
+    manifest['image_name'] = cache['image_name']
+  end
+
+  def language_2_display_name(language)
+    parts = language.split('-', 2).map(&:strip)
+    Renamer.new.renamed(parts).join(', ')
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -88,14 +95,6 @@ class Starter
     display_name = manifest['display_name']
     cache = cached_manifest('languages', display_name)
     manifest['runner_choice'] = cache['runner_choice']
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def xlate(parts)
-    parts = Renamer.new.renamed(parts.map(&:strip))
-    display_name = parts.join(', ')
-    cached_manifest('languages', display_name)
   end
 
   # - - - - - - - - - - - - - - - - -
