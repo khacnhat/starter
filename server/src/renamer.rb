@@ -1,7 +1,7 @@
 
 class Renamer
 
-  def renamed(parts)
+  def self.renamed(parts)
     RENAMED[parts] || parts
   end
 

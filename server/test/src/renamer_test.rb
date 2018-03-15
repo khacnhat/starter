@@ -92,15 +92,11 @@ class RenamerTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   def assert_renamed(from, to)
-    assert_equal to, renamer.renamed(from)
+    assert_equal to, Renamer.renamed(from)
   end
 
   def assert_not_renamed(arg)
-    assert_equal arg, renamer.renamed(arg)
-  end
-
-  def renamer
-    Renamer.new
+    assert_equal arg, Renamer.renamed(arg)
   end
 
 end

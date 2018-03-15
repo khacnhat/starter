@@ -33,7 +33,7 @@ class Updater
 
   def self.language_2_display_name(language)
     parts = language.split('-', 2).map(&:strip)
-    Renamer.new.renamed(parts).join(', ')
+    Renamer.renamed(parts).join(', ')
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -47,12 +47,12 @@ class Updater
   # - - - - - - - - - - - - - - - - -
 
   def self.cache(display_name)
-    @@CACHE[display_name]
+    CACHE[display_name]
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  @@CACHE =
+  CACHE =
   {
     "Asm, assert" => {
       "image_name" => "cyberdojofoundation/nasm_assert",
