@@ -27,6 +27,13 @@ class TestBase < HexMiniTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def sha
+    rack_call(__method__.to_s, {})
+    @json[__method__.to_s]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def language_start_points
     rack_call(__method__.to_s, {})
     @json[__method__.to_s]

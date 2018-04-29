@@ -17,6 +17,12 @@ class Starter
   end
 
   # - - - - - - - - - - - - - - - - -
+
+  def sha
+    IO.read('/app/sha.txt').strip
+  end
+
+  # - - - - - - - - - - - - - - - - -
   # setting up a cyber-dojo: language,testFramwork + exercise
   # - - - - - - - - - - - - - - - - -
 
