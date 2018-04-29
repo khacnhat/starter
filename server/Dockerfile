@@ -35,8 +35,12 @@ COPY . ${CYBER_DOJO_HOME}
 RUN  chown -R nobody:nogroup ${CYBER_DOJO_HOME}
 USER nobody
 
+# - - - - - - - - - - - - - - - - -
+# git commit sha image is built from
+# - - - - - - - - - - - - - - - - -
+
 ARG SHA
-RUN echo ${SHA} > /app/sha.txt
+RUN echo ${SHA} > ${CYBER_DOJO_HOME}/sha.txt
 
 ARG PORT
 EXPOSE ${PORT}
