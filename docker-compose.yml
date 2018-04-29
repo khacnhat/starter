@@ -35,6 +35,7 @@ services:
       args:
         - CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
         - PORT=${CYBER_DOJO_STARTER_SERVICE_PORT}
+        - SHA=${SHA}
     user: nobody
     image: cyberdojo/starter
     init: true

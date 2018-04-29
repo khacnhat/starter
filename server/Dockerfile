@@ -35,6 +35,9 @@ COPY . ${CYBER_DOJO_HOME}
 RUN  chown -R nobody:nogroup ${CYBER_DOJO_HOME}
 USER nobody
 
+ARG SHA
+RUN echo ${SHA} > /app/sha.txt
+
 ARG PORT
 EXPOSE ${PORT}
 ENV PORT=${PORT}
