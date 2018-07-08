@@ -128,7 +128,7 @@ class Starter
   # - - - - - - - - - - - - - - - - - - - -
 
   def start_points_dir
-    ENV['CYBER_DOJO_START_POINTS_ROOT']
+    ENV['START_POINTS_ROOT']
   end
 
   # - - - - - - - - - - - - - - - - - - - -

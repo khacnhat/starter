@@ -7,4 +7,4 @@ readonly MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 . "${MY_DIR}/../.env"
 
-echo "demo is on port=${CYBER_DOJO_STARTER_CLIENT_PORT}"
+echo "demo is on port=${STARTER_CLIENT_PORT}"

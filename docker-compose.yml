@@ -7,8 +7,9 @@ services:
     build:
       context: client
       args:
-        - CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
-        - PORT=${CYBER_DOJO_STARTER_CLIENT_PORT}
+        - ALPINE_VERSION
+        - STARTER_HOME
+        - PORT=${STARTER_CLIENT_PORT}
     user: nobody
     image: cyberdojo/starter_client
     init: true
@@ -19,13 +20,13 @@ services:
       - starter
     restart: 'no'
     volumes:
-      - ./client/test:${CYBER_DOJO_HOME}/test:ro
+      - ./client/test:${STARTER_HOME}/test:ro
     environment:
-      - CYBER_DOJO_STARTER_SERVICE_NAME
-      - CYBER_DOJO_STARTER_SERVICE_PORT
-      - CYBER_DOJO_COVERAGE_ROOT
+      - STARTER_SERVICE_NAME
+      - STARTER_SERVICE_PORT
+      - STARTER_COVERAGE_ROOT
     ports:
-      - ${CYBER_DOJO_STARTER_CLIENT_PORT}:${CYBER_DOJO_STARTER_CLIENT_PORT}
+      - ${STARTER_CLIENT_PORT}:${STARTER_CLIENT_PORT}
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -33,9 +34,10 @@ services:
     build:
       context: server
       args:
-        - CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
-        - PORT=${CYBER_DOJO_STARTER_SERVICE_PORT}
-        - SHA=${SHA}
+        - ALPINE_VERSION
+        - STARTER_HOME
+        - PORT=${STARTER_SERVICE_PORT}
+        - SHA
     user: nobody
     image: cyberdojo/starter
     init: true
@@ -44,9 +46,9 @@ services:
     tmpfs: /tmp
     restart: 'no'
     environment:
-      - CYBER_DOJO_START_POINTS_ROOT
-      - CYBER_DOJO_COVERAGE_ROOT
+      - START_POINTS_ROOT
+      - STARTER_COVERAGE_ROOT
     volumes:
-      - ./server/start_points:${CYBER_DOJO_START_POINTS_ROOT}:ro
-      - ./server/test:${CYBER_DOJO_HOME}/test:ro
+      - ./server/start_points:${START_POINTS_ROOT}:ro
+      - ./server/test:${STARTER_HOME}/test:ro
 

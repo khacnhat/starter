@@ -1,4 +1,5 @@
-FROM  alpine:latest
+ARG   ALPINE_VERSION
+FROM  alpine:${ALPINE_VERSION}
 LABEL maintainer=jon@jaggersoft.com
 
 # - - - - - - - - - - - - - - -
@@ -16,9 +17,9 @@ RUN apk --update --no-cache add \
 # install ruby gems
 # - - - - - - - - - - - - - - -
 
-ARG             CYBER_DOJO_HOME
-COPY Gemfile  ${CYBER_DOJO_HOME}/
-WORKDIR       ${CYBER_DOJO_HOME}
+ARG             STARTER_HOME
+COPY Gemfile  ${STARTER_HOME}/
+WORKDIR       ${STARTER_HOME}
 
 RUN apk --update add --virtual build-dependencies build-base \
   && bundle config --global silence_root_warning 1 \
@@ -31,8 +32,8 @@ RUN apk --update add --virtual build-dependencies build-base \
 # setup server
 # - - - - - - - - - - - - - - -
 
-COPY . ${CYBER_DOJO_HOME}
-RUN  chown -R nobody:nogroup ${CYBER_DOJO_HOME}
+COPY . ${STARTER_HOME}
+RUN  chown -R nobody:nogroup ${STARTER_HOME}
 USER nobody
 
 # - - - - - - - - - - - - - - - - -
@@ -40,7 +41,7 @@ USER nobody
 # - - - - - - - - - - - - - - - - -
 
 ARG SHA
-RUN echo ${SHA} > ${CYBER_DOJO_HOME}/sha.txt
+RUN echo ${SHA} > ${STARTER_HOME}/sha.txt
 
 ARG PORT
 EXPOSE ${PORT}
