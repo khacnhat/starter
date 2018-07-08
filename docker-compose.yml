@@ -22,7 +22,7 @@ services:
     volumes:
       - ./client/test:${STARTER_HOME}/test:ro
     environment:
-      - STARTER_SERVICE_NAME
+      - STARTER_SERVICE_NAME=starter
       - STARTER_SERVICE_PORT
       - STARTER_COVERAGE_ROOT
     ports:
