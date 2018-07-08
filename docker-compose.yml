@@ -9,11 +9,11 @@ services:
       args:
         - ALPINE_VERSION
         - STARTER_HOME
-        - PORT=${STARTER_CLIENT_PORT}
     user: nobody
     image: cyberdojo/starter_client
     init: true
     container_name: test_starter_client
+    expose: [ "${STARTER_CLIENT_PORT}" ]
     read_only: true
     tmpfs: /tmp
     depends_on:
@@ -22,6 +22,7 @@ services:
     volumes:
       - ./client/test:${STARTER_HOME}/test:ro
     environment:
+      - STARTER_CLIENT_PORT
       - STARTER_SERVICE_NAME=starter
       - STARTER_SERVICE_PORT
       - STARTER_COVERAGE_ROOT
