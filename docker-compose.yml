@@ -36,16 +36,17 @@ services:
       args:
         - ALPINE_VERSION
         - STARTER_HOME
-        - PORT=${STARTER_SERVICE_PORT}
         - SHA
     user: nobody
     image: cyberdojo/starter
     init: true
     container_name: test_starter_server
+    expose: [ "${STARTER_SERVICE_PORT}" ]
     read_only: true
     tmpfs: /tmp
     restart: 'no'
     environment:
+      - STARTER_SERVICE_PORT
       - START_POINTS_ROOT
       - STARTER_COVERAGE_ROOT
     volumes:

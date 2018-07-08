@@ -43,9 +43,5 @@ USER nobody
 ARG SHA
 RUN echo ${SHA} > ${STARTER_HOME}/sha.txt
 
-ARG PORT
-EXPOSE ${PORT}
-ENV PORT=${PORT}
-
 CMD [ "./up.sh" ]
 
