@@ -32,8 +32,6 @@ services:
     read_only: true
     tmpfs: /tmp
     restart: 'no'
-    environment:
-      - START_POINTS_ROOT
     volumes:
-      - ./server/start_points:${START_POINTS_ROOT}:ro
+      - ./server/start_points:/app/start_points:ro
 

@@ -128,7 +128,7 @@ class Starter
   # - - - - - - - - - - - - - - - - - - - -
 
   def start_points_dir
-    ENV['START_POINTS_ROOT']
+    '/app/start_points'
   end
 
   # - - - - - - - - - - - - - - - - - - - -
