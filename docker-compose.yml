@@ -6,28 +6,17 @@ services:
   starter_client:
     build:
       context: client
-      args:
-        - ALPINE_VERSION
-        - STARTER_HOME
     user: nobody
     image: cyberdojo/starter_client
     init: true
     container_name: test_starter_client
-    expose: [ "${STARTER_CLIENT_PORT}" ]
     read_only: true
     tmpfs: /tmp
     depends_on:
       - starter
     restart: 'no'
-    volumes:
-      - ./client/test:${STARTER_HOME}/test:ro
-    environment:
-      - STARTER_CLIENT_PORT
-      - STARTER_SERVICE_NAME=starter
-      - STARTER_SERVICE_PORT
-      - STARTER_COVERAGE_ROOT
     ports:
-      - ${STARTER_CLIENT_PORT}:${STARTER_CLIENT_PORT}
+      - 4528:4528
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -35,22 +24,16 @@ services:
     build:
       context: server
       args:
-        - ALPINE_VERSION
-        - STARTER_HOME
         - SHA
     user: nobody
     image: cyberdojo/starter
     init: true
     container_name: test_starter_server
-    expose: [ "${STARTER_SERVICE_PORT}" ]
     read_only: true
     tmpfs: /tmp
     restart: 'no'
     environment:
-      - STARTER_SERVICE_PORT
       - START_POINTS_ROOT
-      - STARTER_COVERAGE_ROOT
     volumes:
       - ./server/start_points:${START_POINTS_ROOT}:ro
-      - ./server/test:${STARTER_HOME}/test:ro
 

@@ -1,5 +1,4 @@
-ARG   ALPINE_VERSION
-FROM  alpine:${ALPINE_VERSION}
+FROM  alpine:3.7
 LABEL maintainer=jon@jaggersoft.com
 
 # - - - - - - - - - - - - - - -
@@ -17,7 +16,7 @@ RUN apk --update --no-cache add \
 # install ruby gems
 # - - - - - - - - - - - - - - -
 
-ARG             STARTER_HOME
+ARG             STARTER_HOME=/app
 COPY Gemfile  ${STARTER_HOME}/
 WORKDIR       ${STARTER_HOME}
 
@@ -36,4 +35,5 @@ COPY . ${STARTER_HOME}
 RUN  chown -R nobody:nogroup ${STARTER_HOME}
 USER nobody
 
+EXPOSE 4528
 CMD [ "./up.sh" ]

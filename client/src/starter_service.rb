@@ -25,11 +25,11 @@ class StarterService
   include HttpJsonService
 
   def hostname
-    ENV['STARTER_SERVICE_NAME']
+    'starter'
   end
 
   def port
-    ENV['STARTER_SERVICE_PORT']
+    4527
   end
 
 end
