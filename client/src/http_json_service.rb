@@ -1,3 +1,4 @@
+require_relative 'service_error'
 require 'json'
 require 'net/http'
 
@@ -29,15 +30,19 @@ module HttpJsonService # mix-in
   end
 
   def result(json, name)
-    raise error(name, 'bad json') unless json.class.name == 'Hash'
+    fail error(name, 'bad json') unless json.class.name == 'Hash'
     exception = json['exception']
-    raise error(name, exception)  unless exception.nil?
-    raise error(name, 'no key')   unless json.key? name
+    fail error(name, pretty(exception)) unless exception.nil?
+    fail error(name, 'no key') unless json.key?(name)
     json[name]
   end
 
   def error(name, message)
-    RuntimeError.new("#{self.class.name}:#{name}:#{message}")
+    ServiceError.new(self.class.name, name, message)
+  end
+
+  def pretty(json)
+    JSON.pretty_generate(json)
   end
 
 end

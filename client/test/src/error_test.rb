@@ -13,8 +13,10 @@ class ErrorTest < TestBase
     error = assert_raises {
       starter.language_manifest('C#, NUnit', nil)
     }
-    expected = 'StarterService:language_manifest:exercise_name:!string'
-    assert_equal expected, error.message
+    assert_equal 'ServiceError', error.class.name
+    assert_equal 'StarterService', error.service_name
+    assert_equal 'language_manifest', error.method_name
+    assert_equal '"exercise_name:!string"', error.message
   end
 
 end
