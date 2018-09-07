@@ -13,7 +13,7 @@ class TestBase < HexMiniTest
 
   def rack_call(method_name, args = {})
     env = { body:args.to_json, path_info:method_name }
-    result = rack.call(env)
+    result,_stderr = with_captured_stderr { rack.call(env) }
     @json = JSON.parse(result[2][0])
   end
 
@@ -66,10 +66,23 @@ class TestBase < HexMiniTest
   def assert_rack_call_raw(path_info, args, expected)
     rack = RackDispatcher.new(RackRequestStub)
     env = { body:args, path_info:path_info }
-    tuple = rack.call(env)
+    tuple,_stderr = with_captured_stderr { rack.call(env) }
     assert_equal 200, tuple[0]
     assert_equal({ 'Content-Type' => 'application/json' }, tuple[1])
     assert_equal [ expected.to_json ], tuple[2]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def with_captured_stderr
+    begin
+      old_stderr = $stderr
+      $stderr = StringIO.new('', 'w')
+      tuple = yield
+      return [ tuple, $stderr.string ]
+    ensure
+      $stderr = old_stderr
+    end
   end
 
 end

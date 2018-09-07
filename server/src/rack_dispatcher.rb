@@ -14,8 +14,14 @@ class RackDispatcher
     result = @starter.public_send(name, *args)
     json_response({ name => result })
   rescue => error
-    #puts "<#{error.message}>"
-    #puts error.backtrace
+    info = {
+      'class' => error.class.name,
+      'exception' => error.message,
+      'trace' => error.backtrace,
+    }
+    $stderr.puts pretty(info)
+    $stderr.flush
+    #json_response(status(error), info)
     json_response({ 'exception' => error.message })
   end
 
@@ -23,7 +29,7 @@ class RackDispatcher
 
   def validated_name_args(request)
     name = request.path_info[1..-1] # lose leading /
-    @args = json_parse(request.body.read)
+    @args = JSON.parse(request.body.read)
     unless @args.is_a?(Hash)
       raise 'json:!Hash'
     end
@@ -37,14 +43,14 @@ class RackDispatcher
     [name, args]
   end
 
-  def json_parse(request)
-    JSON.parse(request)
-  rescue
-    raise 'json:invalid'
-  end
+  # - - - - - - - - - - - - - - - -
 
   def json_response(body)
     [ 200, { 'Content-Type' => 'application/json' }, [ body.to_json ] ]
+  end
+
+  def pretty(o)
+    JSON.pretty_generate(o)
   end
 
   # - - - - - - - - - - - - - - - -

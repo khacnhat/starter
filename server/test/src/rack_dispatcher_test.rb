@@ -29,10 +29,10 @@ class RackDispatcherTest < TestBase
   test 'BB1',
   %w( invalid json in http payload becomes exception ) do
     assert_rack_call_raw('languages_choices', 'sdfsdf',
-      { exception:'json:invalid' }
+      { exception:"765: unexpected token at 'sdfsdf'" }
     )
     assert_rack_call_raw('languages_choices', 'nil',
-      { exception:'json:invalid' }
+      { exception:"765: unexpected token at 'nil'" }
     )
   end
 
