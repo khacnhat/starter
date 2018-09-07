@@ -18,10 +18,10 @@ class TestBase < HexMiniTest
   end
 
   def assert_exception(expected)
-    assert_equal jpg(expected), jpg(@json['exception']), jpg(@json)
+    assert_equal pretty(expected), pretty(@json['exception']), pretty(@json)
   end
 
-  def jpg(o)
+  def pretty(o)
     JSON.pretty_generate(o)
   end
 
@@ -66,10 +66,10 @@ class TestBase < HexMiniTest
   def assert_rack_call_raw(path_info, args, expected)
     rack = RackDispatcher.new(RackRequestStub)
     env = { body:args, path_info:path_info }
-    tuple,_stderr = with_captured_stderr { rack.call(env) }
-    assert_equal 200, tuple[0]
-    assert_equal({ 'Content-Type' => 'application/json' }, tuple[1])
-    assert_equal [ expected.to_json ], tuple[2]
+    response,_stderr = with_captured_stderr { rack.call(env) }
+    assert_equal 200, response[0]
+    assert_equal({ 'Content-Type' => 'application/json' }, response[1])
+    assert_equal [ expected.to_json ], response[2]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -78,8 +78,8 @@ class TestBase < HexMiniTest
     begin
       old_stderr = $stderr
       $stderr = StringIO.new('', 'w')
-      tuple = yield
-      return [ tuple, $stderr.string ]
+      response = yield
+      return [ response, $stderr.string ]
     ensure
       $stderr = old_stderr
     end
