@@ -70,12 +70,12 @@ class TestBase < HexMiniTest
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_exception(class_name, message_name, body, stderr)
-    assert_equal class_name, body['class']
-    assert_equal class_name, stderr['class']
-    assert_equal message_name, body['message']
-    assert_equal message_name, stderr['message']
-    assert_equal 'Array', body['backtrace'].class.name
-    assert_equal 'Array', stderr['backtrace'].class.name
+    [body,stderr].each do |s|
+      ex = s['exception']
+      assert_equal class_name, ex['class'], s
+      assert_equal message_name, ex['message'], s
+      assert_equal 'Array', ex['backtrace'].class.name, s
+    end
   end
 
 end
