@@ -11,19 +11,20 @@ class RackDispatcher
   def call(env)
     request = @request.new(env)
     name, args = validated_name_args(request)
-    triple({ name => @starter.public_send(name, *args) })
+    result = @starter.public_send(name, *args)
+    json_response({ name => result })
   rescue => error
     #puts "<#{error.message}>"
     #puts error.backtrace
-    triple({ 'exception' => error.message })
+    json_response({ 'exception' => error.message })
   end
 
   private # = = = = = = = = = = = =
 
   def validated_name_args(request)
     name = request.path_info[1..-1] # lose leading /
-    @json_args = json_parse(request.body.read)
-    unless @json_args.is_a?(Hash)
+    @args = json_parse(request.body.read)
+    unless @args.is_a?(Hash)
       raise 'json:!Hash'
     end
     args = case name
@@ -42,7 +43,7 @@ class RackDispatcher
     raise 'json:invalid'
   end
 
-  def triple(body)
+  def json_response(body)
     [ 200, { 'Content-Type' => 'application/json' }, [ body.to_json ] ]
   end
 
@@ -63,10 +64,10 @@ class RackDispatcher
   # - - - - - - - - - - - - - - - -
 
   def argument(name)
-    unless @json_args.key?(name)
+    unless @args.key?(name)
       raise ArgumentError.new("#{name}:missing")
     end
-    @json_args[name]
+    @args[name]
   end
 
 end
