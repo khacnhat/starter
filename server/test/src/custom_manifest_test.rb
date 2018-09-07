@@ -10,33 +10,33 @@ class CustomManifestTest < TestBase
 
   test '9C0',
   %w( missing display_name becomes exception ) do
-    assert_rack_call_raw('custom_manifest',
-      '{}',
-      { exception:'display_name:missing' }
-    )
+    body,stderr = assert_rack_call_raw(500, 'custom_manifest', '{}')
+    assert_exception('ArgumentError', 'display_name:missing', body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '9C1',
   %w( non-string display_name becomes exception ) do
-    custom_manifest(42)
-    assert_exception('display_name:!string')
+    body,stderr = custom_manifest(500, 42)
+    assert_exception('ArgumentError', 'display_name:!string', body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '9C2',
   %w( unknown display_name becomes exception ) do
-    custom_manifest('xxx, C# NUnit')
-    assert_exception('display_name:xxx, C# NUnit:unknown')
+    body,stderr = custom_manifest(500, 'xxx, C# NUnit')
+    assert_exception('ArgumentError', 'display_name:xxx, C# NUnit:unknown', body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '9C3',
   %w( valid display_name ) do
-    manifest = custom_manifest('Yahtzee refactoring, C# NUnit')
+    body,stderr = custom_manifest(200, 'Yahtzee refactoring, C# NUnit')
+    assert_equal({}, stderr)
+    manifest = body['custom_manifest']
 
     expected_keys = %w(
       display_name image_name runner_choice visible_files

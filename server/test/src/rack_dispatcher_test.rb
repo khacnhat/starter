@@ -13,39 +13,36 @@ class RackDispatcherTest < TestBase
 
   test 'BB0',
   %w( unknown method-name becomes exception ) do
-    assert_rack_call_raw('blah', '{}',
-      { exception:'blah:unknown_method' }
-    )
-    assert_rack_call_raw('Languages_choices', '{}',
-      { exception:'Languages_choices:unknown_method' }
-    )
-    assert_rack_call_raw('a b', '{}',
-      { exception:'a b:unknown_method' }
-    )
+    body,stderr = assert_rack_call_raw(400, 'blah', '{}')
+    assert_exception('ClientError', 'json:malformed', body, stderr)
+
+    body,stderr = assert_rack_call_raw(400, 'Languages_choices', '{}')
+    assert_exception('ClientError', 'json:malformed', body, stderr)
+
+    body,stderr = assert_rack_call_raw(400, 'a b', '{}')
+    assert_exception('ClientError', 'json:malformed', body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test 'BB1',
   %w( invalid json in http payload becomes exception ) do
-    assert_rack_call_raw('languages_choices', 'sdfsdf',
-      { exception:"765: unexpected token at 'sdfsdf'" }
-    )
-    assert_rack_call_raw('languages_choices', 'nil',
-      { exception:"765: unexpected token at 'nil'" }
-    )
+    body,stderr = assert_rack_call_raw(500, 'languages_choices', 'sdfsdf')
+    assert_exception('JSON::ParserError', "765: unexpected token at 'sdfsdf'", body, stderr)
+
+    body,stderr = assert_rack_call_raw(500, 'languages_choices', 'nil')
+    assert_exception('JSON::ParserError', "765: unexpected token at 'nil'", body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test 'BB2',
   %w( non-hash in http payload becomes exception ) do
-    assert_rack_call_raw('languages_choices', 'null',
-      { exception:'json:!Hash' }
-    )
-    assert_rack_call_raw('languages_choices', '[]',
-      { exception:'json:!Hash' }
-    )
+    body,stderr = assert_rack_call_raw(400, 'languages_choices', 'null')
+    assert_exception('ClientError', 'json:malformed', body, stderr)
+
+    body,stderr = assert_rack_call_raw(400, 'languages_choices', '[]')
+    assert_exception('ClientError', 'json:malformed', body, stderr)
   end
 
 end

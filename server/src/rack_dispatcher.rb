@@ -1,3 +1,4 @@
+require_relative 'client_error'
 require_relative 'starter'
 require 'json'
 
@@ -12,17 +13,16 @@ class RackDispatcher
     request = @request.new(env)
     name, args = validated_name_args(request)
     result = @starter.public_send(name, *args)
-    json_response({ name => result })
+    json_response(200, { name => result })
   rescue => error
     info = {
       'class' => error.class.name,
-      'exception' => error.message,
-      'trace' => error.backtrace,
+      'message' => error.message,
+      'backtrace' => error.backtrace,
     }
     $stderr.puts pretty(info)
     $stderr.flush
-    #json_response(status(error), info)
-    json_response({ 'exception' => error.message })
+    json_response(status(error), info)
   end
 
   private # = = = = = = = = = = = =
@@ -30,27 +30,30 @@ class RackDispatcher
   def validated_name_args(request)
     name = request.path_info[1..-1] # lose leading /
     @args = JSON.parse(request.body.read)
-    unless @args.is_a?(Hash)
-      raise 'json:!Hash'
-    end
     args = case name
       when /^sha$/                   then []
       when /^language_start_points$/ then []
       when /^custom_start_points$/   then []
       when /^language_manifest$/     then [display_name,exercise_name]
       when /^custom_manifest$/       then [display_name]
+      else
+        raise ClientError, 'json:malformed'
     end
     [name, args]
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def json_response(body)
-    [ 200, { 'Content-Type' => 'application/json' }, [ body.to_json ] ]
+  def json_response(status, body)
+    [ status, { 'Content-Type' => 'application/json' }, [ pretty(body) ] ]
   end
 
   def pretty(o)
     JSON.pretty_generate(o)
+  end
+
+  def status(error)
+    error.is_a?(ClientError) ? 400 : 500
   end
 
   # - - - - - - - - - - - - - - - -

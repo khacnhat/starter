@@ -8,9 +8,11 @@ class CustomStartPointsTest < TestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '9C1',
+  test '6C1',
   %w( display-names are unique and sorted ) do
-    start_points = custom_start_points
+    body,stderr = custom_start_points(200)
+    assert_equal({}, stderr)
+    start_points = body['custom_start_points']
     expected = [
       'Yahtzee refactoring, C# NUnit',
       'Yahtzee refactoring, C++ (g++) assert',

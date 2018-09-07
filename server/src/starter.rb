@@ -57,12 +57,6 @@ class Starter
 
   private # = = = = = = = = = = = = =
 
-  def method_missing(name, *_args, &_block)
-    raise RuntimeError.new("#{name}:unknown_method")
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
   attr_reader :cache
 
   def display_names(sub_dir)

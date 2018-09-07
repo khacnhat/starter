@@ -16,7 +16,7 @@ class ErrorTest < TestBase
     assert_equal 'ServiceError', error.class.name
     assert_equal 'StarterService', error.service_name
     assert_equal 'language_manifest', error.method_name
-    assert_equal '"exercise_name:!string"', error.message
+    assert_equal 'no key', error.message
   end
 
 end

@@ -10,49 +10,48 @@ class LanguageManifestTest < TestBase
 
   test 'D7A',
   %w( missing argument becomes exception ) do
-    assert_rack_call_raw('language_manifest',
-      '{}',
-      { exception:'display_name:missing' }
-    )
-    assert_rack_call_raw('language_manifest',
-      '{"display_name":42}',
-      { exception:'exercise_name:missing' }
-    )
-    assert_rack_call_raw('language_manifest',
-      '{"exercise_name":42}',
-      { exception:'display_name:missing' }
-    )
+    body,stderr = assert_rack_call_raw(500, 'language_manifest', '{}')
+    assert_exception('ArgumentError', 'display_name:missing', body, stderr)
+
+    body,stderr = assert_rack_call_raw(500, 'language_manifest', '{"display_name":42}')
+    assert_exception('ArgumentError', 'exercise_name:missing', body, stderr)
+
+    body,stderr = assert_rack_call_raw(500, 'language_manifest', '{"exercise_name":42}')
+    assert_exception('ArgumentError', 'display_name:missing', body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7B',
   %w( non-string argument becomes exception ) do
-    language_manifest(42, 'Fizz_Buzz')
-    assert_exception('display_name:!string')
+    body,stderr = language_manifest(500, 42, 'Fizz_Buzz')
+    assert_exception('ArgumentError', 'display_name:!string', body, stderr)
 
-    language_manifest('xxx', 42)
-    assert_exception('exercise_name:!string')
+    body,stderr = language_manifest(500, 'xxx', 42)
+    assert_exception('ArgumentError', 'exercise_name:!string', body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7C', %w( unknown display_name becomes exception ) do
-    language_manifest('xxx, NUnit', 'Fizz_Buzz')
-    assert_exception('display_name:xxx, NUnit:unknown')
+    body,stderr = language_manifest(500, 'xxx, NUnit', 'Fizz_Buzz')
+    assert_exception('ArgumentError', 'display_name:xxx, NUnit:unknown', body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7D', %w( unknown exercise_name becomes exception ) do
-    language_manifest('C#, NUnit', 'xxx')
-    assert_exception('exercise_name:xxx:unknown')
+    body,stderr = language_manifest(500, 'C#, NUnit', 'xxx')
+    assert_exception('ArgumentError', 'exercise_name:xxx:unknown', body, stderr)
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7E', %w( valid with no optional properties ) do
-    result = language_manifest('C#, NUnit', 'Fizz_Buzz')
+    body,stderr = language_manifest(200, 'C#, NUnit', 'Fizz_Buzz')
+
+    assert_equal({}, stderr)
+    result = body['language_manifest']
 
     manifest = result['manifest']
     expected_keys = %w(
@@ -74,7 +73,10 @@ class LanguageManifestTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test 'D7F', %w( valid with some optional properties ) do
-    result = language_manifest('Python, unittest', 'Fizz_Buzz')
+    body,stderr = language_manifest(200, 'Python, unittest', 'Fizz_Buzz')
+
+    assert_equal({}, stderr)
+    result = body['language_manifest']
 
     manifest = result['manifest']
     expected_keys = %w(

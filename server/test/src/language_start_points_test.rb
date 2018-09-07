@@ -10,7 +10,9 @@ class LanguageStartPointsTest < TestBase
 
   test '0F4',
   %w( display-names ) do
-    start_points = language_start_points
+    body,stderr = language_start_points(200)
+    assert_equal({}, stderr)
+    start_points = body['language_start_points']
     expected = [
       'C (gcc), assert',
       'C#, NUnit',
@@ -25,7 +27,9 @@ class LanguageStartPointsTest < TestBase
 
   test '0F5',
   %w( exercise-names ) do
-    start_points = language_start_points
+    body,stderr = language_start_points(200)
+    assert_equal({}, stderr)
+    start_points = body['language_start_points']
     expected = [
       'Bowling_Game',
       'Fizz_Buzz',
@@ -39,7 +43,9 @@ class LanguageStartPointsTest < TestBase
 
   test '0F6',
   %w( instructions ) do
-    @start_points = language_start_points
+    body,stderr = language_start_points(200)
+    assert_equal({}, stderr)
+    @start_points = body['language_start_points']
 
     expected = 'Write a program to score a game of Ten-Pin Bowling.'
     assert_line('Bowling_Game', expected)
