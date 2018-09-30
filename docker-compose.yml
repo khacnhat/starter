@@ -7,9 +7,9 @@ services:
     build:
       context: client
     user: nobody
-    image: cyberdojo/starter_client
+    image: cyberdojo/starter-client
     init: true
-    container_name: test_starter_client
+    container_name: test-starter-client
     read_only: true
     tmpfs: /tmp
     depends_on:
@@ -28,7 +28,7 @@ services:
     user: nobody
     image: cyberdojo/starter
     init: true
-    container_name: test_starter_server
+    container_name: test-starter-server
     read_only: true
     tmpfs: /tmp
     restart: 'no'
