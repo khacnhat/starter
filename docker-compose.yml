@@ -22,7 +22,7 @@ services:
 
   starter:
     build:
-      context: server
+      context: .
       args:
         - SHA
     user: nobody
@@ -33,5 +33,4 @@ services:
     tmpfs: /tmp
     restart: 'no'
     volumes:
-      - ./server/start_points:/app/start_points:ro
-
+      - ./src/start_points:/app/start_points:ro
