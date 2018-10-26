@@ -81,7 +81,6 @@ class Starter
         Hash[visible_filenames.collect { |filename|
           [filename, IO.read("#{dir}/#{filename}")]
         }]
-      manifest['visible_files']['output'] = ''
       manifest.delete('visible_filenames')
       manifests[display_name] = manifest
     end
