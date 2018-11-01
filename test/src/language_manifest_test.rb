@@ -60,7 +60,7 @@ class LanguageManifestTest < TestBase
     assert_equal expected_keys.sort, manifest.keys.sort
 
     assert_equal 'C#, NUnit', manifest['display_name']
-    assert_equal '.cs', manifest['filename_extension']
+    assert_equal ['.cs'], manifest['filename_extension']
     assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
     assert_equal 'stateless', manifest['runner_choice']
     expected_filenames = %w( Hiker.cs HikerTest.cs cyber-dojo.sh )
@@ -92,7 +92,7 @@ class LanguageManifestTest < TestBase
     assert_equal expected_filenames, manifest['visible_files'].keys.sort
 
     assert_equal [ 'test_hiker.py' ], manifest['highlight_filenames']
-    assert_equal '.py', manifest['filename_extension']
+    assert_equal [ '.py' ], manifest['filename_extension']
     assert_equal 11, manifest['max_seconds']
     assert_equal [ 'FAILED \\(failures=\\d+\\)', 'OK' ], manifest['progress_regexs']
     assert_equal 3, manifest['tab_size']

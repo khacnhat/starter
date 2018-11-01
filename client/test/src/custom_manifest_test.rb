@@ -19,7 +19,7 @@ class CustomManifestTest < TestBase
     assert_equal expected_keys.sort, manifest.keys.sort
 
     assert_equal 'Yahtzee refactoring, Java JUnit', manifest['display_name']
-    assert_equal '.java', manifest['filename_extension']
+    assert_equal ['.java'], manifest['filename_extension']
     assert_equal 'cyberdojofoundation/java_junit', manifest['image_name']
     assert_equal 'stateless', manifest['runner_choice']
     expected_filenames = %w( Yahtzee.java YahtzeeTest.java cyber-dojo.sh instructions )

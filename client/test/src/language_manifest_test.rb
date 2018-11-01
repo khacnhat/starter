@@ -18,7 +18,7 @@ class LanguageManifestTest < TestBase
     assert_equal expected_keys.sort, manifest.keys.sort
 
     assert_equal 'C#, NUnit', manifest['display_name']
-    assert_equal '.cs', manifest['filename_extension']
+    assert_equal ['.cs'], manifest['filename_extension']
     assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
     assert_equal 'stateless', manifest['runner_choice']
     expected_filenames = %w( Hiker.cs HikerTest.cs cyber-dojo.sh )

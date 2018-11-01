@@ -82,6 +82,9 @@ class Starter
           [filename, IO.read("#{dir}/#{filename}")]
         }]
       manifest.delete('visible_filenames')
+      if manifest['filename_extension'].is_a?(String)
+        manifest['filename_extension'] = [ manifest['filename_extension'] ]
+      end
       manifests[display_name] = manifest
     end
     manifests
