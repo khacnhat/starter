@@ -75,7 +75,7 @@ and the exercise instructions text for the given exercise_name, eg
           "image_name": "cyberdojofoundation/csharp_nunit",
           "runner_choice": "stateless",
           "exercise": "Fizz_Buzz",
-          "filename_extension": ".cs",
+          "filename_extension": [".cs"],
           "visible_files": {
              "Hiker.cs": "public class Hiker...",
              "HikerTest.cs": "using NUnit.Framework;...",
@@ -120,7 +120,7 @@ custom start-point, eg
        "display_name": "Yahtzee refactoring, C# NUnit",
        "image_name": "cyberdojofoundation/csharp_nunit",
        "runner_choice": "stateless",
-       "filename_extension": ".cs",
+       "filename_extension": [".cs"],
        "visible_files": {
           "Yahtzee.cs": "public class Yahtzee {...",
           "YahtzeeTest.cs": "using NUnit.Framework;...",
