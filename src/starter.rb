@@ -63,7 +63,7 @@ class Starter
     display_names = []
     pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
     Dir.glob(pattern).each do |filename|
-      json = JSON.parse(IO.read(filename))
+      json = JSON.parse!(IO.read(filename))
       display_names << json['display_name']
     end
     display_names.sort
@@ -73,7 +73,7 @@ class Starter
     manifests = {}
     pattern = "#{start_points_dir}/#{sub_dir}/**/manifest.json"
     Dir.glob(pattern).each do |manifest_filename|
-      manifest = JSON.parse(IO.read(manifest_filename))
+      manifest = JSON.parse!(IO.read(manifest_filename))
       display_name = manifest['display_name']
       visible_filenames = manifest['visible_filenames']
       dir = File.dirname(manifest_filename)
