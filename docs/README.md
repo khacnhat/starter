@@ -74,12 +74,17 @@ and the exercise instructions text for the given exercise_name, eg
           "display_name": "C#, NUNit",
           "image_name": "cyberdojofoundation/csharp_nunit",
           "runner_choice": "stateless",
-          "exercise": "Fizz_Buzz",
-          "filename_extension": [".cs"],
+          "filename_extension": [ ".cs" ],
           "visible_files": {
-             "Hiker.cs": "public class Hiker...",
-             "HikerTest.cs": "using NUnit.Framework;...",
-             "cyber-dojo.sh": "NUNIT_PATH=/nunit/lib/net45..."
+             "Hiker.cs": {               
+               "content" => "public class Hiker..."
+             },
+             "HikerTest.cs": {
+               "content" => "using NUnit.Framework;..."
+             },
+             "cyber-dojo.sh": {
+               "content" => "NUNIT_PATH=/nunit/lib/net45..."
+             }
           }
        },
        "exercise": "Write a program that prints..."
@@ -122,10 +127,18 @@ custom start-point, eg
        "runner_choice": "stateless",
        "filename_extension": [".cs"],
        "visible_files": {
-          "Yahtzee.cs": "public class Yahtzee {...",
-          "YahtzeeTest.cs": "using NUnit.Framework;...",
-          "cyber-dojo.sh": "NUNIT_PATH=/nunit/lib/net45..."
-          "instructions": "The starting code..."
+          "Yahtzee.cs": {
+            "content"= > "public class Yahtzee {..."
+          },
+          "YahtzeeTest.cs": {
+            "content"= > "using NUnit.Framework;..."
+          },
+          "cyber-dojo.sh": {
+            "content"= > "NUNIT_PATH=/nunit/lib/net45..."
+          }
+          "instructions": {
+            "content"= > "The starting code..."
+          }
        }
     }
   }

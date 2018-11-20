@@ -24,7 +24,7 @@ class LanguageManifestTest < TestBase
     expected_filenames = %w( Hiker.cs HikerTest.cs cyber-dojo.sh )
     assert_equal expected_filenames, manifest['visible_files'].keys.sort
 
-    exercise = result['exercise']
+    exercise = result['exercise']['content']
     assert exercise.start_with? 'Write a program that prints the numbers from 1 to 100'
   end
 

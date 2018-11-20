@@ -78,8 +78,12 @@ class Starter
       visible_filenames = manifest['visible_filenames']
       dir = File.dirname(manifest_filename)
       manifest['visible_files'] =
-        Hash[visible_filenames.collect { |filename|
-          [filename, IO.read("#{dir}/#{filename}")]
+        Hash[visible_filenames.map { |filename|
+          [ filename,
+            {
+              'content' => IO.read("#{dir}/#{filename}")
+            }
+          ]
         }]
       manifest.delete('visible_filenames')
       if manifest['filename_extension'].is_a?(String)
@@ -98,7 +102,9 @@ class Starter
     Dir.glob(pattern).each do |filename|
       # eg /app/start_points/exercises/Bowling_Game/instructions
       name = filename.split('/')[-2] # eg Bowling_Game
-      result[name] = IO.read(filename)
+      result[name] = {
+        'content' => IO.read(filename)
+      }
     end
     result
   end

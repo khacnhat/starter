@@ -63,7 +63,7 @@ class LanguageStartPointsTest < TestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   def assert_line(name, expected)
-    instructions = @start_points['exercises'][name]
+    instructions = @start_points['exercises'][name]['content']
     lines = instructions.split("\n")
     assert instructions.start_with?(expected), lines[0]
   end

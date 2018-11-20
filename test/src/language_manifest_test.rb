@@ -67,7 +67,7 @@ class LanguageManifestTest < TestBase
     assert_equal expected_filenames, manifest['visible_files'].keys.sort
 
     instructions = result['exercise']
-    assert instructions.start_with?('Write a program that prints')
+    assert instructions['content'].start_with?('Write a program that prints')
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -98,7 +98,7 @@ class LanguageManifestTest < TestBase
     assert_equal 3, manifest['tab_size']
 
     instructions = result['exercise']
-    assert instructions.start_with?('Write a program that prints')
+    assert instructions['content'].start_with?('Write a program that prints')
   end
 
 end
