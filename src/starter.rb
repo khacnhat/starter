@@ -86,8 +86,9 @@ class Starter
           ]
         }]
       manifest.delete('visible_filenames')
-      if manifest['filename_extension'].is_a?(String)
-        manifest['filename_extension'] = [ manifest['filename_extension'] ]
+      fe = manifest['filename_extension']
+      if fe.is_a?(String)
+        manifest['filename_extension'] = [ fe ]
       end
       manifests[display_name] = manifest
     end
