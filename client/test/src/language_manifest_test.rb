@@ -14,13 +14,12 @@ class LanguageManifestTest < TestBase
     result = language_manifest('C#, NUnit', 'Fizz_Buzz')
     manifest = result['manifest']
 
-    expected_keys = %w( display_name filename_extension image_name runner_choice visible_files )
+    expected_keys = %w( display_name filename_extension image_name visible_files )
     assert_equal expected_keys.sort, manifest.keys.sort
 
     assert_equal 'C#, NUnit', manifest['display_name']
     assert_equal ['.cs'], manifest['filename_extension']
     assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
-    assert_equal 'stateless', manifest['runner_choice']
     expected_filenames = %w( Hiker.cs HikerTest.cs cyber-dojo.sh )
     assert_equal expected_filenames, manifest['visible_files'].keys.sort
 

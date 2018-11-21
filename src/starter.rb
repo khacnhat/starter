@@ -86,6 +86,7 @@ class Starter
           ]
         }]
       manifest.delete('visible_filenames')
+      manifest.delete('runner_choice')
       fe = manifest['filename_extension']
       if fe.is_a?(String)
         manifest['filename_extension'] = [ fe ]

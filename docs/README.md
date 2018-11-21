@@ -73,7 +73,6 @@ and the exercise instructions text for the given exercise_name, eg
        "manifest": {
           "display_name": "C#, NUNit",
           "image_name": "cyberdojofoundation/csharp_nunit",
-          "runner_choice": "stateless",
           "filename_extension": [ ".cs" ],
           "visible_files": {
              "Hiker.cs": {               
@@ -124,7 +123,6 @@ custom start-point, eg
   { "custom_manifest": {
        "display_name": "Yahtzee refactoring, C# NUnit",
        "image_name": "cyberdojofoundation/csharp_nunit",
-       "runner_choice": "stateless",
        "filename_extension": [".cs"],
        "visible_files": {
           "Yahtzee.cs": {
