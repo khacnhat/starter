@@ -14,7 +14,7 @@ class RackDispatcher
     name, args = validated_name_args(request)
     result = @starter.public_send(name, *args)
     json_response(200, { name => result })
-  rescue => error
+  rescue Exception => error
     info = {
       'exception' => {
         'class' => error.class.name,
