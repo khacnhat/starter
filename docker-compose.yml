@@ -33,4 +33,4 @@ services:
     tmpfs: /tmp
     restart: 'no'
     volumes:
-      - ./src/start_points:/app/start_points:ro
+      - ./start_points:/app/start_points:ro
