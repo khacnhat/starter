@@ -1,14 +1,9 @@
-FROM  cyberdojo/rack-base
+FROM cyberdojo/rack-base
 LABEL maintainer=jon@jaggersoft.com
 
-# - - - - - - - - - - - - - - -
-# setup client
-# - - - - - - - - - - - - - - -
-
-ARG                            STARTER_HOME=/app
-COPY .                       ${STARTER_HOME}
-RUN  chown -R nobody:nogroup ${STARTER_HOME}
-USER nobody
+COPY . /app
+RUN  chown -R nobody:nogroup /app
 
 EXPOSE 4528
+USER nobody
 CMD [ "./up.sh" ]
