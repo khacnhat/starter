@@ -12,7 +12,7 @@ class TestBase < HexMiniTest
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def sha(status)
-    assert_rack_call_raw(status, 'sha','{}')
+    assert_rack_call_raw(status, 'sha', '{}')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

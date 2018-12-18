@@ -23,6 +23,8 @@ services:
   starter:
     build:
       context: .
+      args:
+        - SHA
     user: nobody
     image: cyberdojo/starter
     init: true
