@@ -19,7 +19,7 @@ run_server_tests()
     --user nobody \
     --env COVERAGE_ROOT=${COVERAGE_ROOT} \
     "${SERVER_CID}" \
-    sh -c "cd /app/test && ./run.sh ${*}"
+    sh -c "/app/test/util/run.sh ${*}"
 
   server_status=$?
 
@@ -39,7 +39,7 @@ run_server_tests()
 run_client_tests()
 {
   docker exec \
-  --user nobody \
+    --user nobody \
     --env COVERAGE_ROOT=${COVERAGE_ROOT} \
     "${CLIENT_CID}" \
       sh -c "cd /app/test && ./run.sh ${*}"

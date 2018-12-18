@@ -1,6 +1,6 @@
 require_relative 'hex_mini_test'
 require_relative 'rack_request_stub'
-require_relative '../../src/rack_dispatcher'
+require_relative '../src/rack_dispatcher'
 require 'json'
 
 class TestBase < HexMiniTest

@@ -1,5 +1,5 @@
 
-require_relative '../../src/rack_dispatcher'
+require_relative '../src/rack_dispatcher'
 require_relative 'rack_request_stub'
 require_relative 'test_base'
 
@@ -46,4 +46,3 @@ class RackDispatcherTest < TestBase
   end
 
 end
-
